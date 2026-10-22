@@ -1,132 +1,553 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="GameZone - Play fun browser games online. Discover arcade, puzzle, action and racing games.">
-<title>GameZone - Play Free Online Games</title>
+<meta name="theme-color" content="#08091b">
+<meta name="description" content="GameZone — discover free browser games, arcade adventures, puzzles and more.">
+<title>GameZone | 3D Neon Gaming</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0b1020;color:#f8fafc;font-family:Arial,sans-serif}
-header{padding:22px 5%;background:#111a30;border-bottom:1px solid #26334d;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.logo{font-size:26px;font-weight:900;color:#5eead4}.logo span{color:white}
-button,input,select{font:inherit;border-radius:10px;padding:11px;border:1px solid #334155}
-button{cursor:pointer;background:#14b8a6;color:#07111d;font-weight:bold;border:0}
-input,select{background:#111a30;color:white;max-width:100%}
-.hero{padding:36px 5%;background:linear-gradient(120deg,#172554,#164e63)}
-.hero h1{font-size:clamp(30px,6vw,48px);margin:0 0 12px}
-.hero p{color:#dbeafe;line-height:1.6}
-main{padding:24px 5%;max-width:1200px;margin:auto}
-.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
-.tools input{flex:1;min-width:180px}
-#games{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:16px}
-.card{background:#111a30;border:1px solid #29364e;border-radius:15px;overflow:hidden}
-.art{height:110px;display:grid;place-items:center;font-size:48px;background:linear-gradient(135deg,#164e63,#312e81)}
-.info{padding:13px}.info h3{margin:0 0 7px;font-size:17px}
-.small{font-size:12px;color:#a5b4fc;margin-bottom:12px}
-.play{display:block;text-align:center;text-decoration:none;background:#5eead4;color:#082f49;padding:10px;border-radius:9px;font-weight:bold}
-#admin{display:none;background:#111a30;border:1px solid #334155;padding:18px;border-radius:14px;margin-bottom:24px}
-#admin input,#admin select{width:100%;margin:5px 0 12px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.secondary{background:#334155;color:white}
-footer{text-align:center;color:#94a3b8;padding:28px}
-.notice{color:#fbbf24;font-size:13px;line-height:1.5}
+:root {
+  --bg:#08091b;
+  --panel:#12142c;
+  --blue:#38bdf8;
+  --purple:#a855f7;
+  --text:#f5f3ff;
+  --muted:#b7bad8;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(ellipse at 12% 0%,#33247766,transparent 38%),
+    radial-gradient(ellipse at 90% 30%,#07598544,transparent 36%),
+    var(--bg);
+  font-family:system-ui,-apple-system,Arial,sans-serif;
+}
+button,input,select { font:inherit; }
+button,a,input,select { -webkit-tap-highlight-color:transparent; }
+button {
+  cursor:pointer;
+  border:1px solid #8274ff66;
+  border-radius:12px;
+  padding:11px 15px;
+  color:white;
+  font-weight:750;
+  background:linear-gradient(115deg,#2563eb,#9333ea);
+  box-shadow:0 5px 18px #5b21b633;
+  transition:transform .2s,box-shadow .2s;
+}
+button:hover {
+  transform:translateY(-2px);
+  box-shadow:0 0 22px #8b5cf677;
+}
+input,select {
+  width:100%;
+  min-width:0;
+  padding:13px 14px;
+  color:white;
+  background:#11132b;
+  border:1px solid #625ba566;
+  border-radius:12px;
+  outline:none;
+}
+input:focus,select:focus {
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px #38bdf822;
+}
+header {
+  position:sticky;
+  top:0;
+  z-index:20;
+  padding:14px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  background:#08091bed;
+  border-bottom:1px solid #7260ff55;
+  backdrop-filter:blur(18px);
+}
+.logo {
+  font-size:clamp(23px,5vw,31px);
+  font-weight:950;
+  letter-spacing:-1px;
+  color:var(--blue);
+  text-shadow:0 0 20px #38bdf899;
+}
+.logo span {
+  color:#fff;
+  text-shadow:0 0 18px #a855f799;
+}
+.hero {
+  position:relative;
+  overflow:hidden;
+  padding:clamp(48px,10vw,100px) 5%;
+  background:
+    radial-gradient(ellipse at 80% 40%,#9333ea44,transparent 38%),
+    linear-gradient(130deg,#101c45,#19103a 58%,#082b42);
+  border-bottom:1px solid #38bdf844;
+}
+.hero:before,.hero:after {
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  border:1px solid #38bdf844;
+  border-radius:28px;
+  transform:rotate(35deg);
+  box-shadow:0 0 45px #7c3aed22,inset 0 0 35px #38bdf822;
+}
+.hero:before {
+  width:170px;height:170px;right:10%;top:12%;
+}
+.hero:after {
+  width:90px;height:90px;right:25%;bottom:-35px;
+}
+.hero-inner { position:relative;z-index:1;max-width:850px; }
+.eyebrow {
+  display:inline-block;
+  padding:7px 12px;
+  border:1px solid #38bdf855;
+  border-radius:30px;
+  color:#a5f3fc;
+  background:#0e749022;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1.5px;
+}
+.hero h1 {
+  margin:20px 0 14px;
+  max-width:800px;
+  font-size:clamp(37px,8vw,76px);
+  line-height:1.02;
+  letter-spacing:-2px;
+  color:#fff;
+  text-shadow:0 0 30px #8b5cf655;
+}
+.gradient-text {
+  background:linear-gradient(90deg,#38bdf8,#a78bfa,#e879f9);
+  color:transparent;
+  background-clip:text;
+  -webkit-background-clip:text;
+}
+.hero p {
+  max-width:580px;
+  color:#d4d4f7;
+  line-height:1.8;
+}
+.hero-actions { display:flex;gap:12px;flex-wrap:wrap;margin-top:24px; }
+.secondary { background:#252744;color:#eeeaff; }
+main { max-width:1400px;margin:auto;padding:30px 5% 55px; }
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:30px;
+}
+.stat {
+  padding:16px 10px;
+  text-align:center;
+  border:1px solid #7770c644;
+  border-radius:16px;
+  background:linear-gradient(145deg,#171936cc,#0e1025cc);
+}
+.stat strong { display:block;color:#67e8f9;font-size:22px; }
+.stat span { color:var(--muted);font-size:12px; }
+.section-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:28px 0 18px;
+}
+.section-heading h2 { margin:0;font-size:clamp(22px,4vw,30px); }
+.tools {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(130px,220px);
+  gap:12px;
+  margin:20px 0;
+}
+.categories {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:16px 0 24px;
+}
+.category-btn {
+  padding:9px 14px;
+  background:#151731;
+  border:1px solid #5d588b88;
+  color:#dcd9ff;
+  box-shadow:none;
+}
+.category-btn.active {
+  background:linear-gradient(110deg,#2563eb,#9333ea);
+  border-color:#a5b4fc;
+  color:white;
+  box-shadow:0 0 18px #7c3aed44;
+}
+#games {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:19px;
+  perspective:1000px;
+}
+.card {
+  min-width:0;
+  overflow:hidden;
+  border-radius:19px;
+  border:1px solid #7164d966;
+  background:linear-gradient(145deg,#1a1c3b,#0d1025);
+  box-shadow:0 12px 28px #0005,inset 0 1px #ffffff12;
+  transform-style:preserve-3d;
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+  animation:appear .35s ease both;
+}
+.card:hover {
+  transform:translateY(-7px) rotateX(3deg) rotateY(-3deg);
+  border-color:#38bdf8;
+  box-shadow:0 18px 35px #0007,0 0 23px #8b5cf644;
+}
+.art {
+  min-height:135px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 40%,#a855f755,transparent 55%),
+    linear-gradient(135deg,#102c59,#321653);
+  border-bottom:1px solid #7164d955;
+}
+.art:before {
+  content:"";
+  position:absolute;
+  width:95px;height:95px;
+  border:1px solid #67e8f944;
+  border-radius:23px;
+  transform:rotate(35deg);
+}
+.art span {
+  position:relative;
+  font-size:56px;
+  filter:drop-shadow(0 0 16px #38bdf899);
+  transform:translateZ(22px);
+}
+.info { padding:15px; }
+.info h3 { margin:0 0 9px;font-size:17px;overflow-wrap:anywhere; }
+.small { color:#b7c5ff;font-size:12px;margin-bottom:14px; }
+.play {
+  display:block;
+  text-align:center;
+  padding:11px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:850;
+  color:white;
+  background:linear-gradient(100deg,#2563eb,#9333ea);
+  box-shadow:0 0 16px #7c3aed44;
+}
+.play:hover { filter:brightness(1.2); }
+.actions { display:flex;gap:8px;flex-wrap:wrap; }
+.actions button { flex:1;padding:9px 8px;font-size:12px; }
+#admin {
+  display:none;
+  margin:20px 0 28px;
+  padding:20px;
+  border:1px solid #a855f777;
+  border-radius:18px;
+  background:linear-gradient(145deg,#191a3a,#0d1025);
+  box-shadow:0 0 28px #7c3aed22;
+}
+#admin h2 { margin-top:0; }
+#admin label { display:block;margin:12px 0 5px;color:#ddd8ff; }
+#admin input,#admin select { display:block;margin-bottom:12px; }
+.notice { color:#fcd34d;font-size:13px;line-height:1.7; }
+.empty {
+  grid-column:1/-1;
+  padding:35px 15px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed #7069aa;
+  border-radius:16px;
+}
+footer {
+  padding:30px 5%;
+  text-align:center;
+  color:var(--muted);
+  background:#090a1b;
+  border-top:1px solid #6656ff44;
+  line-height:1.8;
+}
+footer a { color:#67e8f9; }
+@keyframes appear {
+  from { opacity:0;transform:translateY(10px); }
+  to { opacity:1;transform:translateY(0); }
+}
+@media(max-width:600px) {
+  header { padding:13px 4%; }
+  header button { padding:10px 11px;font-size:12px; }
+  .hero { padding:48px 5%; }
+  .hero:before { width:90px;height:90px;right:4%; }
+  main { padding:22px 4% 40px; }
+  .stats { gap:8px; }
+  .stat { padding:13px 5px; }
+  .stat strong { font-size:18px; }
+  .stat span { font-size:10px; }
+  .tools { grid-template-columns:1fr; }
+  #games { grid-template-columns:repeat(2,minmax(0,1fr));gap:12px; }
+  .art { min-height:105px; }
+  .art span { font-size:45px; }
+  .info { padding:11px; }
+  .info h3 { font-size:15px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    scroll-behavior:auto!important;
+    animation:none!important;
+    transition:none!important;
+  }
+}
 </style>
 </head>
+
 <body>
 <header>
   <div class="logo">🎮 Game<span>Zone</span></div>
-  <button onclick="adminLogin()">Admin Panel 🔐</button>
+  <button type="button" onclick="adminLogin()">🔐 Admin Panel</button>
 </header>
+
 <section class="hero">
-  <h1>Play. Have Fun. Repeat.</h1>
-  <p>Discover fun browser games on GameZone. Choose a game and start playing!</p>
+  <div class="hero-inner">
+    <span class="eyebrow">✦ YOUR NEXT LEVEL STARTS HERE</span>
+    <h1>PLAY BIG.<br><span class="gradient-text">FEEL THE GAME.</span></h1>
+    <p>Discover fun browser games, challenge your skills and jump into your next adventure. Your gaming zone is ready.</p>
+    <div class="hero-actions">
+      <button type="button" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">🎮 Explore Games</button>
+      <button type="button" class="secondary" onclick="document.getElementById('search').focus();document.getElementById('explore').scrollIntoView({behavior:'smooth'})">🔎 Find a Game</button>
+    </div>
+  </div>
 </section>
+
 <main>
+  <section class="stats" aria-label="GameZone highlights">
+    <div class="stat"><strong id="gameCount">6</strong><span>GAMES TO EXPLORE</span></div>
+    <div class="stat"><strong>FREE</strong><span>PLAY ONLINE</span></div>
+    <div class="stat"><strong>∞</strong><span>FUN & CHALLENGES</span></div>
+  </section>
+
   <section id="admin">
     <h2>⚙️ Manage Games</h2>
-    <p class="notice">Games added here are saved in this browser only. Shared online admin storage will be connected in a later setup.</p>
-    <label>Game name</label><input id="name" placeholder="Example: My New Game">
-    <label>Category</label>
-    <select id="category"><option>Arcade</option><option>Puzzle</option><option>Action</option><option>Racing</option><option>Adventure</option><option>Other</option></select>
-    <label>Emoji / icon</label><input id="emoji" placeholder="🎯">
-    <label>Game URL</label><input id="url" placeholder="https://example.com/game">
+    <p class="notice">Games added here are saved in this browser only. This demo does not have shared online admin storage.</p>
+    <label for="name">Game name</label>
+    <input id="name" placeholder="Example: My New Game">
+    <label for="category">Category</label>
+    <select id="category">
+      <option>Arcade</option><option>Puzzle</option><option>Action</option>
+      <option>Racing</option><option>Adventure</option><option>Other</option>
+    </select>
+    <label for="emoji">Emoji / icon</label>
+    <input id="emoji" placeholder="🎯">
+    <label for="url">Game URL</label>
+    <input id="url" type="url" placeholder="https://example.com/game">
     <div class="actions">
-      <button onclick="saveGame()">Save Game</button>
-      <button class="secondary" onclick="resetForm()">Clear</button>
-      <button class="secondary" onclick="document.getElementById('admin').style.display='none'">Close</button>
+      <button type="button" onclick="saveGame()">💾 Save Game</button>
+      <button type="button" class="secondary" onclick="resetForm()">Clear</button>
+      <button type="button" class="secondary" onclick="closeAdmin()">Close</button>
     </div>
   </section>
-  <div class="tools">
-    <input id="search" placeholder="🔍 Search games..." oninput="render()">
-    <select id="filter" onchange="render()">
-      <option>All</option><option>Arcade</option><option>Puzzle</option>
-      <option>Action</option><option>Racing</option><option>Adventure</option><option>Other</option>
-    </select>
-  </div>
-  <h2>🔥 Explore Games</h2>
-  <div id="games"></div>
+
+  <section id="explore">
+    <div class="section-heading">
+      <h2>🔥 Explore Games</h2>
+    </div>
+    <div class="tools">
+      <input id="search" type="search" aria-label="Search games" placeholder="🔎 Search your next game..." oninput="render()">
+      <select id="filter" aria-label="Filter by category" onchange="render()">
+        <option>All</option><option>Arcade</option><option>Puzzle</option>
+        <option>Action</option><option>Racing</option><option>Adventure</option><option>Other</option>
+      </select>
+    </div>
+    <div class="categories" aria-label="Quick categories">
+      <button class="category-btn active" type="button" data-cat="All" onclick="chooseCategory('All')">✨ All Games</button>
+      <button class="category-btn" type="button" data-cat="Arcade" onclick="chooseCategory('Arcade')">🕹️ Arcade</button>
+      <button class="category-btn" type="button" data-cat="Puzzle" onclick="chooseCategory('Puzzle')">🧩 Puzzle</button>
+      <button class="category-btn" type="button" data-cat="Action" onclick="chooseCategory('Action')">⚔️ Action</button>
+      <button class="category-btn" type="button" data-cat="Racing" onclick="chooseCategory('Racing')">🏎️ Racing</button>
+      <button class="category-btn" type="button" data-cat="Adventure" onclick="chooseCategory('Adventure')">🌍 Adventure</button>
+    </div>
+    <div id="games" aria-live="polite"></div>
+  </section>
 </main>
-<footer>© <span id="year"></span> GameZone · Play responsibly</footer>
+
+<footer>
+  <div>© <span id="year"></span> GameZone · Play responsibly 🎮</div>
+  <div>Built for players who love a little adventure.</div>
+</footer>
+
 <script>
-const defaults=[
- {id:1,name:"Google Snake",category:"Arcade",emoji:"🐍",url:"https://www.google.com/fbx?fbx=snake_arcade"},
- {id:2,name:"2048",category:"Puzzle",emoji:"🔢",url:"https://play2048.co/"},
- {id:3,name:"Hextris",category:"Puzzle",emoji:"🔷",url:"https://hextris.io/"},
- {id:4,name:"Quick Draw",category:"Arcade",emoji:"✏️",url:"https://quickdraw.withgoogle.com/"},
- {id:5,name:"Chrome Dino",category:"Arcade",emoji:"🦖",url:"https://chromedino.com/"},
- {id:6,name:"Little Alchemy 2",category:"Puzzle",emoji:"🧪",url:"https://littlealchemy2.com/"}
+const defaults = [
+  {id:1,name:"Google Snake",category:"Arcade",emoji:"🐍",url:"https://www.google.com/fbx?fbx=snake_arcade"},
+  {id:2,name:"2048",category:"Puzzle",emoji:"🔢",url:"https://play2048.co/"},
+  {id:3,name:"Hextris",category:"Puzzle",emoji:"🔷",url:"https://hextris.io/"},
+  {id:4,name:"Quick Draw",category:"Arcade",emoji:"✏️",url:"https://quickdraw.withgoogle.com/"},
+  {id:5,name:"Chrome Dino",category:"Arcade",emoji:"🦖",url:"https://chromedino.com/"},
+  {id:6,name:"Little Alchemy 2",category:"Puzzle",emoji:"🧪",url:"https://littlealchemy2.com/"}
 ];
-let games=[];
-let editing=null;
-try{games=JSON.parse(localStorage.getItem("gamezone_games"))||defaults}catch(e){games=defaults}
-function persist(){localStorage.setItem("gamezone_games",JSON.stringify(games))}
-function render(){
- const q=document.getElementById("search").value.toLowerCase();
- const cat=document.getElementById("filter").value;
- const list=games.filter(g=>g.name.toLowerCase().includes(q)&&(cat==="All"||g.category===cat));
- document.getElementById("games").innerHTML=list.map(g=>`
- <article class="card">
- <div class="art">${escapeHtml(g.emoji||"🎮")}</div>
- <div class="info"><h3>${escapeHtml(g.name)}</h3>
- <div class="small">${escapeHtml(g.category)}</div>
- <a class="play" href="${safeUrl(g.url)}" target="_blank" rel="noopener noreferrer">▶ Play Now</a>
- ${document.getElementById("admin").style.display==="block"?`
- <div class="actions" style="margin-top:10px">
- <button onclick="editGame(${g.id})">Edit</button>
- <button class="secondary" onclick="deleteGame(${g.id})">Delete</button>
- </div>`:""}
- </div></article>`).join("")||"<p>No games found. Try another search.</p>";
+
+let games = [];
+let editing = null;
+
+try {
+  const saved = JSON.parse(localStorage.getItem("gamezone_games"));
+  games = Array.isArray(saved) ? saved : defaults.slice();
+} catch (e) {
+  games = defaults.slice();
 }
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function safeUrl(u){try{let x=new URL(u);return ["https:","http:"].includes(x.protocol)?x.href:"#"}catch(e){return "#"}}
-function adminLogin(){
- if(document.getElementById("admin").style.display==="block"){render();return}
- const password=prompt("Enter admin password:");
- if(password!=="GZadmin2026"){alert("Wrong password");return}
- document.getElementById("admin").style.display="block";render();
+
+function persist() {
+  try {
+    localStorage.setItem("gamezone_games", JSON.stringify(games));
+  } catch (e) {
+    alert("Could not save in this browser. Please check browser storage settings.");
+  }
 }
-function saveGame(){
- const name=document.getElementById("name").value.trim();
- const url=document.getElementById("url").value.trim();
- if(!name||!url||safeUrl(url)==="#"){alert("Enter a game name and valid http/https URL.");return}
- const g={id:editing||Date.now(),name,category:document.getElementById("category").value,emoji:document.getElementById("emoji").value.trim()||"🎮",url:safeUrl(url)};
- if(editing)games=games.map(x=>x.id===editing?g:x);else games.unshift(g);
- persist();resetForm();render();alert("Game saved in this browser!");
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
 }
-function editGame(id){
- const g=games.find(x=>x.id===id);if(!g)return;
- editing=id;document.getElementById("name").value=g.name;
- document.getElementById("category").value=g.category;
- document.getElementById("emoji").value=g.emoji;
- document.getElementById("url").value=g.url;
- document.getElementById("admin").scrollIntoView({behavior:"smooth"});
+
+function safeUrl(value) {
+  try {
+    const u = new URL(value);
+    return ["https:","http:"].includes(u.protocol) ? u.href : "#";
+  } catch (e) {
+    return "#";
+  }
 }
-function deleteGame(id){
- if(confirm("Delete this game?")){games=games.filter(g=>g.id!==id);persist();render()}
+
+function render() {
+  const search = document.getElementById("search").value.trim().toLowerCase();
+  const category = document.getElementById("filter").value;
+  const adminOpen = document.getElementById("admin").style.display === "block";
+
+  const list = games.filter(g =>
+    String(g.name || "").toLowerCase().includes(search) &&
+    (category === "All" || g.category === category)
+  );
+
+  document.getElementById("gameCount").textContent = games.length;
+
+  document.getElementById("games").innerHTML = list.map(g => `
+    <article class="card">
+      <div class="art"><span>${escapeHtml(g.emoji || "🎮")}</span></div>
+      <div class="info">
+        <h3>${escapeHtml(g.name)}</h3>
+        <div class="small">${escapeHtml(g.category || "Other")}</div>
+        <a class="play" href="${safeUrl(g.url)}" target="_blank" rel="noopener noreferrer">▶ Play Now</a>
+        ${adminOpen ? `
+          <div class="actions" style="margin-top:10px">
+            <button type="button" onclick="editGame(${Number(g.id)})">Edit</button>
+            <button type="button" class="secondary" onclick="deleteGame(${Number(g.id)})">Delete</button>
+          </div>` : ""}
+      </div>
+    </article>
+  `).join("") || '<div class="empty">🎮 No games found. Try another search or category.</div>';
 }
-function resetForm(){editing=null;["name","emoji","url"].forEach(id=>document.getElementById(id).value="")}
-document.getElementById("year").textContent=new Date().getFullYear();
+
+function chooseCategory(category) {
+  document.getElementById("filter").value = category;
+  document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.cat === category);
+  });
+  render();
+}
+
+function adminLogin() {
+  const panel = document.getElementById("admin");
+  if (panel.style.display === "block") {
+    closeAdmin();
+    return;
+  }
+  const password = prompt("Enter admin password:");
+  if (password !== "GZadmin2026") {
+    if (password !== null) alert("Wrong password.");
+    return;
+  }
+  panel.style.display = "block";
+  render();
+  panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function closeAdmin() {
+  document.getElementById("admin").style.display = "none";
+  render();
+}
+
+function saveGame() {
+  const name = document.getElementById("name").value.trim();
+  const url = document.getElementById("url").value.trim();
+  const category = document.getElementById("category").value;
+  const emoji = document.getElementById("emoji").value.trim() || "🎮";
+
+  if (!name || !url || safeUrl(url) === "#") {
+    alert("Enter a game name and a valid http/https URL.");
+    return;
+  }
+
+  const game = {
+    id: editing || Date.now(),
+    name, category, emoji, url:safeUrl(url)
+  };
+
+  if (editing) {
+    games = games.map(g => g.id === editing ? game : g);
+  } else {
+    games.unshift(game);
+  }
+
+  persist();
+  resetForm();
+  render();
+  alert("Game saved in this browser!");
+}
+
+function editGame(id) {
+  const game = games.find(g => g.id === id);
+  if (!game) return;
+  editing = id;
+  document.getElementById("name").value = game.name;
+  document.getElementById("category").value = game.category;
+  document.getElementById("emoji").value = game.emoji || "🎮";
+  document.getElementById("url").value = game.url;
+  document.getElementById("admin").scrollIntoView({behavior:"smooth"});
+}
+
+function deleteGame(id) {
+  if (!confirm("Delete this game from this browser?")) return;
+  games = games.filter(g => g.id !== id);
+  persist();
+  render();
+}
+
+function resetForm() {
+  editing = null;
+  ["name","emoji","url"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("category").value = "Arcade";
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
 render();
 </script>
 </body>
