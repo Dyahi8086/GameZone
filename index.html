@@ -1,310 +1,389 @@
-
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080914">
-<title>GameZone | Gaming Universe</title>
-<style>
-:root{--bg:#080914;--panel:#12162a;--cyan:#22e6ed;--purple:#8657ff;--muted:#a7b1cf}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#fff;font-family:system-ui,Arial,sans-serif}
-button,a,input{font:inherit}
-button{cursor:pointer;border:0;border-radius:12px;padding:12px 17px;color:white;background:linear-gradient(110deg,#7655ff,#13bde2);font-weight:750}
-a{color:var(--cyan);text-decoration:none}
-header{position:sticky;top:0;z-index:5;background:#080914ed;border-bottom:1px solid #272c46;padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{font-size:23px;font-weight:900}.logo span{color:var(--cyan)}
-nav{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
-nav a{font-size:14px;color:#e3e8ff}
-main{width:min(1100px,94%);margin:auto}
-.hero{position:relative;overflow:hidden;min-height:400px;margin:24px 0;border:1px solid #30345b;border-radius:26px;background:radial-gradient(ellipse at 75% 45%,#41317d 0%,#151535 36%,#0c1023 75%);display:grid;grid-template-columns:1.1fr .9fr;align-items:center;padding:30px;gap:20px}
-.kicker{color:var(--cyan);letter-spacing:3px;font-size:12px;font-weight:800}
-h1{font-size:clamp(34px,6vw,64px);line-height:1.02;margin:12px 0}
-.hero p,.muted{color:var(--muted);line-height:1.7}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.secondary{background:#242743;border:1px solid #41476a}
-.robotbox{height:300px;display:grid;place-items:center;perspective:650px;touch-action:pan-y;overflow:hidden}
-.robot{position:relative;width:155px;height:220px;transform-style:preserve-3d;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 20px #34e5f4aa);transition:transform .08s linear}
-.robot .head{position:absolute;top:10px;left:38px;width:80px;height:70px;border:3px solid #7bfaff;border-radius:25px 25px 17px 17px;background:linear-gradient(135deg,#384d73,#111728);box-shadow:inset 0 0 18px #29d8ed}
-.robot .eye{position:absolute;top:38px;width:19px;height:8px;background:#30faff;border-radius:8px;box-shadow:0 0 12px #30faff}
-.robot .eye.left{left:52px}.robot .eye.right{right:52px}
-.robot .body{position:absolute;top:88px;left:20px;width:115px;height:105px;border:3px solid #7bfaff;border-radius:22px 22px 12px 12px;background:linear-gradient(135deg,#52628c,#141a30);box-shadow:inset 0 0 20px #7358ff}
-.robot .core{position:absolute;top:117px;left:65px;width:25px;height:25px;border-radius:50%;background:#35fbff;box-shadow:0 0 22px #35fbff}
-.robot .arm{position:absolute;top:102px;width:18px;height:78px;border:3px solid #7bfaff;border-radius:12px;background:#202b49}
-.robot .arm.left{left:0;transform:rotate(10deg)}.robot .arm.right{right:0;transform:rotate(-10deg)}
-.robot .leg{position:absolute;top:184px;width:25px;height:34px;border-radius:8px;background:#263653;border:2px solid #7bfaff}
-.robot .leg.left{left:39px}.robot .leg.right{right:39px}
-@keyframes float{0%,100%{translate:0 0}50%{translate:0 -9px}}
-.robot-caption{text-align:center;color:#8af9ff;font-size:12px}
-.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 14px}
-h2{margin:0;font-size:23px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.card,.panel{background:var(--panel);border:1px solid #292f4b;border-radius:17px;padding:16px}
-.card{display:flex;flex-direction:column;gap:10px;min-height:145px}
-.emoji{font-size:29px}.card h3{margin:0;font-size:16px}.card a{margin-top:auto;font-weight:700}
-.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-.pills button{padding:8px 12px;background:#1b2038;border:1px solid #343b59}
-.pills button.active{background:var(--purple)}
-.page{display:none;padding:15px 0 30px}.page.active{display:block}
-input{width:100%;padding:13px;border:1px solid #373e5e;border-radius:10px;background:#090d1d;color:white;margin:6px 0 12px}
-label{font-size:14px;color:#d7def4}
-.status{color:var(--cyan);overflow-wrap:anywhere;min-height:20px}
-footer{text-align:center;padding:30px;color:#8f9bb8}
-@media(max-width:700px){header{align-items:flex-start;flex-wrap:wrap}nav{gap:12px}.hero{grid-template-columns:1fr;padding:24px;min-height:0}.robotbox{height:230px;grid-row:1}.hero-copy{grid-row:2}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h1{font-size:39px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameZone - Play. Connect. Win.</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0b0d17;
+      color: #ffffff;
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, .logo {
+      font-family: 'Orbitron', sans-serif;
+    }
+    #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.6;
+    }
+    .view-container {
+      display: none;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .active-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Auth Gateway Styling */
+    .auth-card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+      text-align: center;
+    }
+    .auth-card h1 {
+      font-size: 2rem;
+      color: #00f0ff;
+      margin-bottom: 10px;
+    }
+    .auth-card p {
+      color: #94a3b8;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+    }
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 5px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+    .input-group input:focus {
+      border-color: #00f0ff;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+    .btn-cyber {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #00f0ff 0%, #7000ff 100%);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+    .btn-cyber:hover {
+      opacity: 0.9;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+      transform: translateY(-2px);
+    }
+    .btn-guest {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin-top: 10px;
+    }
+    .btn-guest:hover {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+    .auth-toggle {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+    .auth-toggle span {
+      color: #00f0ff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Dashboard Styling */
+    .dashboard-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      padding: 15px 25px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 30px;
+    }
+    .logout-btn {
+      background: #ef4444;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .logout-btn:hover {
+      background: #dc2626;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .game-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #00f0ff;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+    .game-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .game-card a {
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-<header>
- <a class="logo" href="#home" onclick="showPage('home')">🎮 Game<span>Zone</span></a>
- <nav>
-  <a href="#home" onclick="showPage('home')">Home</a>
-  <a href="#games" onclick="showPage('games')">Games</a>
-  <a href="#leaderboard" onclick="showPage('leaderboard')">Leaderboard</a>
-  <a href="#tournaments" onclick="showPage('tournaments')">Tournaments</a>
-  <a href="#account" onclick="showPage('account')">Account</a>
- </nav>
- <button onclick="showPage('account')" id="accountBtn">Login</button>
-</header>
-<main>
-<section id="home" class="page active">
- <div class="hero">
-  <div class="hero-copy">
-   <div class="kicker">YOUR NEXT GAMING DESTINATION</div>
-   <h1>PLAY.<br>CONNECT.<br><span style="color:#2be8ed">WIN.</span></h1>
-   <p>Enter the GameZone universe. Discover games, explore tournaments and challenge yourself.</p>
-   <div class="actions">
-    <button onclick="showPage('games')">🎮 Play Games</button>
-    <button class="secondary" onclick="guestMode()">Play as Guest</button>
-    <button class="secondary" onclick="showPage('account')">Login / Signup</button>
-   </div>
-   <p id="homeStatus" class="status">Welcome to GameZone!</p>
-  </div>
-  <div>
-   <div class="robotbox" id="robotbox" aria-label="Drag to rotate robot">
-    <div class="robot" id="robot">
-     <div class="head"></div><div class="eye left"></div><div class="eye right"></div>
-     <div class="body"></div><div class="core"></div>
-     <div class="arm left"></div><div class="arm right"></div>
-     <div class="leg left"></div><div class="leg right"></div>
+
+  <!-- Three.js Background Canvas -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- VIEW 1: AUTH GATEWAY (Login / Signup / Guest) -->
+  <div id="auth-view" class="view-container active-view">
+    <div class="auth-card">
+      <h1 id="auth-title">GAMEZONE</h1>
+      <p id="auth-subtitle">Play. Connect. Win.</p>
+
+      <!-- Form -->
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" id="email" required placeholder="Enter your email">
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="password" required placeholder="Enter your password">
+        </div>
+        <button type="submit" id="auth-submit-btn" class="btn-cyber">Login</button>
+      </form>
+
+      <!-- Guest Option -->
+      <button onclick="continueAsGuest()" class="btn-cyber btn-guest">Play as Guest</button>
+
+      <!-- Toggle Login/Signup -->
+      <div class="auth-toggle" id="auth-toggle-text">
+        Don't have an account? <span onclick="toggleAuthMode()">Create Account</span>
+      </div>
     </div>
-   </div>
-   <div class="robot-caption">✦ AUTO ROTATION · TOUCH & DRAG ✦</div>
   </div>
- </div>
- <div class="sectionhead"><h2>🔥 Trending Games</h2><a href="#games" onclick="showPage('games')">View all →</a></div>
- <div class="grid" id="featured"></div>
- <div class="sectionhead"><h2>🏆 Compete & Climb</h2></div>
- <div class="grid">
-  <div class="card"><div class="emoji">🏆</div><h3>Tournaments</h3><p class="muted">Explore tournament information.</p><a href="#tournaments" onclick="showPage('tournaments')">Explore →</a></div>
-  <div class="card"><div class="emoji">📊</div><h3>Leaderboard</h3><p class="muted">See public rankings.</p><a href="#leaderboard" onclick="showPage('leaderboard')">View rankings →</a></div>
-  <div class="card"><div class="emoji">👤</div><h3>Your Account</h3><p class="muted">Sign in to access account features.</p><a href="#account" onclick="showPage('account')">Open account →</a></div>
-  <div class="card"><div class="emoji">💬</div><h3>Community</h3><p class="muted">Private messaging requires login.</p><a href="#community" onclick="showPage('community')">Open community →</a></div>
- </div>
-</section>
 
-<section id="games" class="page">
- <div class="sectionhead"><h2>🎮 Game Library</h2></div>
- <input id="gameSearch" placeholder="Search games..." oninput="renderGames()">
- <div class="pills" id="filters"></div>
- <div class="grid" id="allGames"></div>
-</section>
+  <!-- VIEW 2: GAMEZONE DASHBOARD -->
+  <div id="dashboard-view" class="view-container">
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <h2 class="logo">🎮 GameZone</h2>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <span id="user-display" style="color: #00f0ff; font-size: 0.95rem;"></span>
+          <button onclick="handleLogout()" class="logout-btn">Logout</button>
+        </div>
+      </div>
 
-<section id="account" class="page">
- <div class="sectionhead"><h2>🔐 Login / Create Account</h2></div>
- <div class="panel">
-  <p id="userStatus" class="muted">Guest mode. Login to access your account.</p>
-  <label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com">
-  <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters">
-  <div class="actions">
-   <button id="signupBtn" onclick="signUp()">Create Account</button>
-   <button id="loginBtn" onclick="signIn()">Login</button>
-   <button class="secondary" onclick="googleLogin()">Google Login</button>
-   <button class="secondary" onclick="resetPassword()">Forgot Password</button>
-   <button class="secondary" onclick="signOut()">Logout</button>
+      <h2 style="margin-bottom: 20px; font-size: 1.4rem;">🔥 Popular Games</h2>
+      <div class="games-grid">
+        <div class="game-card"><h3>Google Snake</h3><a href="#">Play Now ↗</a></div>
+        <div class="game-card"><h3>2048</h3><a href="#">Play Now ↗</a></div>
+        <div class="game-card"><h3>Aectris</h3><a href="#">Play Now ↗</a></div>
+        <div class="game-card"><h3>Quick Draw</h3><a href="#">Play Now ↗</a></div>
+        <div class="game-card"><h3>Chrome Dino</h3><a href="#">Play Now ↗</a></div>
+        <div class="game-card"><h3>Little Alchemy 2</h3><a href="#">Play Now ↗</a></div>
+        <div class="game-card"><h3>Minesweeper</h3><a href="#">Play Now ↗</a></div>
+        <div class="game-card"><h3>Solitaire</h3><a href="#">Play Now ↗</a></div>
+      </div>
+    </div>
   </div>
-  <p id="authMessage" class="status"></p>
-  <p class="muted">Signup ke baad email verification zaroori ho sakti hai. Google login ke liye Supabase mein Google provider configure karo.</p>
- </div>
-</section>
 
-<section id="community" class="page">
- <div class="sectionhead"><h2>👥 Friends & Messages</h2></div>
- <div class="panel"><p id="communityStatus">Private messages ke liye login karo.</p><p class="muted">Friends aur private chat ke liye Supabase database tables aur Row Level Security policies configure karni hongi.</p></div>
-</section>
+  <script>
+    // --- SUPABASE CONFIGURATION ---
+    // Yahan apni real Supabase URL aur Publishable/Anon Key daalein
+    const SUPABASE_URL = 'https://yfcdscjvebwvkvjvnaxi.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_AGSqsuA7Z9EYIPlGD-sHtQ_v5Ls6iXY';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-<section id="leaderboard" class="page">
- <div class="sectionhead"><h2>🏆 Leaderboard</h2></div>
- <div class="panel"><p id="leaderboardStatus">Public leaderboard database se connect hone par yahan dikhega.</p><ol id="leaderboardList"></ol></div>
-</section>
+    let isSignUpMode = false;
 
-<section id="tournaments" class="page">
- <div class="sectionhead"><h2>🥇 Tournaments</h2></div>
- <div class="panel"><p id="tournamentStatus">Tournament information yahan dikhegi jab database configure hoga.</p></div>
-</section>
-</main>
-<footer>© <span id="year"></span> GameZone · Play fair, have fun.</footer>
+    // --- CHECK SESSION ON LOAD ---
+    window.addEventListener('DOMContentLoaded', async () => {
+      const isGuest = localStorage.getItem('isGuest');
+      if (isGuest === 'true') {
+        showDashboard('Guest Player');
+        return;
+      }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-"use strict";
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        showDashboard(session.user.email);
+      } else {
+        showAuthView();
+      }
+    });
 
-// Apne purane code se apna asli URL aur Publishable Key yahan paste karna.
-const SUPABASE_URL = "https://yfcdscjvebwvkvjvnaxi.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_AGSqsuA7Z9EYIPlGD-sHtQ_v5Ls6iXY";
+    // --- VIEW SWITCHERS ---
+    function showAuthView() {
+      document.getElementById('auth-view').classList.add('active-view');
+      document.getElementById('dashboard-view').classList.remove('active-view');
+    }
 
-const games=[
- ["🐍","Google Snake","https://www.google.com/fbx?fbx=snake_arcade","Puzzle"],
- ["🔢","2048","https://play2048.co/","Puzzle"],
- ["🔷","Hextris","https://hextris.io/","Puzzle"],
- ["🎨","Quick Draw","https://quickdraw.withgoogle.com/","Casual"],
- ["🦖","Chrome Dino","https://chromedino.com/","Arcade"],
- ["🧪","Little Alchemy 2","https://littlealchemy2.com/","Puzzle"],
- ["💣","Minesweeper","https://minesweeper.online/","Puzzle"],
- ["🃏","Solitaire","https://solitaired.com/","Cards"],
- ["🏀","Basketball Stars","https://www.basketballstars.com/","Sports"],
- ["🧱","Tetris","https://tetris.com/play-tetris","Puzzle"],
- ["🍬","Cut the Rope","https://www.cuttherope.net/","Puzzle"],
- ["👾","Pac-Man","https://www.google.com/logos/2010/pacman10-i.html","Arcade"]
-];
-let category="All";
-let client=null;
-let currentUser=null;
-let guest=true;
-let robotAngle=0,dragging=false,lastX=0,lastMove=0;
+    function showDashboard(identifier) {
+      document.getElementById('user-display').innerText = identifier;
+      document.getElementById('auth-view').classList.remove('active-view');
+      document.getElementById('dashboard-view').classList.add('active-view');
+    }
 
-function showPage(id){
- document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
- if(location.hash!=="#"+id) history.replaceState(null,"","#"+id);
- window.scrollTo({top:0,behavior:"smooth"});
- if(id==="community"&&!currentUser) document.getElementById("communityStatus").textContent="Guest mode mein private messages available nahi hain. Login karo.";
-}
-function guestMode(){
- guest=true;
- document.getElementById("homeStatus").textContent="Guest mode active — games aur public pages use kar sakte ho.";
- showPage("games");
-}
-function safeText(el,text){el.textContent=text;}
-function renderCard(game){
- const [emoji,name,url]=game;
- const card=document.createElement("article");card.className="card";
- const icon=document.createElement("div");icon.className="emoji";icon.textContent=emoji;
- const title=document.createElement("h3");title.textContent=name;
- const link=document.createElement("a");link.href=url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Play Now ↗";
- card.append(icon,title,link);return card;
-}
-function renderFeatured(){
- const host=document.getElementById("featured");host.replaceChildren();
- games.slice(0,4).forEach(g=>host.appendChild(renderCard(g)));
-}
-function renderFilters(){
- const host=document.getElementById("filters");host.replaceChildren();
- ["All","Puzzle","Arcade","Casual","Cards","Sports"].forEach(cat=>{
-  const b=document.createElement("button");b.textContent=cat;
-  b.className=cat===category?"active":"";
-  b.onclick=()=>{category=cat;renderFilters();renderGames();};
-  host.appendChild(b);
- });
-}
-function renderGames(){
- const q=(document.getElementById("gameSearch").value||"").toLowerCase();
- const host=document.getElementById("allGames");host.replaceChildren();
- games.filter(g=>(category==="All"||g[3]===category)&&g[1].toLowerCase().includes(q))
- .forEach(g=>host.appendChild(renderCard(g)));
-}
-const configured=
- /^https:\/\/[a-zA-Z0-9-]+\.supabase\.co\/?$/.test(SUPABASE_URL)&&
- SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")&&
- !SUPABASE_PUBLISHABLE_KEY.includes("YOUR_");
+    // --- TOGGLE LOGIN / SIGNUP FORM ---
+    function toggleAuthMode() {
+      isSignUpMode = !isSignUpMode;
+      const title = document.getElementById('auth-title');
+      const subtitle = document.getElementById('auth-subtitle');
+      const btn = document.getElementById('auth-submit-btn');
+      const toggleText = document.getElementById('auth-toggle-text');
 
-function authMessage(msg){safeText(document.getElementById("authMessage"),msg);}
-function updateUser(user){
- currentUser=user||null;
- guest=!currentUser;
- document.getElementById("accountBtn").textContent=currentUser?"My Account":"Login";
- document.getElementById("userStatus").textContent=currentUser
-  ?"Logged in: "+currentUser.email
-  :"Guest mode. Login to access your account.";
- document.getElementById("communityStatus").textContent=currentUser
-  ?"Login successful. Friends/chat database setup abhi required hai."
-  :"Guest mode mein private messages available nahi hain. Login karo.";
- document.getElementById("homeStatus").textContent=currentUser
-  ?"Welcome back! "+currentUser.email
-  :"Guest mode available — login optional.";
-}
-async function signUp(){
- if(!client)return authMessage("Pehle apna Supabase URL aur Publishable Key set karo.");
- const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
- if(!email||password.length<6)return authMessage("Valid email aur minimum 6-character password daalo.");
- try{
-  const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});
-  if(error)throw error;
-  authMessage(data.session?"Account created and logged in.":"Signup successful. Email verification check karo.");
- }catch(e){authMessage("Signup error: "+e.message);}
-}
-async function signIn(){
- if(!client)return authMessage("Pehle apna Supabase URL aur Publishable Key set karo.");
- const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
- if(!email||!password)return authMessage("Email aur password daalo.");
- try{
-  const {error}=await client.auth.signInWithPassword({email,password});
-  if(error)throw error;
-  authMessage("Login successful!");
-  showPage("home");
- }catch(e){authMessage("Login error: "+e.message);}
-}
-async function googleLogin(){
- if(!client)return authMessage("Pehle Supabase URL aur Publishable Key set karo.");
- try{
-  const {error}=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});
-  if(error)throw error;
- }catch(e){authMessage("Google Login error: "+e.message);}
-}
-async function resetPassword(){
- if(!client)return authMessage("Pehle Supabase setup karo.");
- const email=document.getElementById("email").value.trim();
- if(!email)return authMessage("Pehle email daalo.");
- try{
-  const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
-  if(error)throw error;authMessage("Agar account maujood hai to reset email bheji gayi hai.");
- }catch(e){authMessage("Reset error: "+e.message);}
-}
-async function signOut(){
- if(!client)return;
- try{const {error}=await client.auth.signOut();if(error)throw error;authMessage("Logout successful.");showPage("home");}
- catch(e){authMessage("Logout error: "+e.message);}
-}
-async function init(){
- document.getElementById("year").textContent=new Date().getFullYear();
- renderFeatured();renderFilters();renderGames();
- const requested=location.hash.slice(1);
- if(["home","games","account","community","leaderboard","tournaments"].includes(requested))showPage(requested);
- if(!configured){
-  document.getElementById("homeStatus").textContent="Supabase setup required for account features.";
-  return;
- }
- if(!window.supabase){document.getElementById("homeStatus").textContent="Supabase library load nahi hui; internet check karo.";return;}
- try{
-  client=window.supabase.createClient(SUPABASE_URL.replace(/\/$/,""),SUPABASE_PUBLISHABLE_KEY,{
-   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
-  });
-  const {data,error}=await client.auth.getSession();if(error)throw error;
-  updateUser(data.session?.user||null);
-  client.auth.onAuthStateChange((_event,session)=>updateUser(session?.user||null));
- }catch(e){document.getElementById("homeStatus").textContent="Supabase error: "+e.message;}
-}
+      if (isSignUpMode) {
+        title.innerText = "SIGN UP";
+        subtitle.innerText = "Create your GameZone account";
+        btn.innerText = "Create Account";
+        toggleText.innerHTML = 'Already have an account? <span onclick="toggleAuthMode()">Login</span>';
+      } else {
+        title.innerText = "GAMEZONE";
+        subtitle.innerText = "Play. Connect. Win.";
+        btn.innerText = "Login";
+        toggleText.innerHTML = "Don't have an account? <span onclick=\"toggleAuthMode()\">Create Account</span>";
+      }
+    }
 
-// Lightweight illustrative robot: auto-rotates; drag to turn.
-// A real 3D model is needed for genuine 360-degree 3D viewing.
-const box=document.getElementById("robotbox"),robot=document.getElementById("robot");
-function paintRobot(){robot.style.transform="rotateY("+robotAngle+"deg) rotateX(-3deg)";}
-box.addEventListener("pointerdown",e=>{dragging=true;lastX=e.clientX;lastMove=Date.now();box.setPointerCapture(e.pointerId);});
-box.addEventListener("pointermove",e=>{if(!dragging)return;robotAngle+=(e.clientX-lastX)*0.9;lastX=e.clientX;lastMove=Date.now();paintRobot();});
-function stopDrag(){dragging=false;}
-box.addEventListener("pointerup",stopDrag);box.addEventListener("pointercancel",stopDrag);
-setInterval(()=>{if(!dragging&&Date.now()-lastMove>1000){robotAngle+=0.45;paintRobot();}},30);
-init();
-</script>
+    // --- AUTH SUBMIT (Login / Sign Up) ---
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      if (isSignUpMode) {
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Account created successfully! Please login now.');
+          toggleAuthMode();
+        }
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert(error.message);
+        } else {
+          localStorage.removeItem('isGuest');
+          showDashboard(data.user.email);
+        }
+      }
+    }
+
+    // --- GUEST MODE ---
+    function continueAsGuest() {
+      localStorage.setItem('isGuest', 'true');
+      showDashboard('Guest Player');
+    }
+
+    // --- FIXED LOGOUT FUNCTION ---
+    async function handleLogout() {
+      await supabase.auth.signOut();
+      localStorage.removeItem('isGuest');
+      document.getElementById('auth-form').reset();
+      showAuthView();
+    }
+
+    // --- THREE.JS BACKGROUND ANIMATION ---
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true, antialias: true });
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const geometry = new THREE.TorusKnotGeometry(3, 0.8, 100, 16);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true });
+    const torusKnot = new THREE.Mesh(geometry, material);
+    scene.add(torusKnot);
+
+    camera.position.z = 8;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      torusKnot.rotation.x += 0.005;
+      torusKnot.rotation.y += 0.008;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
 </body>
 </html>
