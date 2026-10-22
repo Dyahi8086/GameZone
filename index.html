@@ -1,159 +1,41 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#071329">
-<title>GameZone — Anime Gaming World</title>
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070b1b"><title>GameZone</title>
 <style>
-*{box-sizing:border-box}
-:root{--bg:#061126;--cyan:#39edff;--purple:#7555ff;--pink:#ff48d0}
-body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
-a{text-decoration:none;color:inherit}
-button,input{font:inherit}
-header{height:65px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 3%;background:#050d20;border-bottom:1px solid #28456d;position:sticky;top:0;z-index:5}
-.brand{font-size:clamp(16px,2.4vw,25px);font-weight:1000;white-space:nowrap}
-.brand span{color:#30eaff}
-nav{display:flex;gap:18px;font-size:12px;color:#d6e5ff}
-nav a:hover{color:var(--cyan)}
-.search{width:210px;max-width:30vw;background:#101e39;color:white;border:1px solid #45628b;border-radius:24px;padding:10px 13px;outline:none;font-size:12px}
-main{max-width:1500px;margin:auto;padding:14px 3% 45px}
-.hero{position:relative;min-height:410px;display:flex;align-items:center;overflow:hidden;border:1px solid #456b9a;border-radius:15px;background:#111c3b}
-.hero-bg{position:absolute;inset:0;background-image:linear-gradient(90deg,#061027f7 0%,#07142de8 30%,#07142d55 62%,#07142d20 100%),url('https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1800&q=90');background-size:cover;background-position:center 35%}
-.hero:after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink))}
-.hero-content{position:relative;z-index:2;padding:28px;max-width:490px}
-.eyebrow{font-size:10px;letter-spacing:3px;color:var(--cyan);font-weight:bold}
-h1{font-size:clamp(42px,6.5vw,75px);line-height:.95;margin:17px 0 12px;letter-spacing:-2px}
-h1 span{background:linear-gradient(90deg,#42f2ff,#4089ff,#ff50d2);color:transparent;background-clip:text}
-.hero p{font-size:13px;line-height:1.7;color:#e0e8ff;max-width:340px}
-.btn{display:inline-block;padding:14px 19px;border-radius:30px;background:linear-gradient(100deg,#00cfff,#5354ff,#e331c6);font-size:11px;font-weight:900;box-shadow:0 0 22px #4a71ff65}
-.btn.secondary{background:#08152bcc;border:1px solid #8298ce;box-shadow:none;margin-left:7px}
-.mascot{position:absolute;z-index:1;right:13%;top:13%;font-size:clamp(100px,17vw,185px);filter:drop-shadow(0 0 25px #45eaff);animation:float 4s ease-in-out infinite;pointer-events:none}
-.ring{position:absolute;z-index:1;right:9%;top:20%;width:clamp(130px,23vw,250px);aspect-ratio:1;border:2px solid #65f4ff80;border-radius:50%;transform:rotate(-25deg) scaleY(.5);box-shadow:0 0 25px #48bfff55}
-.ring:after{content:"";position:absolute;inset:-20px;border:1px solid #ff55e888;border-radius:50%}
-@keyframes float{50%{transform:translateY(-13px) rotate(4deg)}}
-.stats{display:flex;gap:9px;margin-top:21px;flex-wrap:wrap}
-.stat{padding:9px 12px;background:#0b1934d9;border:1px solid #2b4770;border-radius:8px;font-size:9px;color:#c7d8fa}
-.stat b{font-size:14px;color:#55efff}
-section{margin-top:27px}
-.section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:14px;gap:10px}
-h2{font-size:21px;margin:0 0 5px}
-.sub{font-size:11px;color:#a9badb;margin:0;line-height:1.5}
-.categories{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
-.cat{padding:12px 3px;border-radius:9px;border:1px solid #29446e;background:linear-gradient(145deg,#14284b,#0b1730);color:white;cursor:pointer;font-size:10px}
-.cat span{display:block;font-size:25px;margin-bottom:7px;filter:drop-shadow(0 0 8px #47cfff)}
-.cat.active,.cat:hover{border-color:var(--cyan);box-shadow:0 0 16px #42eaff44;transform:translateY(-2px)}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.game{overflow:hidden;min-width:0;border:1px solid #29446c;border-radius:11px;background:#0b1730;transition:.22s}
-.game:hover{transform:translateY(-5px);border-color:#52f1ff;box-shadow:0 10px 25px #1c9cff26}
-.game[hidden]{display:none}
-.cover{height:140px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 65%,var(--glow,#3a74be),transparent 65%),linear-gradient(140deg,#1a2a4b,#081126)}
-.cover:before{content:"";position:absolute;width:130px;height:48px;border:1px solid #ffffff45;border-radius:50%;transform:rotate(-25deg);box-shadow:0 0 0 15px #ffffff06,0 0 0 30px #ffffff04}
-.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#09142bea,transparent 65%)}
-.game-icon{position:relative;z-index:1;width:82px;height:82px;border:1px solid #ffffffa6;border-radius:22px;display:grid;place-items:center;background:linear-gradient(145deg,#ffffff40,#ffffff08 48%,#00000065),linear-gradient(130deg,var(--glow,#267fff),#121a36);box-shadow:0 11px 0 #030713,0 15px 20px #0008,0 0 22px var(--glow,#48cfff);transform:perspective(350px) rotateX(9deg) rotateY(-9deg);transition:.25s}
-.game-icon span{font-size:43px;filter:drop-shadow(0 4px 3px #0009)}
-.game:hover .game-icon{transform:perspective(350px) rotateX(-5deg) rotateY(8deg) translateY(-7px) scale(1.06)}
-.tag{position:absolute;z-index:2;top:9px;left:9px;background:#061027df;border:1px solid #ffffff3b;border-radius:4px;padding:5px 6px;font-size:8px;letter-spacing:1px}
-.info{padding:11px}
-.info h3{font-size:13px;margin:0 0 6px}
-.info p{font-size:10px;color:#aabbd9;line-height:1.5;min-height:30px;margin:0}
-.play{display:block;text-align:center;padding:10px 4px;margin-top:11px;border-radius:6px;background:linear-gradient(90deg,#00aefa,#5650ff,#d72dc9);font-size:10px;font-weight:900}
-.play:hover{filter:brightness(1.2)}
-#empty{color:#bdcbee;font-size:13px;padding:20px 0}
-footer{padding:25px 10px;text-align:center;color:#91a6cb;font-size:10px;letter-spacing:2px;border-top:1px solid #263d62}
-@media(min-width:1050px){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}.cover{height:125px}}
-@media(max-width:800px){nav{display:none}.categories{grid-template-columns:repeat(4,minmax(0,1fr))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{min-height:360px}}
-@media(max-width:540px){
- header{height:59px;padding:0 3%;gap:8px}.brand{font-size:17px}.search{width:42vw;padding:10px;font-size:10px}
- main{padding:10px 3% 35px}.hero{min-height:355px}.hero-bg{background-position:58% center}.hero-content{padding:17px;max-width:94%}
- h1{font-size:44px}.hero p{font-size:12px;max-width:265px}.mascot{right:0;top:18%;font-size:78px;opacity:.8}.ring{right:0;top:20%;width:120px}
- .btn{padding:12px 13px;font-size:10px}.btn.secondary{margin-left:3px}.stats{gap:6px}.stat{padding:8px;font-size:9px}
- section{margin-top:23px}h2{font-size:19px}.categories{gap:6px}.cat{padding:10px 2px;font-size:9px}.cat span{font-size:21px}
- .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cover{height:120px}.game-icon{width:70px;height:70px;border-radius:18px}.game-icon span{font-size:37px}
- .info{padding:9px}.info h3{font-size:12px}.info p{font-size:10px}.play{font-size:9px}
-}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
-</style>
-</head>
-<body>
-<header>
-  <a class="brand" href="#">🎮 GAME<span>ZONE</span>✦</a>
-  <nav><a href="#">Home</a><a href="#games">Games</a><a href="#categories">Categories</a></nav>
-  <input id="search" class="search" type="search" placeholder="⌕ Search games..." aria-label="Search games">
-</header>
-
-<main>
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="ring"></div><div class="mascot">🐱</div>
-  <div class="hero-content">
-    <div class="eyebrow">✦ WELCOME TO GAMEZONE ✦</div>
-    <h1>GAME<span>ZONE</span></h1>
-    <p style="font-weight:900;letter-spacing:2px">PLAY · EXPLORE · ENJOY</p>
-    <p>Enter a world of free games, colourful adventures and endless fun. Discover a new favourite every day.</p>
-    <a class="btn" href="#games">🎮 &nbsp; PLAY NOW →</a>
-    <a class="btn secondary" href="#categories">EXPLORE WORLDS</a>
-    <div class="stats"><div class="stat"><b>12+</b><br>GAMES</div><div class="stat"><b>FREE</b><br>TO PLAY</div><div class="stat"><b>∞</b><br>FUN AWAITS</div></div>
-  </div>
-</section>
-
-<section id="categories">
-  <div class="section-head"><div><h2>✨ Choose Your World</h2><p class="sub">Tap a category to find your next game.</p></div></div>
-  <div class="categories">
-    <button class="cat active" data-cat="All"><span>🎮</span>All Games</button>
-    <button class="cat" data-cat="Arcade"><span>👾</span>Arcade</button>
-    <button class="cat" data-cat="Puzzle"><span>🧩</span>Puzzle</button>
-    <button class="cat" data-cat="Creative"><span>🎨</span>Creative</button>
-    <button class="cat" data-cat="Sports"><span>🏀</span>Sports</button>
-    <button class="cat" data-cat="Strategy"><span>♟️</span>Strategy</button>
-    <button class="cat" data-cat="Classic"><span>👑</span>Classic</button>
-    <button class="cat" data-cat="Adventure"><span>🌍</span>Adventure</button>
-  </div>
-</section>
-
-<section id="games">
-  <div class="section-head"><div><h2>🔥 Popular Games</h2><p class="sub">Pick a game and jump into the fun.</p></div><span class="sub">12 games</span></div>
-  <div class="grid">
-    <article class="game" data-name="Google Snake" data-cat="Arcade"><a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener"><div class="cover" style="--glow:#21d6a0"><span class="tag">ARCADE</span><div class="game-icon"><span>🐍</span></div></div><div class="info"><h3>Google Snake</h3><p>Grow your snake and beat your best score.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="2048" data-cat="Puzzle"><a href="https://play2048.co/" target="_blank" rel="noopener"><div class="cover" style="--glow:#ffb83e"><span class="tag">PUZZLE</span><div class="game-icon"><span>🔢</span></div></div><div class="info"><h3>2048</h3><p>Merge tiles and reach the magic number.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Hextris" data-cat="Puzzle"><a href="https://hextris.io/" target="_blank" rel="noopener"><div class="cover" style="--glow:#a64cff"><span class="tag">PUZZLE</span><div class="game-icon"><span>🔷</span></div></div><div class="info"><h3>Hextris</h3><p>Match blocks in this fast puzzle challenge.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Quick Draw" data-cat="Creative"><a href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><div class="cover" style="--glow:#478eff"><span class="tag">CREATIVE</span><div class="game-icon"><span>🖍️</span></div></div><div class="info"><h3>Quick, Draw!</h3><p>Draw something and let AI guess it.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Chrome Dino" data-cat="Arcade"><a href="https://chromedino.com/" target="_blank" rel="noopener"><div class="cover" style="--glow:#f1a147"><span class="tag">ARCADE</span><div class="game-icon"><span>🦖</span></div></div><div class="info"><h3>Chrome Dino</h3><p>Jump over obstacles and run farther.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Little Alchemy 2" data-cat="Adventure"><a href="https://littlealchemy2.com/" target="_blank" rel="noopener"><div class="cover" style="--glow:#36d9f1"><span class="tag">DISCOVER</span><div class="game-icon"><span>🧪</span></div></div><div class="info"><h3>Little Alchemy 2</h3><p>Combine elements to discover new things.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Minesweeper" data-cat="Strategy"><a href="https://minesweeper.online/" target="_blank" rel="noopener"><div class="cover" style="--glow:#528bff"><span class="tag">STRATEGY</span><div class="game-icon"><span>💣</span></div></div><div class="info"><h3>Minesweeper</h3><p>Use logic to uncover the safe squares.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Solitaire" data-cat="Classic"><a href="https://solitaired.com/" target="_blank" rel="noopener"><div class="cover" style="--glow:#35ca82"><span class="tag">CLASSIC</span><div class="game-icon"><span>🃏</span></div></div><div class="info"><h3>Solitaire</h3><p>A classic card game for a relaxing break.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Basketball Stars" data-cat="Sports"><a href="https://www.basketballstars.com/" target="_blank" rel="noopener"><div class="cover" style="--glow:#ff8745"><span class="tag">SPORTS</span><div class="game-icon"><span>🏀</span></div></div><div class="info"><h3>Basketball Stars</h3><p>Take your shot and challenge your rival.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Tetris" data-cat="Classic"><a href="https://tetris.com/play-tetris" target="_blank" rel="noopener"><div class="cover" style="--glow:#ba51ff"><span class="tag">CLASSIC</span><div class="game-icon"><span>🧱</span></div></div><div class="info"><h3>Tetris</h3><p>Stack blocks and clear the lines.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Cut the Rope" data-cat="Puzzle"><a href="https://www.cuttherope.net/" target="_blank" rel="noopener"><div class="cover" style="--glow:#50d45e"><span class="tag">PUZZLE</span><div class="game-icon"><span>🍬</span></div></div><div class="info"><h3>Cut the Rope</h3><p>Solve puzzles and deliver the candy.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-    <article class="game" data-name="Pac-Man" data-cat="Arcade"><a href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener"><div class="cover" style="--glow:#f7d447"><span class="tag">ARCADE</span><div class="game-icon"><span>🟡</span></div></div><div class="info"><h3>Pac-Man</h3><p>Explore the maze and collect dots.</p><span class="play">PLAY NOW ↗</span></div></a></article>
-  </div>
-  <p id="empty" hidden>No games found. Try another search.</p>
-</section>
-</main>
-<footer>🎮 GAMEZONE · PLAY · EXPLORE · ENJOY</footer>
-<script>
-let category='All';
-const cards=[...document.querySelectorAll('.game')];
-const search=document.getElementById('search');
-function filterGames(){
- const q=search.value.trim().toLowerCase();let count=0;
- cards.forEach(card=>{
-  const matchName=card.dataset.name.toLowerCase().includes(q);
-  const matchCat=category==='All'||card.dataset.cat===category;
-  card.hidden=!(matchName&&matchCat);
-  if(!card.hidden)count++;
- });
- document.getElementById('empty').hidden=count>0;
-}
-document.querySelectorAll('.cat').forEach(button=>{
- button.addEventListener('click',()=>{
-  category=button.dataset.cat;
-  document.querySelectorAll('.cat').forEach(b=>b.classList.toggle('active',b===button));
-  filterGames();
- });
-});
-search.addEventListener('input',filterGames);
-</script>
-</body>
-</html>
+:root{--bg:#070b1b;--panel:#101b35;--line:#293c6c;--cyan:#39e7ff;--pink:#ff38c7;--purple:#8b35ff;--muted:#aab8d8}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#29205c,var(--bg) 55%);color:#f5f6ff;font:15px system-ui,Arial}button,input{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#17274a;color:white;border-radius:11px;padding:10px 13px}button:hover{border-color:var(--cyan)}a{color:inherit;text-decoration:none}.top{position:sticky;top:0;z-index:2;background:#070b1bee;backdrop-filter:blur(14px);padding:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line)}.brand{font-weight:950;font-size:24px;background:linear-gradient(90deg,var(--cyan),white,var(--pink));color:transparent;background-clip:text}.brand small{display:block;font-size:9px;letter-spacing:2px;color:#b8c7eb}.nav{display:flex;gap:5px;flex-wrap:wrap}.nav button{background:transparent;border-color:transparent}.nav .active,.primary{background:linear-gradient(100deg,#6824ff,#c51cff);border-color:#ba8cff}.search{margin-left:auto;background:#0b1430;color:white;border:1px solid var(--line);border-radius:11px;padding:10px;min-width:150px;max-width:230px}.wrap{max-width:1300px;margin:auto;padding:14px}.hero{border:1px solid #6944d6;border-radius:22px;padding:clamp(22px,5vw,50px);background:linear-gradient(105deg,#070c20f7,#10133adb,#431080a8),radial-gradient(circle at 85% 15%,#ff38c7,transparent 32%);box-shadow:0 0 40px #822cff22}.eyebrow{color:var(--cyan);letter-spacing:3px;font-size:12px;font-weight:800}.hero h1{font-size:clamp(40px,7vw,78px);line-height:1;margin:16px 0;letter-spacing:-2px}.gradient{background:linear-gradient(90deg,#fff,var(--cyan),var(--pink));color:transparent;background-clip:text}.hero p{color:#d0d9ff;max-width:600px;line-height:1.6}.actions,.pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.pill{padding:8px 12px;border:1px solid #514582;border-radius:25px;background:#111536;color:#e6e1ff;font-size:13px}.layout{display:grid;grid-template-columns:1.6fr .8fr;gap:13px;margin-top:13px}.panel{background:linear-gradient(145deg,#101b35f5,#080f22);border:1px solid var(--line);border-radius:17px;padding:15px;min-width:0}.head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.head h2{font-size:20px;margin:0}.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.game{border:1px solid #2c416d;border-radius:13px;overflow:hidden;background:#0b1730}.art{height:88px;display:grid;place-items:center;font-size:46px;background:radial-gradient(circle,#6251b5,#172d5b 58%,#071124)}.gamebody{padding:9px}.gamebody b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gamebody small{display:block;color:var(--muted);margin:4px 0 9px}.gamebody a{display:block;text-align:center;background:#192b51;padding:7px;border-radius:8px;font-size:12px}.game:hover{border-color:var(--pink);transform:translateY(-2px)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:13px}.stat{background:#101f3d;border-radius:10px;padding:10px;text-align:center}.stat b{display:block;font-size:20px}.stat small,.muted{color:var(--muted)}.side{display:grid;gap:13px}.rowitem{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #1d2b4b}.rowitem:last-child{border:0}.rowitem small{display:block;color:var(--muted)}.content{margin-top:13px}.hidden{display:none!important}.field{width:100%;padding:12px;margin:7px 0 12px;background:#071126;color:white;border:1px solid var(--line);border-radius:10px}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{background:#2a210d;border:1px solid #80612c;border-radius:11px;padding:12px;color:#ffe7a3;font-size:13px;line-height:1.5}.chatbox{height:230px;overflow:auto;background:#071126;border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}.bubble{background:#182b50;border-radius:12px;padding:9px;margin:7px 0;overflow-wrap:anywhere}.mine{background:#4420a8;margin-left:12%}.empty{padding:18px;text-align:center;color:var(--muted)}footer{text-align:center;color:#7182ac;padding:25px;font-size:12px}@media(max-width:850px){.layout{grid-template-columns:1fr}.top .search{margin-left:0;max-width:none;flex:1}.games{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:520px){.wrap{padding:9px}.nav{width:100%;overflow:auto;flex-wrap:nowrap}.nav button{white-space:nowrap}.games{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.hero h1{letter-spacing:-1px}}
+</style></head><body>
+<header class="top"><a class="brand" href="#" onclick="page('home');return false">🎮 GameZone<small>PLAY • CONNECT • COMPETE</small></a><nav class="nav"><button class="active" data-page="home" onclick="page('home')">Home</button><button data-page="games" onclick="page('games')">🎮 Games</button><button data-page="community" onclick="page('community')">👥 Friends</button><button data-page="chat" onclick="page('chat')">💬 Chat</button><button data-page="leaderboard" onclick="page('leaderboard')">🏆 Rank</button></nav><input class="search" placeholder="Search games..." oninput="render(this.value)"><button onclick="page('account')">Login</button></header>
+<main class="wrap"><section id="homePage"><div class="hero"><div class="eyebrow">YOUR NEXT LEVEL STARTS HERE</div><h1>Welcome to<br><span class="gradient">GameZone</span></h1><p>Discover games, meet friends, chat with your squad and climb the leaderboard. Ek hi jagah par play, connect aur compete karo!</p><div class="actions"><button class="primary" onclick="page('games')">Explore Games →</button><button onclick="page('community')">Meet Players</button><button onclick="page('account')">Create Account</button></div><div class="pills"><span class="pill">🎮 12 games</span><span class="pill">🤝 Friends</span><span class="pill">💬 Private chat*</span><span class="pill">🏆 Leaderboard*</span></div></div><div class="layout"><section class="panel"><div class="head"><h2>🔥 Popular Games</h2><button onclick="page('games')">View all</button></div><div id="homeGames" class="games"></div></section><aside class="side"><section class="panel"><div class="head"><h2>👤 Profile</h2></div><div id="profileSummary" class="muted">Login karke profile dekho.</div><div class="stats"><div class="stat"><b id="friendsCount">0</b><small>Friends</small></div><div class="stat"><b id="scoreCount">0</b><small>Score</small></div><div class="stat"><b id="rankCount">—</b><small>Rank</small></div></div></section><section class="panel"><h2>🏆 Tournaments</h2><div id="homeTournaments" class="muted">Supabase setup ke baad dikhenge.</div></section></aside></div></section>
+<section id="gamesPage" class="panel hidden content"><div class="head"><h2>🎮 All Games</h2></div><input id="gameSearch" class="field" placeholder="Game search..." oninput="render(this.value)"><div id="gameGrid" class="games"></div></section>
+<section id="accountPage" class="panel hidden content"><div class="head"><h2>🔐 Account</h2></div><div id="setupStatus" class="note">Setup pending: code mein Supabase URL aur publishable key daalni hai, SQL script bhi run karni hai.</div><div class="two"><div class="panel"><h3>Create account</h3><label>Email</label><input id="suEmail" class="field" type="email" placeholder="you@example.com"><label>Password (8+ characters)</label><input id="suPass" class="field" type="password"><label>Username (3-24 letters/numbers/_)</label><input id="suName" class="field" maxlength="24"><button class="primary" onclick="signup()">Sign up</button></div><div class="panel"><h3>Login</h3><input id="liEmail" class="field" type="email" placeholder="Email"><input id="liPass" class="field" type="password" placeholder="Password"><button class="primary" onclick="login()">Login</button><button onclick="googleLogin()">Google login</button><button onclick="logout()">Sign out</button></div></div><p id="authMsg" class="muted"></p></section>
+<section id="communityPage" class="panel hidden content"><h2>👥 Friends</h2><div class="note">Login aur SQL setup zaroori hai. Username search karke request bhejo.</div><div class="two"><input id="findName" class="field" placeholder="Exact username"><button onclick="findUser()">Search player</button></div><div id="findResult"></div><div class="two"><div class="panel"><h3>Incoming requests</h3><div id="requests" class="muted">Login required.</div></div><div class="panel"><h3>Your friends</h3><div id="friends" class="muted">Login required.</div></div></div></section>
+<section id="chatPage" class="panel hidden content"><h2>💬 Private Chat</h2><div class="note">Chat ke liye friend request accepted honi chahiye.</div><div class="two"><input id="chatName" class="field" placeholder="Friend username"><button onclick="openChat()">Open chat</button></div><div id="chatTarget" class="muted">No chat selected.</div><div id="chatMessages" class="chatbox"></div><div class="two"><input id="chatInput" class="field" maxlength="1500" placeholder="Message..."><button class="primary" onclick="sendMsg()">Send</button></div></section>
+<section id="leaderboardPage" class="panel hidden content"><div class="head"><h2>🏆 Leaderboard & Tournaments</h2><button onclick="loadBoard()">Refresh</button></div><div class="two"><div class="panel"><h3>Top players</h3><div id="board" class="muted">SQL setup ke baad dikhega.</div></div><div class="panel"><h3>Tournaments</h3><div id="tournaments" class="muted">SQL setup ke baad dikhenge.</div></div></div><p class="muted">Client se bheje scores fake ho sakte hain; prizes ke liye server-side verification chahiye.</p></section><footer>GameZone • Respect other players. External games open on their own websites.</footer></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL="PASTE_YOUR_PROJECT_URL_HERE";
+const SUPABASE_PUBLISHABLE_KEY="PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+const configured=SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("PASTE_")&&SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_");
+const db=window.supabase&&configured?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY):null;
+const games=[["Google Snake","Arcade","🐍","https://www.google.com/fbx?fbx=snake_arcade"],["2048","Puzzle","🔢","https://play2048.co/"],["Hextris","Puzzle","🔷","https://hextris.io/"],["Quick Draw","Creative","🎨","https://quickdraw.withgoogle.com/"],["Chrome Dino","Arcade","🦖","https://chromedino.com/"],["Little Alchemy 2","Adventure","🧪","https://littlealchemy2.com/"],["Minesweeper","Strategy","💣","https://minesweeper.online/"],["Solitaire","Classic","🃏","https://solitaired.com/"],["Basketball Stars","Sports","🏀","https://www.basketballstars.com/"],["Tetris","Classic","🧱","https://tetris.com/play-tetris"],["Cut the Rope","Puzzle","🍬","https://www.cuttherope.net/"],["Pac-Man","Arcade","🟡","https://www.google.com/logos/2010/pacman10-i.html"]];
+let user=null,profile=null,chatUser=null,poll=null;
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function render(q=""){q=q.toLowerCase().trim();let list=games.filter(g=>(g[0]+" "+g[1]).toLowerCase().includes(q));const cards=arr=>arr.map(g=>`<article class="game"><div class="art">${g[2]}</div><div class="gamebody"><b>${esc(g[0])}</b><small>${esc(g[1])}</small><a href="${g[3]}" target="_blank" rel="noopener noreferrer">Play now ↗</a></div></article>`).join("")||'<div class="empty">No games found.</div>';document.getElementById("homeGames").innerHTML=cards(list.slice(0,6));document.getElementById("gameGrid").innerHTML=cards(list);let x=document.getElementById("gameSearch");if(x&&x.value!==q)x.value=q;}
+function page(n){document.querySelectorAll("main section[id$='Page']").forEach(x=>x.classList.add("hidden"));let t=document.getElementById(n+"Page");if(t)t.classList.remove("hidden");document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===n));if(n==="community")loadCommunity();if(n==="leaderboard")loadBoard();}
+function msg(t){document.getElementById("authMsg").textContent=t}function requireLogin(){if(!db){msg("Supabase URL/key set karo aur SQL script run karo.");page("account");return false}if(!user){msg("Pehle login karo.");page("account");return false}return true}
+async function signup(){if(!db){msg("Supabase URL aur publishable key code mein set karo.");return}let email=suEmail.value.trim(),password=suPass.value,username=suName.value.trim();if(password.length<8||!/^[a-zA-Z0-9_]{3,24}$/.test(username)){msg("Password 8+ characters aur username 3-24 letters/numbers/_ hona chahiye.");return}let {data,error}=await db.auth.signUp({email,password,options:{data:{username}}});if(error){msg(error.message);return}msg("Signup request sent. Email confirmation on ho to inbox verify karo, phir login karo.");if(data.session){user=data.user;await makeProfile(username);await refresh()}}
+async function login(){if(!db){msg("Supabase URL/key set karo.");return}let {data,error}=await db.auth.signInWithPassword({email:liEmail.value.trim(),password:liPass.value});if(error){msg(error.message);return}user=data.user;await makeProfile();await refresh();msg("Login successful")}
+async function googleLogin(){if(!db){msg("Supabase URL/key set karo.");return}let {error}=await db.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.href}});if(error)msg(error.message)}
+async function logout(){if(db)await db.auth.signOut();user=null;profile=null;if(poll)clearInterval(poll);document.getElementById("profileSummary").textContent="Login karke profile dekho.";msg("Signed out.")}
+async function makeProfile(name=""){let {data,error}=await db.from("profiles").select("*").eq("id",user.id).maybeSingle();if(error){msg(error.message);return}if(data){profile=data;return}let base=(name||user.user_metadata?.username||user.email.split("@")[0]).replace(/[^A-Za-z0-9_]/g,"").slice(0,18)||"player";let {data:d,error:e}=await db.from("profiles").insert({id:user.id,username:base+"_"+user.id.slice(0,4),display_name:base}).select().single();if(e)msg("Profile error: "+e.message);else profile=d}
+async function refresh(){document.getElementById("profileSummary").innerHTML=`<b>${esc(profile?.display_name||user.email)}</b><div class="muted">@${esc(profile?.username||"player")}</div><span style="color:#40ed9a">● Online</span>`;await loadCommunity();await loadBoard();presence();setInterval(presence,30000)}
+async function presence(){if(db&&user)await db.from("profiles").update({last_seen:new Date().toISOString()}).eq("id",user.id)}
+async function findUser(){if(!requireLogin())return;let q=findName.value.trim();let {data,error}=await db.from("profiles").select("id,username,display_name").ilike("username",q).neq("id",user.id).limit(5);findResult.innerHTML=error?esc(error.message):data?.length?data.map(p=>`<div class="rowitem"><div><b>${esc(p.display_name)}</b><small>@${esc(p.username)}</small></div><button onclick="requestFriend('${p.id}')">Add friend</button></div>`).join(""):"User nahi mila."}
+async function requestFriend(id){let {error}=await db.from("friend_requests").insert({sender_id:user.id,receiver_id:id});findResult.textContent=error?error.message:"Friend request sent."}
+async function loadCommunity(){if(!db||!user)return;let {data:r,error:e}=await db.from("friend_requests").select("id,sender_id,profiles!friend_requests_sender_id_fkey(username,display_name)").eq("receiver_id",user.id).eq("status","pending");requests.innerHTML=e?esc(e.message):r?.length?r.map(x=>`<div class="rowitem"><span>${esc(x.profiles?.username)}</span><button onclick="answer('${x.id}',true)">Accept</button><button onclick="answer('${x.id}',false)">Decline</button></div>`).join(""):"No pending requests.";let {data:f,error:fe}=await db.from("friendships_view").select("*");friends.innerHTML=fe?esc(fe.message):f?.length?f.map(x=>`<div class="rowitem"><span>@${esc(x.username)}</span><button onclick="chatName.value='${esc(x.username)}';page('chat');openChat()">Chat</button></div>`).join(""):"No friends yet.";friendsCount.textContent=f?.length||0}
+async function answer(id,accept){let {error}=await db.rpc("respond_friend_request",{request_id:id,accept_request:accept});if(error)alert(error.message);await loadCommunity()}
+async function openChat(){if(!requireLogin())return;let {data:p,error}=await db.from("profiles").select("id,username").eq("username",chatName.value.trim()).maybeSingle();if(error||!p){chatTarget.textContent="User nahi mila.";return}chatUser=p;chatTarget.textContent="Chat with @"+p.username;await loadMessages();if(poll)clearInterval(poll);poll=setInterval(loadMessages,5000)}
+async function loadMessages(){if(!chatUser||!user)return;let filter=`and(sender_id.eq.${user.id},receiver_id.eq.${chatUser.id}),and(sender_id.eq.${chatUser.id},receiver_id.eq.${user.id})`;let {data,error}=await db.from("messages").select("*").or(filter).order("created_at").limit(100);chatMessages.innerHTML=error?esc(error.message):(data||[]).map(m=>`<div class="bubble ${m.sender_id===user.id?"mine":""}">${esc(m.body)}</div>`).join("")||"Say hello 👋";chatMessages.scrollTop=chatMessages.scrollHeight}
+async function sendMsg(){if(!requireLogin()||!chatUser)return;let body=chatInput.value.trim();if(!body)return;let {error}=await db.from("messages").insert({sender_id:user.id,receiver_id:chatUser.id,body});if(error)alert(error.message);else{chatInput.value="";await loadMessages()}}
+async function loadBoard(){if(!db)return;let {data:b,error}=await db.from("leaderboard_view").select("*").limit(20);board.innerHTML=error?esc(error.message):b?.length?b.map((p,i)=>`<div class="rowitem"><span>${i+1}. ${esc(p.username)}</span><b>🏆 ${p.total_score||0}</b></div>`).join(""):"No scores yet.";let {data:t,error:te}=await db.from("tournaments").select("id,title,starts_at,description").eq("is_public",true).order("starts_at").limit(10);tournaments.innerHTML=te?esc(te.message):t?.length?t.map(x=>`<div class="rowitem"><div><b>${esc(x.title)}</b><small>${new Date(x.starts_at).toLocaleString()}</small></div><button onclick="joinTournament('${x.id}')">Join</button></div>`).join(""):"No tournaments added.";homeTournaments.innerHTML=t?.length?t.slice(0,3).map(x=>`<div class="rowitem">${esc(x.title)}</div>`).join(""):"No tournaments yet."}
+async function joinTournament(id){if(!requireLogin())return;let {error}=await db.from("tournament_entries").insert({tournament_id:id,user_id:user.id});alert(error?error.message:"Joined tournament!")}
+render();if(!db)setupStatus.textContent="Setup pending: SUPABASE_URL + Publishable key replace karo, phir SQL file run karo.";else db.auth.getSession().then(async({data})=>{if(data.session){user=data.session.user;await makeProfile();await refresh()}}).then(()=>db.auth.onAuthStateChange(async(_,s)=>{if(s){user=s.user;await makeProfile();await refresh()}else{user=null;profile=null}}));
+</script></body></html>
