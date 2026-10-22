@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="GameZone - Play fun browser games online. Discover arcade, puzzle, action and racing games.">
+<title>GameZone - Play Free Online Games</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#f8fafc;font-family:Arial,sans-serif}
+header{padding:22px 5%;background:#111a30;border-bottom:1px solid #26334d;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:26px;font-weight:900;color:#5eead4}.logo span{color:white}
+button,input,select{font:inherit;border-radius:10px;padding:11px;border:1px solid #334155}
+button{cursor:pointer;background:#14b8a6;color:#07111d;font-weight:bold;border:0}
+input,select{background:#111a30;color:white;max-width:100%}
+.hero{padding:36px 5%;background:linear-gradient(120deg,#172554,#164e63)}
+.hero h1{font-size:clamp(30px,6vw,48px);margin:0 0 12px}
+.hero p{color:#dbeafe;line-height:1.6}
+main{padding:24px 5%;max-width:1200px;margin:auto}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.tools input{flex:1;min-width:180px}
+#games{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:16px}
+.card{background:#111a30;border:1px solid #29364e;border-radius:15px;overflow:hidden}
+.art{height:110px;display:grid;place-items:center;font-size:48px;background:linear-gradient(135deg,#164e63,#312e81)}
+.info{padding:13px}.info h3{margin:0 0 7px;font-size:17px}
+.small{font-size:12px;color:#a5b4fc;margin-bottom:12px}
+.play{display:block;text-align:center;text-decoration:none;background:#5eead4;color:#082f49;padding:10px;border-radius:9px;font-weight:bold}
+#admin{display:none;background:#111a30;border:1px solid #334155;padding:18px;border-radius:14px;margin-bottom:24px}
+#admin input,#admin select{width:100%;margin:5px 0 12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.secondary{background:#334155;color:white}
+footer{text-align:center;color:#94a3b8;padding:28px}
+.notice{color:#fbbf24;font-size:13px;line-height:1.5}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🎮 Game<span>Zone</span></div>
+  <button onclick="adminLogin()">Admin Panel 🔐</button>
+</header>
+<section class="hero">
+  <h1>Play. Have Fun. Repeat.</h1>
+  <p>Discover fun browser games on GameZone. Choose a game and start playing!</p>
+</section>
+<main>
+  <section id="admin">
+    <h2>⚙️ Manage Games</h2>
+    <p class="notice">Games added here are saved in this browser only. Shared online admin storage will be connected in a later setup.</p>
+    <label>Game name</label><input id="name" placeholder="Example: My New Game">
+    <label>Category</label>
+    <select id="category"><option>Arcade</option><option>Puzzle</option><option>Action</option><option>Racing</option><option>Adventure</option><option>Other</option></select>
+    <label>Emoji / icon</label><input id="emoji" placeholder="🎯">
+    <label>Game URL</label><input id="url" placeholder="https://example.com/game">
+    <div class="actions">
+      <button onclick="saveGame()">Save Game</button>
+      <button class="secondary" onclick="resetForm()">Clear</button>
+      <button class="secondary" onclick="document.getElementById('admin').style.display='none'">Close</button>
+    </div>
+  </section>
+  <div class="tools">
+    <input id="search" placeholder="🔍 Search games..." oninput="render()">
+    <select id="filter" onchange="render()">
+      <option>All</option><option>Arcade</option><option>Puzzle</option>
+      <option>Action</option><option>Racing</option><option>Adventure</option><option>Other</option>
+    </select>
+  </div>
+  <h2>🔥 Explore Games</h2>
+  <div id="games"></div>
+</main>
+<footer>© <span id="year"></span> GameZone · Play responsibly</footer>
+<script>
+const defaults=[
+ {id:1,name:"Google Snake",category:"Arcade",emoji:"🐍",url:"https://www.google.com/fbx?fbx=snake_arcade"},
+ {id:2,name:"2048",category:"Puzzle",emoji:"🔢",url:"https://play2048.co/"},
+ {id:3,name:"Hextris",category:"Puzzle",emoji:"🔷",url:"https://hextris.io/"},
+ {id:4,name:"Quick Draw",category:"Arcade",emoji:"✏️",url:"https://quickdraw.withgoogle.com/"},
+ {id:5,name:"Chrome Dino",category:"Arcade",emoji:"🦖",url:"https://chromedino.com/"},
+ {id:6,name:"Little Alchemy 2",category:"Puzzle",emoji:"🧪",url:"https://littlealchemy2.com/"}
+];
+let games=[];
+let editing=null;
+try{games=JSON.parse(localStorage.getItem("gamezone_games"))||defaults}catch(e){games=defaults}
+function persist(){localStorage.setItem("gamezone_games",JSON.stringify(games))}
+function render(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const cat=document.getElementById("filter").value;
+ const list=games.filter(g=>g.name.toLowerCase().includes(q)&&(cat==="All"||g.category===cat));
+ document.getElementById("games").innerHTML=list.map(g=>`
+ <article class="card">
+ <div class="art">${escapeHtml(g.emoji||"🎮")}</div>
+ <div class="info"><h3>${escapeHtml(g.name)}</h3>
+ <div class="small">${escapeHtml(g.category)}</div>
+ <a class="play" href="${safeUrl(g.url)}" target="_blank" rel="noopener noreferrer">▶ Play Now</a>
+ ${document.getElementById("admin").style.display==="block"?`
+ <div class="actions" style="margin-top:10px">
+ <button onclick="editGame(${g.id})">Edit</button>
+ <button class="secondary" onclick="deleteGame(${g.id})">Delete</button>
+ </div>`:""}
+ </div></article>`).join("")||"<p>No games found. Try another search.</p>";
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function safeUrl(u){try{let x=new URL(u);return ["https:","http:"].includes(x.protocol)?x.href:"#"}catch(e){return "#"}}
+function adminLogin(){
+ if(document.getElementById("admin").style.display==="block"){render();return}
+ const password=prompt("Enter admin password:");
+ if(password!=="GZadmin2026"){alert("Wrong password");return}
+ document.getElementById("admin").style.display="block";render();
+}
+function saveGame(){
+ const name=document.getElementById("name").value.trim();
+ const url=document.getElementById("url").value.trim();
+ if(!name||!url||safeUrl(url)==="#"){alert("Enter a game name and valid http/https URL.");return}
+ const g={id:editing||Date.now(),name,category:document.getElementById("category").value,emoji:document.getElementById("emoji").value.trim()||"🎮",url:safeUrl(url)};
+ if(editing)games=games.map(x=>x.id===editing?g:x);else games.unshift(g);
+ persist();resetForm();render();alert("Game saved in this browser!");
+}
+function editGame(id){
+ const g=games.find(x=>x.id===id);if(!g)return;
+ editing=id;document.getElementById("name").value=g.name;
+ document.getElementById("category").value=g.category;
+ document.getElementById("emoji").value=g.emoji;
+ document.getElementById("url").value=g.url;
+ document.getElementById("admin").scrollIntoView({behavior:"smooth"});
+}
+function deleteGame(id){
+ if(confirm("Delete this game?")){games=games.filter(g=>g.id!==id);persist();render()}
+}
+function resetForm(){editing=null;["name","emoji","url"].forEach(id=>document.getElementById(id).value="")}
+document.getElementById("year").textContent=new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
