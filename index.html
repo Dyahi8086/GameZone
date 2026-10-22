@@ -3,181 +3,191 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050711">
-<title>GAMEZONE 2050 — Enter The Universe</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#03040b">
+<title>GAMEZONE 2050 | Gaming Universe</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@400;500;700;900&display=swap');
-:root{--cyan:#74f7ff;--purple:#b18cff;--bg:#050711}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:#f4f7ff;font-family:Inter,Arial,sans-serif;overflow-x:hidden}
-#space{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.noise{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 15%,#05071188 100%); }
-header,.hero,.worlds,.bottom{position:relative;z-index:2}
-header{height:76px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;background:#05071175;backdrop-filter:blur(16px)}
-.logo{font-family:Orbitron,sans-serif;font-weight:800;letter-spacing:2px;font-size:19px}
-.logo span{color:var(--cyan)}
-.status{font:10px Orbitron,sans-serif;letter-spacing:1.5px;color:#91f9d0}
-.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#68ffbc;box-shadow:0 0 12px #68ffbc;margin-right:7px}
-.menu{color:#b5bfd8;text-decoration:none;font-size:12px;letter-spacing:1px}
-.hero{min-height:calc(100svh - 76px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:42px 20px 60px;overflow:hidden}
-.eyebrow{font:10px Orbitron,sans-serif;letter-spacing:4px;color:var(--cyan);margin-bottom:24px}
-h1{font:800 clamp(37px,8vw,90px)/1.05 Orbitron,sans-serif;letter-spacing:-3px;margin:0;text-shadow:0 0 45px #69cfff22}
-h1 span{display:block;color:transparent;background:linear-gradient(90deg,#fff 5%,#74f7ff 45%,#ba91ff 90%);background-clip:text;-webkit-background-clip:text}
-.intro{max-width:480px;color:#9ba7c3;line-height:1.8;font-size:14px;margin:22px auto 0}
-.portal-wrap{position:relative;width:min(78vw,390px);height:min(78vw,390px);margin:0 auto 8px;display:grid;place-items:center;isolation:isolate}
-.portal-wrap:before,.portal-wrap:after{content:"";position:absolute;border-radius:50%;inset:8%;border:1px solid #8cf9ff50;box-shadow:0 0 25px #46dcff17,inset 0 0 35px #46dcff12;animation:orbit 18s linear infinite}
-.portal-wrap:after{inset:1%;border-color:#ba91ff55;transform:rotateX(65deg);animation-duration:13s;animation-direction:reverse}
-.portal{position:relative;width:57%;height:57%;border-radius:50%;background:radial-gradient(circle at 35% 28%,#a9ffff,#3388c5 15%,#18204c 40%,#080b20 68%,#b98cff 72%,#121027 76%);box-shadow:0 0 35px #4be9ff60,0 0 100px #7664ff40,inset -18px -15px 35px #000b;animation:float 5s ease-in-out infinite}
-.portal:before{content:"";position:absolute;inset:-17%;border-radius:50%;border:2px solid #9dfaffb5;transform:rotateX(68deg) rotateZ(-23deg);box-shadow:0 0 20px #71f7ff65}
-.portal:after{content:"";position:absolute;inset:-27%;border-radius:50%;border:1px solid #b28dff75;transform:rotateX(70deg) rotateZ(38deg)}
-.core{position:absolute;width:13px;height:13px;border-radius:50%;background:white;box-shadow:0 0 25px 10px #6cf4ff;top:18%;left:22%}
-@keyframes orbit{to{transform:rotate(360deg)}}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-13px) rotate(5deg)}}
-.coordinates{position:absolute;bottom:9%;left:0;right:0;display:flex;justify-content:space-between;font:9px Orbitron,sans-serif;letter-spacing:1px;color:#8f9dbb}
-.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:29px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 23px;text-decoration:none;border:1px solid #74f7ff66;color:#eafcff;background:#74f7ff0b;font:11px Orbitron,sans-serif;letter-spacing:1.5px;cursor:pointer;transition:.25s}
-.btn.primary{background:var(--cyan);color:#061019;border-color:var(--cyan);font-weight:800;box-shadow:0 0 28px #74f7ff25}
-.btn:hover{transform:translateY(-3px);box-shadow:0 0 25px #74f7ff40}
-.worlds{padding:70px 6% 90px;border-top:1px solid #ffffff12;background:linear-gradient(180deg,#070b18d9,#080918f5)}
-.section-top{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:30px}
-.kicker{font:10px Orbitron,sans-serif;letter-spacing:3px;color:var(--cyan)}
-h2{font:600 clamp(23px,4vw,39px) Orbitron,sans-serif;margin:12px 0 0}
-.small{font-size:12px;color:#8491ad;line-height:1.7}
-.search{width:100%;padding:15px 16px;background:#ffffff06;border:1px solid #ffffff20;color:white;outline:none;font:13px Inter,sans-serif;margin-bottom:25px;border-radius:3px}
-.search:focus{border-color:var(--cyan)}
-.world-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.world{position:relative;display:flex;align-items:center;gap:14px;min-width:0;min-height:104px;padding:17px 14px;text-decoration:none;color:white;background:linear-gradient(135deg,#ffffff0b,#ffffff02);border:1px solid #ffffff16;overflow:hidden;transition:transform .25s,border-color .25s,background .25s}
-.world:after{content:"";position:absolute;width:100px;height:100px;right:-55px;bottom:-65px;border-radius:50%;background:var(--glow,#73eaff);filter:blur(35px);opacity:.25}
-.world:hover{transform:translateY(-4px);border-color:#82f7ff85;background:#72eaff0d}
-.orb{flex:0 0 46px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,white,var(--glow,#74f7ff) 8%,#17234b 55%,#080a18 75%);box-shadow:0 0 22px color-mix(in srgb,var(--glow,#74f7ff) 40%,transparent)}
-.world-info{min-width:0}
-.world-info b{display:block;font:11px Orbitron,sans-serif;letter-spacing:.3px;line-height:1.5}
-.world-info small{display:block;margin-top:7px;font-size:10px;color:#929fba}
-.arrow{margin-left:auto;color:var(--glow,#74f7ff);font-size:20px}
-.bottom{padding:25px 6%;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#6f7b96;font-size:10px;letter-spacing:1px;border-top:1px solid #ffffff12}
-@media(max-width:700px){header{height:64px;padding:0 5%}.logo{font-size:15px}.status{font-size:8px}.hero{min-height:calc(100svh - 64px);padding:30px 16px 48px}h1{letter-spacing:-2px}.eyebrow{letter-spacing:2px;font-size:9px}.portal-wrap{width:min(83vw,330px);height:min(83vw,330px)}.worlds{padding:55px 5% 65px}.world-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.world{min-height:100px;padding:12px 9px;gap:9px}.orb{width:36px;height:36px;flex-basis:36px}.world-info b{font-size:9px}.world-info small{font-size:9px}.arrow{font-size:15px}.section-top{align-items:start;flex-direction:column;gap:6px}}
-@media(max-width:360px){.world-list{grid-template-columns:1fr}.world{min-height:76px}.world-info b{font-size:11px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+body{margin:0;background:#03040b;color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
+#space{position:fixed;inset:0;width:100%;height:100%;z-index:0;touch-action:pan-y}
+.ui{position:relative;z-index:1}
+header{height:66px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:#050712b8;border-bottom:1px solid #86eaff33;backdrop-filter:blur(12px)}
+.logo{font-size:17px;font-weight:900;letter-spacing:2px}.logo span{color:#65efff}
+.live{font-size:9px;color:#83ffe0;letter-spacing:1px}
+.hero{min-height:calc(100svh - 66px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 18px 50px}
+.tag{font-size:10px;letter-spacing:4px;color:#7cf6ff}
+h1{font-size:clamp(37px,9vw,78px);line-height:1.04;margin:18px 0;font-weight:900;letter-spacing:-2px}
+h1 span{display:block;background:linear-gradient(90deg,#fff,#6cefff,#b38aff);color:transparent;background-clip:text}
+.desc{max-width:370px;color:#a5b1cd;font-size:13px;line-height:1.8}
+button,.btn{font-weight:bold;letter-spacing:1px;font-size:11px;border:1px solid #6deeff8c;color:#fff;background:#0b1528;padding:15px 20px;text-decoration:none;cursor:pointer}
+.btn.main{background:linear-gradient(110deg,#09c8ef,#6554ff,#d52ca8);border:0;box-shadow:0 0 25px #6554ff50}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.hint{margin-top:25px;color:#7786a8;font-size:10px;letter-spacing:2px}
+.games{padding:65px 16px 55px;background:linear-gradient(180deg,#03040b88,#070a18f5)}
+.kicker{font-size:9px;color:#71f4ff;letter-spacing:3px}
+h2{font-size:clamp(24px,6vw,38px);margin:12px 0}
+.sub{color:#8997b5;font-size:12px;line-height:1.7}
+#search{width:100%;padding:14px;margin:22px 0;background:#0b1020;border:1px solid #283451;color:white;font-size:14px;outline:none}
+#search:focus{border-color:#69efff}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{position:relative;min-width:0;overflow:hidden;border:1px solid #26304b;background:linear-gradient(145deg,#111a31,#080b17);text-decoration:none;color:white;padding:0 0 15px;transition:.2s}
+.card:active{transform:scale(.97)}
+.art{height:125px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(ellipse,var(--c,#356cff55),transparent 68%)}
+.art:before,.art:after{content:"";position:absolute;width:100px;height:45px;border:1px solid color-mix(in srgb,var(--c,#65efff) 55%,transparent);border-radius:50%;transform:rotate(-24deg)}
+.art:after{transform:rotate(24deg);width:75px;height:35px;opacity:.6}
+.emoji{font-size:43px;filter:drop-shadow(0 0 16px var(--c,#65efff));position:relative;z-index:1}
+.info{padding:0 12px}
+.info b{font-size:13px;display:block;margin:8px 0}
+.info p{font-size:10px;color:#98a5c0;line-height:1.5;min-height:30px}
+.play{display:block;margin:12px 10px 0;text-align:center;padding:10px 4px;background:linear-gradient(90deg,#5645ee,#c02c9b);font-size:10px;font-weight:bold}
+footer{text-align:center;padding:24px 10px;color:#66738e;font-size:10px;letter-spacing:1px;border-top:1px solid #26304b}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));max-width:1000px;margin:auto}.games{padding-left:5%;padding-right:5%}.art{height:160px}}
+@media(min-width:950px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 <body>
 <canvas id="space"></canvas>
-<div class="noise"></div>
-
+<div class="ui">
 <header>
   <div class="logo">GAME<span>ZONE</span></div>
-  <div class="status"><i></i> UNIVERSE ONLINE</div>
-  <a class="menu" href="#worlds">EXPLORE ↗</a>
+  <div class="live">● UNIVERSE ONLINE</div>
+  <a href="#games" style="color:#b7c9ec;text-decoration:none;font-size:11px">GAMES ↗</a>
 </header>
 
 <main>
 <section class="hero">
-  <div class="eyebrow">THE NEXT ERA OF PLAY</div>
-  <div class="portal-wrap" aria-label="Animated planet portal">
-    <div class="portal"><div class="core"></div></div>
-    <div class="coordinates"><span>SECTOR 2050</span><span>COORD: GX-09</span></div>
-  </div>
-  <h1>REALITY IS <span>OPTIONAL.</span></h1>
-  <p class="intro">Leave the ordinary behind. Enter a universe of games, discover new worlds and play your own way.</p>
+  <div class="tag">WELCOME TO THE NEXT DIMENSION</div>
+  <h1>PLAY BEYOND<span>REALITY.</span></h1>
+  <p class="desc">A universe of games awaits. Explore distant worlds, discover your next obsession and jump into the action.</p>
   <div class="actions">
-    <a class="btn primary" href="#worlds">ENTER THE UNIVERSE ↗</a>
-    <a class="btn" href="#worlds">EXPLORE WORLDS</a>
+    <a class="btn main" href="#games">ENTER THE UNIVERSE ↗</a>
+    <a class="btn" href="#games">EXPLORE GAMES</a>
   </div>
+  <div class="hint">✦ TOUCH TO EXPLORE • SCROLL TO DISCOVER ✦</div>
 </section>
 
-<section class="worlds" id="worlds">
-  <div class="section-top">
-    <div><div class="kicker">YOUR NEXT DESTINATION</div><h2>Choose a world.</h2></div>
-    <div class="small">12 gateways discovered.<br>Choose your next mission.</div>
+<section class="games" id="games">
+  <div class="kicker">THE GAME COLLECTION</div>
+  <h2>Choose your universe.</h2>
+  <p class="sub">Find a world. Open its gateway. Start playing.</p>
+  <input id="search" type="search" placeholder="⌕ Search your next game..." aria-label="Search games">
+  <div class="grid" id="grid">
+    <a class="card" href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener" style="--c:#00e9b8"><div class="art"><span class="emoji">🐍</span></div><div class="info"><b>Google Snake</b><p>Eat, grow and beat your best score.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://play2048.co/" target="_blank" rel="noopener" style="--c:#ffb347"><div class="art"><span class="emoji">🔢</span></div><div class="info"><b>2048</b><p>Merge tiles and reach the magic number.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://hextris.io/" target="_blank" rel="noopener" style="--c:#9b4dff"><div class="art"><span class="emoji">⬡</span></div><div class="info"><b>Hextris</b><p>Rotate, match and survive the falling blocks.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener" style="--c:#338cff"><div class="art"><span class="emoji">🎨</span></div><div class="info"><b>Quick, Draw!</b><p>Draw something and see if AI can guess it.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://chromedino.com/" target="_blank" rel="noopener" style="--c:#ff9b37"><div class="art"><span class="emoji">🦖</span></div><div class="info"><b>Chrome Dino</b><p>Jump over obstacles and beat your score.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://littlealchemy2.com/" target="_blank" rel="noopener" style="--c:#22e5ff"><div class="art"><span class="emoji">🧪</span></div><div class="info"><b>Little Alchemy 2</b><p>Combine elements to discover new creations.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://minesweeper.online/" target="_blank" rel="noopener" style="--c:#508dff"><div class="art"><span class="emoji">💣</span></div><div class="info"><b>Minesweeper</b><p>Use logic to uncover the safe squares.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://solitaired.com/" target="_blank" rel="noopener" style="--c:#1effa5"><div class="art"><span class="emoji">🃏</span></div><div class="info"><b>Solitaire</b><p>A classic card game for a relaxing break.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://www.basketballstars.com/" target="_blank" rel="noopener" style="--c:#ff7b42"><div class="art"><span class="emoji">🏀</span></div><div class="info"><b>Basketball Stars</b><p>Take your shot and beat your opponent.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://tetris.com/play-tetris" target="_blank" rel="noopener" style="--c:#bb5cff"><div class="art"><span class="emoji">🧱</span></div><div class="info"><b>Tetris</b><p>Stack falling blocks and clear the lines.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://www.cuttherope.net/" target="_blank" rel="noopener" style="--c:#46ff91"><div class="art"><span class="emoji">🍬</span></div><div class="info"><b>Cut the Rope</b><p>Cut the ropes to feed the hungry friend.</p></div><span class="play">PLAY NOW ↗</span></a>
+    <a class="card" href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener" style="--c:#ffdf45"><div class="art"><span class="emoji">🟡</span></div><div class="info"><b>Pac-Man</b><p>Explore the maze and collect dots.</p></div><span class="play">PLAY NOW ↗</span></a>
   </div>
-  <input class="search" id="search" type="search" placeholder="⌕  Search a game or world..." aria-label="Search games">
-  <div class="world-list" id="gameList">
-    <a class="world" style="--glow:#75f7ff" href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>NEON SNAKE</b><small>REFLEX / ARCADE</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#b9ff77" href="https://play2048.co/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>QUANTUM 2048</b><small>PUZZLE / LOGIC</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#ff77db" href="https://hextris.io/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>HEXTRIS</b><small>SPATIAL / ARCADE</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#ffcf70" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>QUICK DRAW</b><small>AI / CREATIVE</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#a5b6ff" href="https://chromedino.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>DINO RUN</b><small>RUNNER / SURVIVAL</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#b9a0ff" href="https://littlealchemy2.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>ALCHEMY LAB</b><small>CRAFT / DISCOVERY</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#73ffbf" href="https://minesweeper.online/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>MINESWEEPER</b><small>STRATEGY / LOGIC</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#ff9c75" href="https://solitaired.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>SOLO GALAXY</b><small>CARDS / CLASSIC</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#ff747e" href="https://www.basketballstars.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>COURT ZERO</b><small>SPORTS / ACTION</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#75f7ff" href="https://tetris.com/play-tetris" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>TETRIS CORE</b><small>PUZZLE / CLASSIC</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#9cff72" href="https://www.cuttheomrop.net/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>CUT THE ROPE</b><small>PHYSICS / PUZZLE</small></span><span class="arrow">↗</span></a>
-    <a class="world" style="--glow:#ffdc76" href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>PAC-MAN</b><small>RETRO / ARCADE</small></span><span class="arrow">↗</span></a>
-  </div>
-  <p class="small" id="noResults" hidden>No matching worlds found. Try another search.</p>
+  <p id="empty" hidden class="sub">No games found. Try another search.</p>
 </section>
 </main>
-
-<footer class="bottom"><span>GAMEZONE 2050 ©</span><span>BUILT FOR THE NEXT GENERATION</span><span>EXPLORE • PLAY • REPEAT</span></footer>
+<footer>GAMEZONE 2050 · EXPLORE · PLAY · REPEAT</footer>
+</div>
 
 <script>
-const search = document.getElementById('search');
-const games = [...document.querySelectorAll('.world')];
-search.addEventListener('input', () => {
-  const q = search.value.trim().toLowerCase();
-  let shown = 0;
-  games.forEach(game => {
-    const match = game.innerText.toLowerCase().includes(q);
-    game.hidden = !match;
-    if(match) shown++;
-  });
-  document.getElementById('noResults').hidden = shown !== 0;
+document.getElementById('search').addEventListener('input',function(){
+ const q=this.value.toLowerCase().trim();let count=0;
+ document.querySelectorAll('.card').forEach(c=>{
+  const ok=c.innerText.toLowerCase().includes(q);
+  c.style.display=ok?'block':'none';if(ok)count++;
+ });
+ document.getElementById('empty').hidden=count>0;
 });
+</script>
 
-(() => {
-  const canvas = document.getElementById('space');
-  const ctx = canvas.getContext('2d');
-  if(!ctx) return;
-  let w=0,h=0,stars=[],raf=0;
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function resize(){
-    const dpr=Math.min(window.devicePixelRatio||1,1.5);
-    w=innerWidth;h=innerHeight;
-    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
-    canvas.style.width=w+'px';canvas.style.height=h+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    const count=Math.min(180,Math.floor(w*h/6500));
-    stars=Array.from({length:count},()=>({
-      x:Math.random()*w,y:Math.random()*h,
-      r:Math.random()*1.3+.2,a:Math.random()*.65+.15,
-      speed:Math.random()*.22+.04,phase:Math.random()*6
-    }));
-  }
-  let last=0;
-  function draw(t){
-    if(document.hidden){raf=0;return}
-    if(t-last<32&&!reduce){raf=requestAnimationFrame(draw);return}
-    last=t;
-    ctx.clearRect(0,0,w,h);
-    for(const s of stars){
-      const pulse=reduce?1:(.65+.35*Math.sin(t*.001+s.phase));
-      ctx.beginPath();
-      ctx.fillStyle=`rgba(165,220,255,${s.a*pulse})`;
-      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fill();
-      if(!reduce){
-        s.y+=s.speed;
-        if(s.y>h){s.y=0;s.x=Math.random()*w}
-      }
-    }
-    if(!reduce){
-      const g=ctx.createRadialGradient(w*.5,h*.48,0,w*.5,h*.48,Math.min(w,h)*.48);
-      g.addColorStop(0,'rgba(57,95,180,.055)');
-      g.addColorStop(1,'rgba(5,7,17,0)');
-      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
-      raf=requestAnimationFrame(draw);
-    }
-  }
-  resize();
-  if(reduce) draw(0); else raf=requestAnimationFrame(draw);
-  addEventListener('resize',resize,{passive:true});
-  document.addEventListener('visibilitychange',()=>{
-    if(!document.hidden&&!reduce&&!raf)raf=requestAnimationFrame(draw);
-  });
-})();
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const canvas=document.getElementById('space');
+let renderer,scene,camera,planet,ringGroup,stars,raf;
+try{
+ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false,powerPreference:'low-power'});
+ renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+ renderer.setSize(innerWidth,innerHeight);
+ renderer.setClearColor(0x03040b,0);
+ scene=new THREE.Scene();
+ camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.1,100);
+ camera.position.set(0,0,8);
+
+ scene.add(new THREE.AmbientLight(0x8099ff,1.7));
+ const light=new THREE.PointLight(0x62eaff,25,30);
+ light.position.set(3,4,6);scene.add(light);
+ const purple=new THREE.PointLight(0x8844ff,18,25);
+ purple.position.set(-4,-2,3);scene.add(purple);
+
+ planet=new THREE.Mesh(
+  new THREE.IcosahedronGeometry(1.45,3),
+  new THREE.MeshStandardMaterial({color:0x172b65,roughness:.55,metalness:.35,emissive:0x101b50,emissiveIntensity:.5,flatShading:true})
+ );
+ planet.position.set(0,.2,0);scene.add(planet);
+
+ const atmosphere=new THREE.Mesh(
+  new THREE.SphereGeometry(1.57,32,24),
+  new THREE.MeshBasicMaterial({color:0x41eaff,transparent:true,opacity:.075,side:THREE.BackSide})
+ );
+ atmosphere.position.copy(planet.position);scene.add(atmosphere);
+
+ ringGroup=new THREE.Group();scene.add(ringGroup);
+ for(let i=0;i<3;i++){
+  const ring=new THREE.Mesh(
+   new THREE.TorusGeometry(2.05+i*.25,.009,6,120),
+   new THREE.MeshBasicMaterial({color:[0x5ef5ff,0x9167ff,0x7aafff][i],transparent:true,opacity:.7-i*.12})
+  );
+  ring.rotation.x=1.05+i*.18;ring.rotation.y=i*.55;
+  ringGroup.add(ring);
+ }
+
+ const starGeo=new THREE.BufferGeometry();
+ const positions=new Float32Array(1200*3);
+ for(let i=0;i<positions.length;i++)positions[i]=(Math.random()-.5)*32;
+ starGeo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+ stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0x9acaff,size:.035,transparent:true,opacity:.8}));
+ scene.add(stars);
+
+ const clock=new THREE.Clock();
+ let tx=0,ty=0;
+ function pointer(e){
+  tx=(e.clientX/innerWidth-.5)*.65;
+  ty=(e.clientY/innerHeight-.5)*.35;
+ }
+ addEventListener('pointermove',pointer,{passive:true});
+ addEventListener('touchmove',e=>{
+  if(e.touches.length){tx=(e.touches[0].clientX/innerWidth-.5)*.5;ty=(e.touches[0].clientY/innerHeight-.5)*.3}
+ },{passive:true});
+ function animate(){
+  raf=requestAnimationFrame(animate);
+  const t=clock.getElapsedTime();
+  planet.rotation.y=t*.11;planet.rotation.x=Math.sin(t*.16)*.08;
+  ringGroup.rotation.z=t*.07;
+  stars.rotation.y=t*.006;
+  camera.position.x+=(tx-camera.position.x)*.025;
+  camera.position.y+=(-ty-camera.position.y)*.025;
+  camera.lookAt(0,0,0);
+  renderer.render(scene,camera);
+ }
+ animate();
+ addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+ });
+ document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){cancelAnimationFrame(raf)}
+  else if(!raf)animate();
+ });
+}catch(e){
+ console.warn('3D scene unavailable; game links remain usable.',e);
+}
 </script>
 </body>
 </html>
