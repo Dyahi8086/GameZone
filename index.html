@@ -1,389 +1,421 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameZone - Play. Connect. Win.</title>
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameZone - Play Free Online Games</title>
+<meta name="description" content="Play free online games on GameZone. Discover fun arcade, puzzle, racing and action games.">
+<meta name="theme-color" content="#070b18">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background-color: #0b0d17;
-      color: #ffffff;
-      font-family: 'Rajdhani', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    h1, h2, h3, .logo {
-      font-family: 'Orbitron', sans-serif;
-    }
-    #three-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.6;
-    }
-    .view-container {
-      display: none;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .active-view {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    /* Auth Gateway Styling */
-    .auth-card {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      border-radius: 20px;
-      padding: 40px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
-      text-align: center;
-    }
-    .auth-card h1 {
-      font-size: 2rem;
-      color: #00f0ff;
-      margin-bottom: 10px;
-    }
-    .auth-card p {
-      color: #94a3b8;
-      margin-bottom: 25px;
-      font-size: 0.95rem;
-    }
-    .input-group {
-      margin-bottom: 15px;
-      text-align: left;
-    }
-    .input-group label {
-      display: block;
-      font-size: 0.85rem;
-      color: #cbd5e1;
-      margin-bottom: 5px;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 12px 15px;
-      background: rgba(2, 6, 23, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 1rem;
-      outline: none;
-      transition: 0.3s;
-    }
-    .input-group input:focus {
-      border-color: #00f0ff;
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-    }
-    .btn-cyber {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #00f0ff 0%, #7000ff 100%);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-top: 10px;
-    }
-    .btn-cyber:hover {
-      opacity: 0.9;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
-      transform: translateY(-2px);
-    }
-    .btn-guest {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      margin-top: 10px;
-    }
-    .btn-guest:hover {
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    }
-    .auth-toggle {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #94a3b8;
-    }
-    .auth-toggle span {
-      color: #00f0ff;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    /* Dashboard Styling */
-    .dashboard-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(12px);
-      padding: 15px 25px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: 30px;
-    }
-    .logout-btn {
-      background: #ef4444;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      color: white;
-      font-family: 'Orbitron', sans-serif;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .logout-btn:hover {
-      background: #dc2626;
-      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-    }
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .game-card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-      transition: 0.3s;
-    }
-    .game-card:hover {
-      transform: translateY(-5px);
-      border-color: #00f0ff;
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-    }
-    .game-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-    }
-    .game-card a {
-      color: #00f0ff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-  </style>
+<style>
+:root {
+  --bg: #070b18;
+  --card: #111a30;
+  --line: #243653;
+  --blue: #08c8ff;
+  --purple: #7957ff;
+  --text: #f5f7ff;
+  --muted: #a8b6d0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+button, input { font: inherit; }
+a { color: inherit; }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(7,11,24,.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(15px);
+}
+.nav {
+  max-width: 1200px;
+  margin: auto;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.logo span { color: var(--blue); }
+.nav a.games-link {
+  color: var(--muted);
+  text-decoration: none;
+}
+.hero {
+  max-width: 1200px;
+  margin: 25px auto;
+  padding: 45px 28px;
+  width: calc(100% - 32px);
+  min-height: 300px;
+  border: 1px solid #244b76;
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 85% 20%, #173e72 0, transparent 35%),
+    radial-gradient(ellipse at 75% 100%, #422078 0, transparent 45%),
+    linear-gradient(120deg, #101b39, #080e1e 70%);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+.hero::after {
+  content: "🎮";
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%) rotate(-12deg);
+  font-size: clamp(100px, 22vw, 220px);
+  filter: drop-shadow(0 0 35px #00bfff88);
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { margin-top: 0; }
+  50% { margin-top: -15px; }
+}
+.hero-content { position: relative; z-index: 1; max-width: 650px; }
+.eyebrow {
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(38px, 7vw, 68px);
+  line-height: 1.04;
+  margin: 15px 0;
+}
+h1 span {
+  color: var(--blue);
+  text-shadow: 0 0 25px #00c8ff55;
+}
+.hero p { color: var(--muted); line-height: 1.7; }
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: 11px;
+  padding: 13px 20px;
+  background: linear-gradient(100deg, #087dff, #7957ff);
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 0 20px #5555ff33;
+}
+section {
+  max-width: 1200px;
+  margin: 38px auto;
+  padding: 0 20px;
+}
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+h2 { margin: 0; font-size: 25px; }
+.sub { color: var(--muted); margin: 8px 0 0; font-size: 14px; }
+.search {
+  width: min(100%, 300px);
+  border: 1px solid var(--line);
+  background: #10182b;
+  color: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  outline: none;
+}
+.search:focus { border-color: var(--blue); }
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 20px;
+}
+.filter {
+  padding: 9px 15px;
+  border: 1px solid var(--line);
+  background: #10182b;
+  color: var(--muted);
+  border-radius: 30px;
+  cursor: pointer;
+}
+.filter.active, .filter:hover {
+  color: white;
+  border-color: var(--blue);
+  background: #123052;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.game {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform .2s, border-color .2s;
+}
+.game:hover {
+  transform: translateY(-4px);
+  border-color: var(--blue);
+}
+.game-art {
+  height: 115px;
+  display: grid;
+  place-items: center;
+  font-size: 53px;
+  background:
+    radial-gradient(circle at 50% 20%, #294a7c, transparent 65%),
+    linear-gradient(135deg, #14223e, #17102d);
+}
+.game-info { padding: 14px; }
+.game h3 { font-size: 16px; margin: 0 0 8px; }
+.game p { color: var(--muted); font-size: 12px; margin: 0 0 14px; }
+.play {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 9px;
+  color: #071323;
+  font-size: 14px;
+  font-weight: bold;
+  background: linear-gradient(100deg, var(--blue), #7cf6ff);
+}
+.play:hover { filter: brightness(1.12); }
+.empty {
+  display: none;
+  color: var(--muted);
+  text-align: center;
+  padding: 30px;
+}
+footer {
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--muted);
+  padding: 25px 15px;
+  margin-top: 50px;
+  font-size: 13px;
+}
+@media (max-width: 850px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hero::after { right: -20px; opacity: .35; }
+}
+@media (max-width: 560px) {
+  .nav { padding: 13px 16px; }
+  .logo { font-size: 21px; }
+  .hero { padding: 30px 20px; min-height: 270px; }
+  .hero::after { right: -20px; top: 65%; opacity: .22; }
+  .hero-content { max-width: 100%; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .game-art { height: 95px; font-size: 42px; }
+  .game-info { padding: 11px; }
+  .game h3 { font-size: 14px; }
+  section { padding: 0 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+</style>
 </head>
+
 <body>
+<header>
+  <nav class="nav">
+    <a class="logo" href="#">🎮 Game<span>Zone</span></a>
+    <a class="games-link" href="#games">🕹️ All Games ↓</a>
+  </nav>
+</header>
 
-  <!-- Three.js Background Canvas -->
-  <canvas id="three-canvas"></canvas>
-
-  <!-- VIEW 1: AUTH GATEWAY (Login / Signup / Guest) -->
-  <div id="auth-view" class="view-container active-view">
-    <div class="auth-card">
-      <h1 id="auth-title">GAMEZONE</h1>
-      <p id="auth-subtitle">Play. Connect. Win.</p>
-
-      <!-- Form -->
-      <form id="auth-form" onsubmit="handleAuthSubmit(event)">
-        <div class="input-group">
-          <label>Email Address</label>
-          <input type="email" id="email" required placeholder="Enter your email">
-        </div>
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" id="password" required placeholder="Enter your password">
-        </div>
-        <button type="submit" id="auth-submit-btn" class="btn-cyber">Login</button>
-      </form>
-
-      <!-- Guest Option -->
-      <button onclick="continueAsGuest()" class="btn-cyber btn-guest">Play as Guest</button>
-
-      <!-- Toggle Login/Signup -->
-      <div class="auth-toggle" id="auth-toggle-text">
-        Don't have an account? <span onclick="toggleAuthMode()">Create Account</span>
-      </div>
+<main>
+  <div class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Your Gaming Universe</div>
+      <h1>Play More.<br><span>Have Fun.</span></h1>
+      <p>Apne favourite online games khelo. Koi account nahi, koi signup nahi — bas game chuno aur khelna shuru karo!</p>
+      <a class="btn" href="#games">🎮 Play Games Now →</a>
     </div>
   </div>
 
-  <!-- VIEW 2: GAMEZONE DASHBOARD -->
-  <div id="dashboard-view" class="view-container">
-    <div class="dashboard-container">
-      <div class="dashboard-header">
-        <h2 class="logo">🎮 GameZone</h2>
-        <div style="display: flex; align-items: center; gap: 15px;">
-          <span id="user-display" style="color: #00f0ff; font-size: 0.95rem;"></span>
-          <button onclick="handleLogout()" class="logout-btn">Logout</button>
-        </div>
+  <section id="games">
+    <div class="section-head">
+      <div>
+        <h2>🔥 Popular Games</h2>
+        <p class="sub">Choose your game and start playing.</p>
       </div>
-
-      <h2 style="margin-bottom: 20px; font-size: 1.4rem;">🔥 Popular Games</h2>
-      <div class="games-grid">
-        <div class="game-card"><h3>Google Snake</h3><a href="#">Play Now ↗</a></div>
-        <div class="game-card"><h3>2048</h3><a href="#">Play Now ↗</a></div>
-        <div class="game-card"><h3>Aectris</h3><a href="#">Play Now ↗</a></div>
-        <div class="game-card"><h3>Quick Draw</h3><a href="#">Play Now ↗</a></div>
-        <div class="game-card"><h3>Chrome Dino</h3><a href="#">Play Now ↗</a></div>
-        <div class="game-card"><h3>Little Alchemy 2</h3><a href="#">Play Now ↗</a></div>
-        <div class="game-card"><h3>Minesweeper</h3><a href="#">Play Now ↗</a></div>
-        <div class="game-card"><h3>Solitaire</h3><a href="#">Play Now ↗</a></div>
-      </div>
+      <input class="search" id="search" type="search"
+        placeholder="🔍 Search games..." aria-label="Search games">
     </div>
-  </div>
 
-  <script>
-    // --- SUPABASE CONFIGURATION ---
-    // Yahan apni real Supabase URL aur Publishable/Anon Key daalein
-    const SUPABASE_URL = 'https://yfcdscjvebwvkvjvnaxi.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_AGSqsuA7Z9EYIPlGD-sHtQ_v5Ls6iXY';
-    
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <div class="filters" id="filters">
+      <button class="filter active" data-cat="All">All Games</button>
+      <button class="filter" data-cat="Arcade">Arcade</button>
+      <button class="filter" data-cat="Puzzle">Puzzle</button>
+      <button class="filter" data-cat="Casual">Casual</button>
+      <button class="filter" data-cat="Action">Action</button>
+    </div>
 
-    let isSignUpMode = false;
+    <div class="grid" id="gameGrid">
 
-    // --- CHECK SESSION ON LOAD ---
-    window.addEventListener('DOMContentLoaded', async () => {
-      const isGuest = localStorage.getItem('isGuest');
-      if (isGuest === 'true') {
-        showDashboard('Guest Player');
-        return;
-      }
+      <article class="game" data-name="google snake snake" data-cat="Arcade">
+        <div class="game-art">🐍</div>
+        <div class="game-info">
+          <h3>Google Snake</h3><p>Arcade · Classic</p>
+          <a class="play" href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        showDashboard(session.user.email);
-      } else {
-        showAuthView();
-      }
-    });
+      <article class="game" data-name="2048 number puzzle" data-cat="Puzzle">
+        <div class="game-art">🔢</div>
+        <div class="game-info">
+          <h3>2048</h3><p>Puzzle · Numbers</p>
+          <a class="play" href="https://play2048.co/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    // --- VIEW SWITCHERS ---
-    function showAuthView() {
-      document.getElementById('auth-view').classList.add('active-view');
-      document.getElementById('dashboard-view').classList.remove('active-view');
-    }
+      <article class="game" data-name="hextris hex puzzle" data-cat="Puzzle">
+        <div class="game-art">🔷</div>
+        <div class="game-info">
+          <h3>Hextris</h3><p>Puzzle · Reflex</p>
+          <a class="play" href="https://hextris.io/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    function showDashboard(identifier) {
-      document.getElementById('user-display').innerText = identifier;
-      document.getElementById('auth-view').classList.remove('active-view');
-      document.getElementById('dashboard-view').classList.add('active-view');
-    }
+      <article class="game" data-name="quick draw drawing" data-cat="Casual">
+        <div class="game-art">🎨</div>
+        <div class="game-info">
+          <h3>Quick Draw</h3><p>Casual · Drawing</p>
+          <a class="play" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    // --- TOGGLE LOGIN / SIGNUP FORM ---
-    function toggleAuthMode() {
-      isSignUpMode = !isSignUpMode;
-      const title = document.getElementById('auth-title');
-      const subtitle = document.getElementById('auth-subtitle');
-      const btn = document.getElementById('auth-submit-btn');
-      const toggleText = document.getElementById('auth-toggle-text');
+      <article class="game" data-name="chrome dino dinosaur" data-cat="Arcade">
+        <div class="game-art">🦖</div>
+        <div class="game-info">
+          <h3>Chrome Dino</h3><p>Arcade · Runner</p>
+          <a class="play" href="https://chromedino.com/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-      if (isSignUpMode) {
-        title.innerText = "SIGN UP";
-        subtitle.innerText = "Create your GameZone account";
-        btn.innerText = "Create Account";
-        toggleText.innerHTML = 'Already have an account? <span onclick="toggleAuthMode()">Login</span>';
-      } else {
-        title.innerText = "GAMEZONE";
-        subtitle.innerText = "Play. Connect. Win.";
-        btn.innerText = "Login";
-        toggleText.innerHTML = "Don't have an account? <span onclick=\"toggleAuthMode()\">Create Account</span>";
-      }
-    }
+      <article class="game" data-name="little alchemy 2" data-cat="Puzzle">
+        <div class="game-art">🧪</div>
+        <div class="game-info">
+          <h3>Little Alchemy 2</h3><p>Puzzle · Discovery</p>
+          <a class="play" href="https://littlealchemy2.com/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    // --- AUTH SUBMIT (Login / Sign Up) ---
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      <article class="game" data-name="minesweeper mine" data-cat="Puzzle">
+        <div class="game-art">💣</div>
+        <div class="game-info">
+          <h3>Minesweeper</h3><p>Puzzle · Strategy</p>
+          <a class="play" href="https://minesweeper.online/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-      if (isSignUpMode) {
-        const { data, error } = await supabase.auth.signUp({ email, password });
-        if (error) {
-          alert(error.message);
-        } else {
-          alert('Account created successfully! Please login now.');
-          toggleAuthMode();
-        }
-      } else {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-          alert(error.message);
-        } else {
-          localStorage.removeItem('isGuest');
-          showDashboard(data.user.email);
-        }
-      }
-    }
+      <article class="game" data-name="solitaire cards" data-cat="Casual">
+        <div class="game-art">🃏</div>
+        <div class="game-info">
+          <h3>Solitaire</h3><p>Casual · Cards</p>
+          <a class="play" href="https://solitaired.com/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    // --- GUEST MODE ---
-    function continueAsGuest() {
-      localStorage.setItem('isGuest', 'true');
-      showDashboard('Guest Player');
-    }
+      <article class="game" data-name="basketball stars basketball" data-cat="Action">
+        <div class="game-art">🏀</div>
+        <div class="game-info">
+          <h3>Basketball Stars</h3><p>Action · Sports</p>
+          <a class="play" href="https://www.basketballstars.com/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    // --- FIXED LOGOUT FUNCTION ---
-    async function handleLogout() {
-      await supabase.auth.signOut();
-      localStorage.removeItem('isGuest');
-      document.getElementById('auth-form').reset();
-      showAuthView();
-    }
+      <article class="game" data-name="tetris blocks" data-cat="Puzzle">
+        <div class="game-art">🧱</div>
+        <div class="game-info">
+          <h3>Tetris</h3><p>Puzzle · Blocks</p>
+          <a class="play" href="https://tetris.com/play-tetris" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    // --- THREE.JS BACKGROUND ANIMATION ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true, antialias: true });
-    
-    renderer.setSize(window.innerWidth, window.innerHeight);
+      <article class="game" data-name="cut the rope candy" data-cat="Puzzle">
+        <div class="game-art">🍬</div>
+        <div class="game-info">
+          <h3>Cut the Rope</h3><p>Puzzle · Physics</p>
+          <a class="play" href="https://www.cuttherope.net/" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    const geometry = new THREE.TorusKnotGeometry(3, 0.8, 100, 16);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true });
-    const torusKnot = new THREE.Mesh(geometry, material);
-    scene.add(torusKnot);
+      <article class="game" data-name="pac-man pacman" data-cat="Arcade">
+        <div class="game-art">👾</div>
+        <div class="game-info">
+          <h3>Pac-Man</h3><p>Arcade · Classic</p>
+          <a class="play" href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener noreferrer">Play Now ↗</a>
+        </div>
+      </article>
 
-    camera.position.z = 8;
+    </div>
+    <div class="empty" id="empty">Bhai, koi game nahi mila. Dusra naam search karo.</div>
+  </section>
+</main>
 
-    function animate() {
-      requestAnimationFrame(animate);
-      torusKnot.rotation.x += 0.005;
-      torusKnot.rotation.y += 0.008;
-      renderer.render(scene, camera);
-    }
-    animate();
+<footer>
+  🎮 GameZone · Free Online Games<br>
+  <span style="display:inline-block;margin-top:8px">Play responsibly. Games open on their respective websites.</span>
+</footer>
 
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
+<script>
+const search = document.getElementById("search");
+const cards = [...document.querySelectorAll(".game")];
+const filters = [...document.querySelectorAll(".filter")];
+const empty = document.getElementById("empty");
+let category = "All";
+
+function filterGames() {
+  const query = search.value.toLowerCase().trim();
+  let visible = 0;
+
+  cards.forEach(card => {
+    const matchesName = card.dataset.name.includes(query);
+    const matchesCategory = category === "All" || card.dataset.cat === category;
+    const show = matchesName && matchesCategory;
+    card.style.display = show ? "" : "none";
+    if (show) visible++;
+  });
+
+  empty.style.display = visible ? "none" : "block";
+}
+
+search.addEventListener("input", filterGames);
+
+filters.forEach(button => {
+  button.addEventListener("click", () => {
+    category = button.dataset.cat;
+    filters.forEach(item => item.classList.toggle("active", item === button));
+    filterGames();
+  });
+});
+</script>
 </body>
 </html>
