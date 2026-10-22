@@ -3,244 +3,181 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#03040b">
-<title>GameZone Nova | Enter Another Dimension</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050711">
+<title>GAMEZONE 2050 — Enter The Universe</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@400;500;700;900&display=swap');
+:root{--cyan:#74f7ff;--purple:#b18cff;--bg:#050711}
 *{box-sizing:border-box}
-:root{--bg:#03040b;--cyan:#65f5ff;--pink:#ff398d;--text:#f7f8ff;--muted:#a6b1c9}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 75% 20%,#142c65 0,transparent 42%),radial-gradient(ellipse at 15% 45%,#32103c 0,transparent 42%),#03040b}
-a{color:inherit;text-decoration:none}
-button,input{font:inherit}
-.wrap{width:min(1280px,94%);margin:auto}
-header{height:72px;position:sticky;top:0;z-index:20;background:#050711e8;backdrop-filter:blur(20px);border-bottom:1px solid #ffffff13}
-.nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:15px}
-.logo{font-size:22px;font-weight:1000;letter-spacing:-1px}
-.logo span{color:var(--cyan);text-shadow:0 0 18px #00dfff88}
-nav{display:flex;gap:22px;color:#c4cde0;font-size:13px}
-nav a:hover{color:var(--cyan)}
-.search{width:190px;padding:11px 14px;border:1px solid #293852;border-radius:24px;background:#0a1020;color:white;outline:none}
+body{margin:0;background:var(--bg);color:#f4f7ff;font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+#space{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.noise{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 15%,#05071188 100%); }
+header,.hero,.worlds,.bottom{position:relative;z-index:2}
+header{height:76px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12;background:#05071175;backdrop-filter:blur(16px)}
+.logo{font-family:Orbitron,sans-serif;font-weight:800;letter-spacing:2px;font-size:19px}
+.logo span{color:var(--cyan)}
+.status{font:10px Orbitron,sans-serif;letter-spacing:1.5px;color:#91f9d0}
+.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#68ffbc;box-shadow:0 0 12px #68ffbc;margin-right:7px}
+.menu{color:#b5bfd8;text-decoration:none;font-size:12px;letter-spacing:1px}
+.hero{min-height:calc(100svh - 76px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:42px 20px 60px;overflow:hidden}
+.eyebrow{font:10px Orbitron,sans-serif;letter-spacing:4px;color:var(--cyan);margin-bottom:24px}
+h1{font:800 clamp(37px,8vw,90px)/1.05 Orbitron,sans-serif;letter-spacing:-3px;margin:0;text-shadow:0 0 45px #69cfff22}
+h1 span{display:block;color:transparent;background:linear-gradient(90deg,#fff 5%,#74f7ff 45%,#ba91ff 90%);background-clip:text;-webkit-background-clip:text}
+.intro{max-width:480px;color:#9ba7c3;line-height:1.8;font-size:14px;margin:22px auto 0}
+.portal-wrap{position:relative;width:min(78vw,390px);height:min(78vw,390px);margin:0 auto 8px;display:grid;place-items:center;isolation:isolate}
+.portal-wrap:before,.portal-wrap:after{content:"";position:absolute;border-radius:50%;inset:8%;border:1px solid #8cf9ff50;box-shadow:0 0 25px #46dcff17,inset 0 0 35px #46dcff12;animation:orbit 18s linear infinite}
+.portal-wrap:after{inset:1%;border-color:#ba91ff55;transform:rotateX(65deg);animation-duration:13s;animation-direction:reverse}
+.portal{position:relative;width:57%;height:57%;border-radius:50%;background:radial-gradient(circle at 35% 28%,#a9ffff,#3388c5 15%,#18204c 40%,#080b20 68%,#b98cff 72%,#121027 76%);box-shadow:0 0 35px #4be9ff60,0 0 100px #7664ff40,inset -18px -15px 35px #000b;animation:float 5s ease-in-out infinite}
+.portal:before{content:"";position:absolute;inset:-17%;border-radius:50%;border:2px solid #9dfaffb5;transform:rotateX(68deg) rotateZ(-23deg);box-shadow:0 0 20px #71f7ff65}
+.portal:after{content:"";position:absolute;inset:-27%;border-radius:50%;border:1px solid #b28dff75;transform:rotateX(70deg) rotateZ(38deg)}
+.core{position:absolute;width:13px;height:13px;border-radius:50%;background:white;box-shadow:0 0 25px 10px #6cf4ff;top:18%;left:22%}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-13px) rotate(5deg)}}
+.coordinates{position:absolute;bottom:9%;left:0;right:0;display:flex;justify-content:space-between;font:9px Orbitron,sans-serif;letter-spacing:1px;color:#8f9dbb}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:29px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 23px;text-decoration:none;border:1px solid #74f7ff66;color:#eafcff;background:#74f7ff0b;font:11px Orbitron,sans-serif;letter-spacing:1.5px;cursor:pointer;transition:.25s}
+.btn.primary{background:var(--cyan);color:#061019;border-color:var(--cyan);font-weight:800;box-shadow:0 0 28px #74f7ff25}
+.btn:hover{transform:translateY(-3px);box-shadow:0 0 25px #74f7ff40}
+.worlds{padding:70px 6% 90px;border-top:1px solid #ffffff12;background:linear-gradient(180deg,#070b18d9,#080918f5)}
+.section-top{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:30px}
+.kicker{font:10px Orbitron,sans-serif;letter-spacing:3px;color:var(--cyan)}
+h2{font:600 clamp(23px,4vw,39px) Orbitron,sans-serif;margin:12px 0 0}
+.small{font-size:12px;color:#8491ad;line-height:1.7}
+.search{width:100%;padding:15px 16px;background:#ffffff06;border:1px solid #ffffff20;color:white;outline:none;font:13px Inter,sans-serif;margin-bottom:25px;border-radius:3px}
 .search:focus{border-color:var(--cyan)}
-.hero{min-height:580px;display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;gap:0;position:relative}
-.hero-copy{z-index:2;padding:45px 0}
-.eyebrow{display:inline-block;border:1px solid #65f5ff55;border-radius:30px;padding:9px 13px;color:var(--cyan);font-size:10px;letter-spacing:2px;font-weight:bold;background:#061323}
-h1{font-size:clamp(47px,7vw,91px);line-height:.88;letter-spacing:-5px;margin:25px 0}
-h1 span{display:block;background:linear-gradient(110deg,#fff 5%,#65f5ff 35%,#b9a0ff 60%,#ff398d 90%);color:transparent;background-clip:text;-webkit-background-clip:text}
-.hero-copy p{max-width:470px;color:var(--muted);font-size:15px;line-height:1.8}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 19px;border-radius:10px;font-weight:800;font-size:12px;transition:.25s}
-.btn:hover{transform:translateY(-3px)}
-.primary{background:linear-gradient(110deg,#00bde8,#7849ff,#ff398d);box-shadow:0 0 25px #854aff55}
-.secondary{border:1px solid #364560;background:#0a1020}
-.stats{display:flex;gap:22px;margin-top:30px;color:#b8c4d9;font-size:11px}
-.stats b{display:block;color:white;font-size:18px;margin-bottom:5px}
-.scene{height:500px;position:relative;overflow:hidden;touch-action:pan-y;cursor:grab}
-.scene:active{cursor:grabbing}
-#world{width:100%;height:100%;display:block}
-.scene-label{position:absolute;z-index:2;padding:12px 14px;background:#08101dcc;border:1px solid #65f5ff55;backdrop-filter:blur(12px);border-radius:10px;font-size:10px;line-height:1.7;pointer-events:none}
-.scene-label strong{display:block;color:var(--cyan);letter-spacing:1px}
-.label-a{top:12%;right:2%}
-.label-b{bottom:12%;left:2%;border-color:#ff398d66}
-.label-b strong{color:#ff75b2}
-.scene-hint{position:absolute;bottom:3%;right:3%;font-size:9px;color:#91a6c5;letter-spacing:1px;pointer-events:none}
-.section{padding:36px 0 25px;scroll-margin-top:85px}
-.kicker{font-size:10px;color:var(--cyan);letter-spacing:2px;font-weight:bold}
-h2{font-size:clamp(26px,4vw,37px);margin:9px 0 12px}
-.sub{color:var(--muted);font-size:13px;line-height:1.7}
-.cats{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:22px}
-.cat{padding:17px 5px;border-radius:12px;background:linear-gradient(145deg,#111a2e,#080b16);border:1px solid #29334c;color:#edf4ff;font-size:12px;font-weight:bold;transition:.25s}
-.cat span{display:block;font-size:24px;margin-bottom:10px}
-.cat:hover,.cat.active{transform:translateY(-4px);border-color:var(--cyan);box-shadow:0 8px 30px #00cfff1c}
-.games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-top:23px}
-.game{min-width:0;overflow:hidden;background:linear-gradient(150deg,#111a30,#080b15);border:1px solid #263650;border-radius:15px;transition:transform .2s,border-color .2s,box-shadow .2s;transform-style:preserve-3d}
-.game:hover{border-color:#7c69ff;box-shadow:0 18px 40px #0009,0 0 25px #6c4cff20}
-.art{height:145px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 45%,var(--glow),#0a1020 72%)}
-.art:before,.art:after{content:"";position:absolute;width:120px;height:120px;border:1px solid #ffffff29;border-radius:50%;transform:rotateX(65deg) rotateZ(25deg)}
-.art:after{width:160px;height:80px;transform:rotateX(68deg) rotateZ(-30deg)}
-.art-icon{font-size:53px;z-index:1;filter:drop-shadow(0 10px 12px #0009);transition:transform .3s}
-.game:hover .art-icon{transform:translateY(-7px) scale(1.13) rotate(-5deg)}
-.game-info{padding:14px}
-.game-info h3{font-size:15px;margin:0 0 8px}
-.game-info p{font-size:11px;line-height:1.6;color:var(--muted);min-height:35px;margin:0 0 13px}
-.play{width:100%;padding:10px;border-radius:8px;border:1px solid #ffffff22;background:linear-gradient(100deg,#5943e9,#bd328b);color:white;font-size:11px;font-weight:bold}
-.play:hover{filter:brightness(1.2)}
-.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:35px 0 55px}
-.benefit{border:1px solid #27354d;background:#0a1020cc;border-radius:12px;padding:17px;font-size:12px}
-.benefit span{font-size:22px;display:block;margin-bottom:10px}
-.benefit small{display:block;color:var(--muted);margin-top:6px}
-footer{border-top:1px solid #202a3d;padding:25px 0;color:var(--muted);font-size:11px}
-.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.empty{display:none;text-align:center;color:var(--muted);padding:25px}
-@media(max-width:900px){.hero{grid-template-columns:1fr 1fr;min-height:500px}.scene{height:410px}.cats{grid-template-columns:repeat(4,1fr)}.games{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){
- header{height:60px}.logo{font-size:17px}nav{display:none}.search{width:125px;font-size:11px}
- .hero{grid-template-columns:1fr;padding-top:12px;gap:0}.hero-copy{text-align:center;padding:22px 0 10px;order:2}
- h1{font-size:54px;letter-spacing:-3px;margin:18px 0}.hero-copy p{font-size:13px;margin:auto}
- .actions,.stats{justify-content:center}.stats{gap:15px}.stats b{font-size:15px}
- .scene{height:310px;order:1}.scene-label{font-size:9px;padding:8px}.label-a{top:5%;right:1%}.label-b{bottom:5%;left:1%}.scene-hint{display:none}
- .section{padding:25px 0 15px}.cats{grid-template-columns:repeat(3,1fr);gap:8px}.cat{padding:13px 3px;min-height:72px;font-size:10px}.cat span{font-size:21px;margin-bottom:6px}
- .games{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.art{height:110px}.art-icon{font-size:43px}.game-info{padding:10px}.game-info h3{font-size:13px}.game-info p{font-size:10px;min-height:32px}.benefits{grid-template-columns:repeat(2,1fr);gap:8px}
-}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+.world-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.world{position:relative;display:flex;align-items:center;gap:14px;min-width:0;min-height:104px;padding:17px 14px;text-decoration:none;color:white;background:linear-gradient(135deg,#ffffff0b,#ffffff02);border:1px solid #ffffff16;overflow:hidden;transition:transform .25s,border-color .25s,background .25s}
+.world:after{content:"";position:absolute;width:100px;height:100px;right:-55px;bottom:-65px;border-radius:50%;background:var(--glow,#73eaff);filter:blur(35px);opacity:.25}
+.world:hover{transform:translateY(-4px);border-color:#82f7ff85;background:#72eaff0d}
+.orb{flex:0 0 46px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,white,var(--glow,#74f7ff) 8%,#17234b 55%,#080a18 75%);box-shadow:0 0 22px color-mix(in srgb,var(--glow,#74f7ff) 40%,transparent)}
+.world-info{min-width:0}
+.world-info b{display:block;font:11px Orbitron,sans-serif;letter-spacing:.3px;line-height:1.5}
+.world-info small{display:block;margin-top:7px;font-size:10px;color:#929fba}
+.arrow{margin-left:auto;color:var(--glow,#74f7ff);font-size:20px}
+.bottom{padding:25px 6%;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#6f7b96;font-size:10px;letter-spacing:1px;border-top:1px solid #ffffff12}
+@media(max-width:700px){header{height:64px;padding:0 5%}.logo{font-size:15px}.status{font-size:8px}.hero{min-height:calc(100svh - 64px);padding:30px 16px 48px}h1{letter-spacing:-2px}.eyebrow{letter-spacing:2px;font-size:9px}.portal-wrap{width:min(83vw,330px);height:min(83vw,330px)}.worlds{padding:55px 5% 65px}.world-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.world{min-height:100px;padding:12px 9px;gap:9px}.orb{width:36px;height:36px;flex-basis:36px}.world-info b{font-size:9px}.world-info small{font-size:9px}.arrow{font-size:15px}.section-top{align-items:start;flex-direction:column;gap:6px}}
+@media(max-width:360px){.world-list{grid-template-columns:1fr}.world{min-height:76px}.world-info b{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header><div class="wrap nav">
-<a class="logo" href="#">🎮 GAME<span>ZONE</span></a>
-<nav><a href="#">Home</a><a href="#games">Games</a><a href="#categories">Categories</a></nav>
-<input class="search" id="search" placeholder="⌕ Search games..." aria-label="Search games">
-</div></header>
+<canvas id="space"></canvas>
+<div class="noise"></div>
 
-<main class="wrap">
+<header>
+  <div class="logo">GAME<span>ZONE</span></div>
+  <div class="status"><i></i> UNIVERSE ONLINE</div>
+  <a class="menu" href="#worlds">EXPLORE ↗</a>
+</header>
+
+<main>
 <section class="hero">
-<div class="hero-copy">
-<div class="eyebrow">✦ ENTER ANOTHER DIMENSION</div>
-<h1>PLAY<br>BEYOND<br><span>LIMITS.</span></h1>
-<p>Step into a new gaming universe. Discover arcade classics, clever puzzles and adventures waiting to be explored.</p>
-<div class="actions"><a class="btn primary" href="#games">ENTER THE ARCADE ↗</a><a class="btn secondary" href="#categories">EXPLORE GAMES</a></div>
-<div class="stats"><div><b>∞</b>ENDLESS FUN</div><div><b>FREE</b>INSTANT PLAY</div><div><b>3D</b>IMMERSIVE UI</div></div>
-</div>
-
-<div class="scene" id="scene">
-<canvas id="world"></canvas>
-<div class="scene-label label-a"><strong>GAMEZONE NOVA</strong>REAL-TIME 3D<br>INTERACTIVE WORLD</div>
-<div class="scene-label label-b"><strong>✦ LEVEL UP</strong>YOUR NEXT<br>ADVENTURE STARTS HERE</div>
-<div class="scene-hint">DRAG TO ROTATE · MOVE YOUR PHONE</div>
-</div>
+  <div class="eyebrow">THE NEXT ERA OF PLAY</div>
+  <div class="portal-wrap" aria-label="Animated planet portal">
+    <div class="portal"><div class="core"></div></div>
+    <div class="coordinates"><span>SECTOR 2050</span><span>COORD: GX-09</span></div>
+  </div>
+  <h1>REALITY IS <span>OPTIONAL.</span></h1>
+  <p class="intro">Leave the ordinary behind. Enter a universe of games, discover new worlds and play your own way.</p>
+  <div class="actions">
+    <a class="btn primary" href="#worlds">ENTER THE UNIVERSE ↗</a>
+    <a class="btn" href="#worlds">EXPLORE WORLDS</a>
+  </div>
 </section>
 
-<section class="section" id="categories">
-<div class="kicker">FIND YOUR NEXT OBSESSION</div>
-<h2>Choose your universe.</h2>
-<p class="sub">One portal. Different worlds. Which one will you enter?</p>
-<div class="cats">
-<button class="cat active" data-cat="All"><span>🎮</span>All Games</button>
-<button class="cat" data-cat="Arcade"><span>👾</span>Arcade</button>
-<button class="cat" data-cat="Puzzle"><span>🧩</span>Puzzle</button>
-<button class="cat" data-cat="Classic"><span>🏆</span>Classic</button>
-<button class="cat" data-cat="Casual"><span>⭐</span>Casual</button>
-<button class="cat" data-cat="Strategy"><span>♟️</span>Strategy</button>
-<button class="cat" data-cat="Sports"><span>🏀</span>Sports</button>
-</div>
-</section>
-
-<section class="section" id="games">
-<div class="kicker">THE GAME COLLECTION</div>
-<h2>Find your next <span style="color:var(--cyan)">favourite.</span></h2>
-<p class="sub">Pick a game and jump straight into the fun.</p>
-<div class="games" id="grid">
-<article class="game" data-name="Google Snake" data-cat="Classic" data-search="snake arcade"><a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener"><div class="art" style="--glow:#087e91"><span class="art-icon">🐍</span></div><div class="game-info"><h3>Google Snake</h3><p>Eat, grow and avoid your own tail.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="2048" data-cat="Puzzle" data-search="numbers tile"><a href="https://play2048.co/" target="_blank" rel="noopener"><div class="art" style="--glow:#a85c1c"><span class="art-icon">🔢</span></div><div class="game-info"><h3>2048</h3><p>Merge tiles and reach the magic number.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Hextris" data-cat="Arcade" data-search="blocks hexagon"><a href="https://hextris.io/" target="_blank" rel="noopener"><div class="art" style="--glow:#5b28ba"><span class="art-icon">⬡</span></div><div class="game-info"><h3>Hextris</h3><p>Rotate, match and clear falling blocks.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Quick Draw" data-cat="Casual" data-search="drawing AI sketch"><a href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><div class="art" style="--glow:#164ba5"><span class="art-icon">🎨</span></div><div class="game-info"><h3>Quick, Draw!</h3><p>Draw something and see if AI can guess it.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Chrome Dino" data-cat="Classic" data-search="dinosaur runner"><a href="https://chromedino.com/" target="_blank" rel="noopener"><div class="art" style="--glow:#9a5a18"><span class="art-icon">🦖</span></div><div class="game-info"><h3>Chrome Dino</h3><p>Jump over obstacles and beat your score.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Little Alchemy 2" data-cat="Puzzle" data-search="elements chemistry"><a href="https://littlealchemy2.com/" target="_blank" rel="noopener"><div class="art" style="--glow:#168aa5"><span class="art-icon">⚗️</span></div><div class="game-info"><h3>Little Alchemy 2</h3><p>Combine elements to discover new creations.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Minesweeper" data-cat="Strategy" data-search="logic mines"><a href="https://minesweeper.online/" target="_blank" rel="noopener"><div class="art" style="--glow:#214d79"><span class="art-icon">💣</span></div><div class="game-info"><h3>Minesweeper</h3><p>Use logic to uncover safe squares.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Solitaire" data-cat="Casual" data-search="cards classic"><a href="https://solitaired.com/" target="_blank" rel="noopener"><div class="art" style="--glow:#246d55"><span class="art-icon">🃏</span></div><div class="game-info"><h3>Solitaire</h3><p>A classic card game for a relaxing break.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Basketball" data-cat="Sports" data-search="basketball sports"><a href="https://www.basketballstars.com/" target="_blank" rel="noopener"><div class="art" style="--glow:#a94d14"><span class="art-icon">🏀</span></div><div class="game-info"><h3>Basketball</h3><p>Take your shot and test your skills.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Tetris" data-cat="Arcade" data-search="blocks puzzle"><a href="https://tetris.com/play-tetris" target="_blank" rel="noopener"><div class="art" style="--glow:#772eb1"><span class="art-icon">🧱</span></div><div class="game-info"><h3>Tetris</h3><p>Stack falling blocks and clear lines.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Cut the Rope" data-cat="Puzzle" data-search="rope candy physics"><a href="https://www.cuttherope.net/" target="_blank" rel="noopener"><div class="art" style="--glow:#277d4c"><span class="art-icon">🍬</span></div><div class="game-info"><h3>Cut the Rope</h3><p>Guide the candy to its hungry friend.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-<article class="game" data-name="Pac-Man" data-cat="Arcade" data-search="pacman maze retro"><a href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener"><div class="art" style="--glow:#a77a12"><span class="art-icon">🟡</span></div><div class="game-info"><h3>Pac-Man</h3><p>Explore the maze and collect dots.</p><button class="play">PLAY NOW ↗</button></div></a></article>
-</div>
-<div class="empty" id="empty">No games found. Try another search or category.</div>
-</section>
-
-<section class="benefits" id="featured">
-<div class="benefit"><span>⚡</span><b>Instant Play</b><small>No downloads needed</small></div>
-<div class="benefit"><span>🌌</span><b>Another Dimension</b><small>Explore the universe</small></div>
-<div class="benefit"><span>📱</span><b>Mobile Ready</b><small>Made for your phone</small></div>
-<div class="benefit"><span>💎</span><b>Always Free</b><small>More fun, less waiting</small></div>
+<section class="worlds" id="worlds">
+  <div class="section-top">
+    <div><div class="kicker">YOUR NEXT DESTINATION</div><h2>Choose a world.</h2></div>
+    <div class="small">12 gateways discovered.<br>Choose your next mission.</div>
+  </div>
+  <input class="search" id="search" type="search" placeholder="⌕  Search a game or world..." aria-label="Search games">
+  <div class="world-list" id="gameList">
+    <a class="world" style="--glow:#75f7ff" href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>NEON SNAKE</b><small>REFLEX / ARCADE</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#b9ff77" href="https://play2048.co/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>QUANTUM 2048</b><small>PUZZLE / LOGIC</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#ff77db" href="https://hextris.io/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>HEXTRIS</b><small>SPATIAL / ARCADE</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#ffcf70" href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>QUICK DRAW</b><small>AI / CREATIVE</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#a5b6ff" href="https://chromedino.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>DINO RUN</b><small>RUNNER / SURVIVAL</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#b9a0ff" href="https://littlealchemy2.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>ALCHEMY LAB</b><small>CRAFT / DISCOVERY</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#73ffbf" href="https://minesweeper.online/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>MINESWEEPER</b><small>STRATEGY / LOGIC</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#ff9c75" href="https://solitaired.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>SOLO GALAXY</b><small>CARDS / CLASSIC</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#ff747e" href="https://www.basketballstars.com/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>COURT ZERO</b><small>SPORTS / ACTION</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#75f7ff" href="https://tetris.com/play-tetris" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>TETRIS CORE</b><small>PUZZLE / CLASSIC</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#9cff72" href="https://www.cuttheomrop.net/" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>CUT THE ROPE</b><small>PHYSICS / PUZZLE</small></span><span class="arrow">↗</span></a>
+    <a class="world" style="--glow:#ffdc76" href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener"><span class="orb"></span><span class="world-info"><b>PAC-MAN</b><small>RETRO / ARCADE</small></span><span class="arrow">↗</span></a>
+  </div>
+  <p class="small" id="noResults" hidden>No matching worlds found. Try another search.</p>
 </section>
 </main>
-<footer><div class="wrap footer"><a class="logo" href="#">🎮 GAME<span>ZONE</span></a><span>© <span id="year"></span> GameZone Nova</span><a href="#">Back to top ↑</a></div></footer>
+
+<footer class="bottom"><span>GAMEZONE 2050 ©</span><span>BUILT FOR THE NEXT GENERATION</span><span>EXPLORE • PLAY • REPEAT</span></footer>
 
 <script>
-/* Interactive Three.js scene. The rest of the site works if WebGL cannot load. */
-(async function(){
- const canvas=document.getElementById("world");
- const sceneBox=document.getElementById("scene");
- try{
-  const THREE=await import("https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js");
-  const scene=new THREE.Scene();
-  scene.fog=new THREE.FogExp2(0x030611,.045);
-  const camera=new THREE.PerspectiveCamera(42,1,.1,100);
-  camera.position.set(0,.2,8.5);
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:"low-power"});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
-  renderer.outputColorSpace=THREE.SRGBColorSpace;
-  renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.25;
-  const root=new THREE.Group();scene.add(root);
-  scene.add(new THREE.HemisphereLight(0x91dfff,0x120522,2));
-  const key=new THREE.PointLight(0x22cfff,75,20);key.position.set(3,4,5);scene.add(key);
-  const pinkLight=new THREE.PointLight(0xff278e,60,18);pinkLight.position.set(-3,-1,3);scene.add(pinkLight);
-  const rim=new THREE.DirectionalLight(0xffffff,2);rim.position.set(-2,5,4);scene.add(rim);
-  const mat=(color,metal=0.25,rough=.3,emissive=0x000000)=>new THREE.MeshStandardMaterial({color,metalness:metal,roughness:rough,emissive,emissiveIntensity:.7});
-  const dark=mat(0x171d32,.65,.26,0x080b22);
-  const edge=mat(0x56617a,.8,.22,0x11182b);
-  const cyan=mat(0x23eaff,.35,.2,0x00aaff);
-  const pink=mat(0xff318d,.35,.22,0x88002f);
-  const white=mat(0xf2f6ff,.25,.2);
-  const black=mat(0x070a13,.3,.25);
-  // Sculpted controller body using an extruded custom silhouette.
-  const shape=new THREE.Shape();
-  shape.moveTo(-1.15,.12);
-  shape.bezierCurveTo(-1.6,.35,-1.95,.16,-2.05,-.42);
-  shape.bezierCurveTo(-2.16,-1.02,-1.85,-1.3,-1.5,-1.02);
-  shape.lineTo(-1.12,-.66);
-  shape.quadraticCurveTo(0,-.9,1.12,-.66);
-  shape.lineTo(1.5,-1.02);
-  shape.bezierCurveTo(1.85,-1.3,2.16,-1.02,2.05,-.42);
-  shape.bezierCurveTo(1.95,.16,1.6,.35,1.15,.12);
-  shape.quadraticCurveTo(0,.5,-1.15,.12);
-  const geo=new THREE.ExtrudeGeometry(shape,{depth:.42,bevelEnabled:true,bevelSegments:5,steps:1,bevelSize:.12,bevelThickness:.12,curveSegments:14});
-  geo.computeVertexNormals();
-  const body=new THREE.Mesh(geo,dark);body.position.z=-.25;root.add(body);
-  // Bright controller trim
-  const outline=new THREE.LineSegments(new THREE.EdgesGeometry(geo,30),new THREE.LineBasicMaterial({color:0x48dfff,transparent:true,opacity:.7}));
-  outline.position.copy(body.position);root.add(outline);
-  // D-pad
-  function box(w,h,d,material,x,y,z,parent=root){
-   const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);m.position.set(x,y,z);parent.add(m);return m;
-  }
-  box(.22,.67,.12,edge,-1.25,-.22,.31);
-  box(.67,.22,.12,edge,-1.25,-.22,.32);
-  // Buttons
-  [[1.28,.03,0x25eaff],[1.55,-.2,0xff397d],[1.02,-.2,0x9b64ff],[1.29,-.43,0x54f5b3]].forEach(([x,y,c])=>{
-   const m=new THREE.Mesh(new THREE.SphereGeometry(.13,20,16),mat(c,.25,.2,c));m.position.set(x,y,.39);root.add(m);
+const search = document.getElementById('search');
+const games = [...document.querySelectorAll('.world')];
+search.addEventListener('input', () => {
+  const q = search.value.trim().toLowerCase();
+  let shown = 0;
+  games.forEach(game => {
+    const match = game.innerText.toLowerCase().includes(q);
+    game.hidden = !match;
+    if(match) shown++;
   });
-  // Analog sticks with metallic rims
-  function stick(x,y){
-   const ring=new THREE.Mesh(new THREE.TorusGeometry(.22,.055,10,32),edge);ring.position.set(x,y,.39);root.add(ring);
-   const top=new THREE.Mesh(new THREE.CylinderGeometry(.16,.18,.09,24),black);top.rotation.x=Math.PI/2;top.position.set(x,y,.43);root.add(top);
-   const cap=new THREE.Mesh(new THREE.CircleGeometry(.12,24),mat(0x9daac1,.5,.24));cap.position.set(x,y,.49);root.add(cap);
+  document.getElementById('noResults').hidden = shown !== 0;
+});
+
+(() => {
+  const canvas = document.getElementById('space');
+  const ctx = canvas.getContext('2d');
+  if(!ctx) return;
+  let w=0,h=0,stars=[],raf=0;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1,1.5);
+    w=innerWidth;h=innerHeight;
+    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+    canvas.style.width=w+'px';canvas.style.height=h+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const count=Math.min(180,Math.floor(w*h/6500));
+    stars=Array.from({length:count},()=>({
+      x:Math.random()*w,y:Math.random()*h,
+      r:Math.random()*1.3+.2,a:Math.random()*.65+.15,
+      speed:Math.random()*.22+.04,phase:Math.random()*6
+    }));
   }
-  stick(-.52,-.47);stick(.48,-.47);
-  // Center buttons and small glowing indicators
-  const center1=new THREE.Mesh(new THREE.CapsuleGeometry(.07,.3,4,10),edge);center1.rotation.z=Math.PI/2;center1.position.set(-.2,.08,.4);root.add(center1);
-  const center2=new THREE.Mesh(new THREE.CapsuleGeometry(.07,.3,4,10),edge);center2.rotation.z=Math.PI/2;center2.position.set(.22,.08,.4);root.add(center2);
-  for(let i=0;i<3;i++){
-   const dot=new THREE.Mesh(new THREE.SphereGeometry(.035,12,8),cyan);dot.position.set(-.12+i*.12,-.19,.43);root.add(dot);
+  let last=0;
+  function draw(t){
+    if(document.hidden){raf=0;return}
+    if(t-last<32&&!reduce){raf=requestAnimationFrame(draw);return}
+    last=t;
+    ctx.clearRect(0,0,w,h);
+    for(const s of stars){
+      const pulse=reduce?1:(.65+.35*Math.sin(t*.001+s.phase));
+      ctx.beginPath();
+      ctx.fillStyle=`rgba(165,220,255,${s.a*pulse})`;
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fill();
+      if(!reduce){
+        s.y+=s.speed;
+        if(s.y>h){s.y=0;s.x=Math.random()*w}
+      }
+    }
+    if(!reduce){
+      const g=ctx.createRadialGradient(w*.5,h*.48,0,w*.5,h*.48,Math.min(w,h)*.48);
+      g.addColorStop(0,'rgba(57,95,180,.055)');
+      g.addColorStop(1,'rgba(5,7,17,0)');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      raf=requestAnimationFrame(draw);
+    }
   }
-  // Floating ring platform
-  const rings=new THREE.Group();scene.add(rings);
-  for(let i=0;i<3;i++){
-   const ring=new THREE.Mesh(new THREE.TorusGeometry(2.6+i*.27,.012,8,140),new THREE.MeshBasicMaterial({color:i===1?0xff398d:0x32dfff,transparent:true,opacity:.5-i*.08}));
-   ring.rotation.x=1.13+i*.12;ring.rotation.y=i*.6;ring.position.z=-.9-i*.15;rings.add(ring);
-  }
-  // Glowing planet
-  const planet=new THREE.Mesh(new THREE.SphereGeometry(.65,32,24),new THREE.MeshStandardMaterial({color:0x2465c5,metalness:.35,roughness:.3,emissive:0x071d55,emissiveIntensity:.6}));
-  planet.position.set(2.7,1.5,-1.8);scene.add(planet);
-  const planetRing=new THREE.Mesh(new THREE.TorusGeometry(.95,.025,8,80),pink);planetRing.position.copy(planet.position);planetRing.rotation.set(1.1,.3,.4);scene.add(planetRing);
-  // Particle field
-  const count=180;
-  const positions=new Float32Array(count*3);
-  for(let i=0;i<count;i++){
-   positions[i*3]=(Math.random()-.5)*12;
-   positions[i*3+1]=(Math.random()-.5)*8;
-   positions[i*3+2]=(Math.random()-.5)*8-1;
-  }
-  const pGeo=new THREE.BufferGeometry();pGeo.setAttribute("position",new THREE.BufferAttribute(positions,3));
-  
+  resize();
+  if(reduce) draw(0); else raf=requestAnimationFrame(draw);
+  addEventListener('resize',resize,{passive:true});
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden&&!reduce&&!raf)raf=requestAnimationFrame(draw);
+  });
+})();
+</script>
+</body>
+</html>
