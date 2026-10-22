@@ -1,170 +1,214 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#070817">
-<meta name="description" content="GameZone — discover free browser games, arcade adventures, puzzles and more.">
-<title>GameZone — Play Beyond Limits</title>
+<meta name="theme-color" content="#050713">
+<meta name="description" content="GameZone Nova - Free online browser games, arcade, puzzles and more.">
+<title>GameZone Nova | Next Level Gaming</title>
 <style>
-:root{--bg:#070817;--panel:#0d1025;--blue:#20d9ff;--purple:#a855f7;--pink:#ff38d1;--white:#f7f5ff;--muted:#b6bbdb}
+:root{--bg:#050713;--panel:#10162b;--red:#ff1749;--blue:#00d5ff;--purple:#a855f7;--text:#f7f8ff;--muted:#a4aec9}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
-body{margin:0;background:radial-gradient(ellipse at 12% 0%,#39247755,transparent 35%),radial-gradient(ellipse at 90% 25%,#07598535,transparent 32%),var(--bg);color:var(--white);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;overflow-x:hidden}
-a{color:inherit}button,input,select{font:inherit}button{cursor:pointer}
-.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px clamp(16px,4vw,56px);background:#070817eF;border-bottom:1px solid #20d9ff45;backdrop-filter:blur(18px)}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:1000;font-size:clamp(21px,3vw,31px);letter-spacing:-1px;white-space:nowrap}
-.brand-icon{font-size:30px;filter:drop-shadow(0 0 10px var(--blue))}
-.brand-text{background:linear-gradient(90deg,#20d9ff,#8b5cf6,#ff38d1);background-clip:text;-webkit-background-clip:text;color:transparent;text-shadow:0 0 28px #8b5cf633}
-.nav{display:flex;align-items:center;gap:clamp(10px,2vw,28px)}
-.nav a{text-decoration:none;font-size:13px;color:#d7d9f5;transition:color .2s}
-.nav a:hover{color:var(--blue)}
-.top-actions{display:flex;align-items:center;gap:10px}
-.search-mini{display:flex;align-items:center;gap:8px;border:1px solid #2b5d9b;border-radius:12px;padding:8px 11px;background:#080d20;max-width:230px}
-.search-mini input{width:145px;min-width:0;border:0;outline:0;background:transparent;color:white}
-.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:1px solid #7d6aff88;border-radius:12px;padding:12px 17px;color:white;text-decoration:none;font-weight:850;background:linear-gradient(110deg,#0878ed,#8b2dff 65%,#e62acb);box-shadow:0 0 22px #6d28d944;transition:transform .22s,filter .22s,box-shadow .22s}
-.btn:hover{transform:translateY(-3px);filter:brightness(1.15);box-shadow:0 0 30px #9d4dff88}
-.btn.ghost{background:#10132b;border-color:#3c5caa;box-shadow:none}
-.hero{position:relative;isolation:isolate;overflow:hidden;min-height:490px;padding:clamp(42px,7vw,90px) clamp(18px,7vw,100px);display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:28px;background:linear-gradient(110deg,#080b20f7 0%,#0d1030dd 48%,#12092dcc 100%);border-bottom:1px solid #9b4dff66}
-.hero:before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 75% 48%,#6b21a866,transparent 37%),radial-gradient(ellipse at 90% 18%,#06b6d455,transparent 27%),linear-gradient(125deg,transparent 35%,#161d4d 70%,#100a2d);opacity:.95}
-.hero:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.2;background-image:linear-gradient(#5669ff30 1px,transparent 1px),linear-gradient(90deg,#5669ff30 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(transparent,black 45%,black)}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#83f3ff;font-size:12px;letter-spacing:2px;font-weight:950;border:1px solid #20d9ff66;border-radius:999px;background:#042e4666;padding:9px 13px}
-.hero h1{font-size:clamp(42px,7vw,82px);line-height:.98;letter-spacing:-3px;margin:20px 0 18px;font-weight:1000}
-.hero h1 .grad{background:linear-gradient(90deg,#23e2ff,#8c7aff 45%,#ff40d2);background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 25px #a855f755)}
-.hero p{color:#d1d6f4;line-height:1.8;max-width:540px;font-size:clamp(14px,1.5vw,17px)}
-.hero-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
-.hero-stats{display:flex;flex-wrap:wrap;gap:0;margin-top:32px;border:1px solid #6259b766;border-radius:15px;background:#090d23a8;width:max-content;max-width:100%;overflow:hidden}
-.hero-stat{padding:12px 18px;text-align:center;border-right:1px solid #6259b755}
-.hero-stat:last-child{border:0}.hero-stat b{display:block;color:#32e7ff;font-size:21px}.hero-stat span{font-size:10px;color:#d4d8fa;font-weight:800;letter-spacing:.6px}
-.stage{min-height:320px;display:grid;place-items:center;position:relative;perspective:1000px}
-.orbit{position:absolute;width:min(36vw,370px);aspect-ratio:1;border:1px solid #23e2ff66;border-radius:50%;transform:rotateX(66deg) rotateZ(-18deg);box-shadow:0 0 34px #0ea5e933,inset 0 0 34px #a855f722;animation:orbit 18s linear infinite}
-.orbit.two{width:min(29vw,300px);border-color:#ff38d177;transform:rotateX(68deg) rotateZ(40deg);animation-direction:reverse}
-.controller{position:relative;z-index:2;width:min(100%,410px);aspect-ratio:1.35;display:grid;place-items:center;font-size:clamp(110px,18vw,205px);filter:drop-shadow(0 15px 0 #09091b) drop-shadow(0 0 18px #20d9ffbb) drop-shadow(0 0 55px #b32cff88);transform:rotate(-10deg);animation:float 4.5s ease-in-out infinite}
-.stage-tag{position:absolute;z-index:3;right:2%;top:14%;padding:12px 16px;border:1px solid #ff38d1;border-radius:12px;background:#130b2de8;color:#66f2ff;font-weight:950;line-height:1.7;transform:rotate(5deg);box-shadow:0 0 25px #ff38d155}
-.section{padding:32px clamp(16px,4vw,56px) 10px;max-width:1500px;margin:auto}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:19px}
-.section-title h2{font-size:clamp(23px,3vw,34px);margin:0;letter-spacing:-.7px}
-.section-title h2 span{background:linear-gradient(90deg,#9c7bff,#ff38d1);color:transparent;background-clip:text;-webkit-background-clip:text}
-.category-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
-.category{min-height:100px;border:1px solid #6f48ceaa;border-radius:17px;background:linear-gradient(145deg,#16183a,#0b0e22);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-weight:850;box-shadow:inset 0 1px #ffffff10,0 9px 20px #0004;transition:transform .2s,border-color .2s,box-shadow .2s}
-.category .emoji{font-size:29px;filter:drop-shadow(0 0 9px #20d9ff99)}
-.category:hover,.category.active{transform:translateY(-4px);border-color:#20d9ff;box-shadow:0 0 23px #8b5cf766,inset 0 0 18px #20d9ff16}
-.library-tools{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:12px;margin:20px 0}
-.field{border:1px solid #365ca3;border-radius:13px;background:#080d20;color:#fff;padding:14px 15px;min-width:0;outline:none;width:100%}
-.field:focus{border-color:var(--blue);box-shadow:0 0 0 3px #20d9ff1f}
-#games{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
-.game-card{min-width:0;position:relative;overflow:hidden;border:1px solid #6754d9;border-radius:17px;background:linear-gradient(155deg,#171a3d,#080c20 80%);box-shadow:0 13px 25px #0006,inset 0 1px #ffffff12;transform-style:preserve-3d;transition:transform .25s,border-color .25s,box-shadow .25s;animation:cardIn .5s both}
-.game-card:hover{transform:translateY(-8px) rotateX(3deg) rotateY(-3deg);border-color:#20d9ff;box-shadow:0 18px 30px #0008,0 0 22px #a855f766}
-.game-art{height:145px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 35%,var(--glow,#8b5cf6) 0,transparent 58%),linear-gradient(140deg,#10254c,#25103e)}
-.game-art:before{content:"";position:absolute;width:100px;height:100px;border:1px solid #ffffff45;border-radius:24px;transform:rotate(35deg);box-shadow:0 0 24px #20d9ff44}
-.game-art:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 20%,#ffffff12 45%,transparent 60%);transform:translateX(-120%);transition:transform .5s}
-.game-card:hover .game-art:after{transform:translateX(120%)}
-.game-emoji{font-size:clamp(46px,5vw,67px);z-index:1;filter:drop-shadow(0 0 15px var(--glow,#20d9ff));transform:translateZ(22px)}
-.game-content{padding:13px}
-.game-content h3{margin:0 0 7px;font-size:15px;overflow-wrap:anywhere}
-.game-meta{font-size:11px;color:#b9c5ee;margin-bottom:13px}
-.play{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;text-decoration:none;color:white;font-weight:900;font-size:12px;border:1px solid #8c6affaa;border-radius:10px;padding:11px 6px;background:linear-gradient(105deg,#0878ed,#922cff 70%,#e62acb);box-shadow:0 0 16px #812bff44;transition:filter .2s,transform .2s}
-.play:hover{filter:brightness(1.25);transform:translateY(-2px)}
-.featured-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.feature{position:relative;overflow:hidden;min-height:175px;border:1px solid #6358c6;border-radius:17px;padding:20px;display:flex;align-items:end;background:radial-gradient(circle at 78% 25%,#9333ea77,transparent 40%),linear-gradient(120deg,#112a55,#1a1039);box-shadow:0 12px 25px #0005}
-.feature:nth-child(2){background:radial-gradient(circle at 75% 20%,#e879f977,transparent 40%),linear-gradient(120deg,#4a1b47,#14102f)}
-.feature:nth-child(3){background:radial-gradient(circle at 80% 20%,#f59e0b77,transparent 40%),linear-gradient(120deg,#3b2347,#10152c)}
-.feature .big-emoji{position:absolute;right:10px;top:4px;font-size:82px;opacity:.85;filter:drop-shadow(0 0 18px #20d9ff88)}
-.feature h3{margin:0 0 5px;font-size:20px}.feature p{margin:0;color:#d2d5f5;font-size:12px}
-.benefits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:25px 0 35px}
-.benefit{display:flex;align-items:center;gap:12px;padding:15px;border:1px solid #4755a666;border-radius:14px;background:#0c1024}
-.benefit .emoji{font-size:27px}.benefit b{display:block;font-size:13px}.benefit small{color:var(--muted);font-size:11px}
-footer{margin-top:28px;padding:30px clamp(16px,4vw,56px);border-top:1px solid #6751c955;background:#060713;color:var(--muted);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-footer a{color:#69eaff;text-decoration:none}
-#admin{display:none;margin:22px auto;padding:20px;border:1px solid #a855f7;border-radius:16px;background:#10132b;max-width:1500px}
-#admin label{display:block;margin:12px 0 6px}#admin input,#admin select{width:100%;padding:12px;border-radius:10px;background:#070817;border:1px solid #6055a0;color:white}
-.admin-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.admin-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
-.note{font-size:12px;color:#fcd34d;line-height:1.7}
-.empty{grid-column:1/-1;padding:32px;text-align:center;border:1px dashed #6754d9;border-radius:16px;color:var(--muted)}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-15px) rotate(-7deg)}}
-@keyframes orbit{to{transform:rotateX(66deg) rotateZ(342deg)}}
-@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:1100px){#games{grid-template-columns:repeat(3,minmax(0,1fr))}.category-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.hero{grid-template-columns:1fr 0.8fr}.stage-tag{right:0}.nav{display:none}}
-@media(max-width:650px){.topbar{gap:9px;padding:11px 14px}.brand{font-size:22px}.brand-icon{font-size:24px}.top-actions{gap:6px}.search-mini{max-width:145px;padding:7px}.search-mini input{width:85px;font-size:12px}.top-actions .btn{font-size:11px;padding:9px}.hero{grid-template-columns:1fr;padding:38px 20px 24px;gap:0}.hero h1{font-size:clamp(43px,12vw,65px);letter-spacing:-2px}.stage{min-height:190px}.controller{font-size:125px}.orbit{width:220px}.orbit.two{width:170px}.stage-tag{font-size:10px;top:2%;right:5%;padding:8px}.hero-stat{padding:10px 11px}.hero-stat b{font-size:17px}.hero-stat span{font-size:8px}.section{padding:26px 14px 6px}.category-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.category{min-height:82px;font-size:11px}.category .emoji{font-size:24px}.library-tools{grid-template-columns:1fr}.section-title h2{font-size:24px}#games{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.game-art{height:110px}.game-emoji{font-size:48px}.game-content{padding:10px}.game-content h3{font-size:14px}.featured-grid{grid-template-columns:1fr}.feature{min-height:135px}.benefits{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.benefit{padding:11px;gap:8px}.benefit .emoji{font-size:22px}.benefit b{font-size:12px}.benefit small{font-size:10px}.admin-row{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 15% 0%,#53132d66,transparent 35%),radial-gradient(ellipse at 90% 25%,#004b8166,transparent 30%),var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.wrap{width:min(1250px,94%);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#050713ed;backdrop-filter:blur(16px);border-bottom:1px solid #26304e}
+.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{display:flex;align-items:center;gap:9px;font-size:21px;font-weight:900;white-space:nowrap}
+.logo-icon{background:linear-gradient(135deg,var(--red),var(--purple));border-radius:12px;padding:9px;box-shadow:0 0 20px #ff174966}
+.logo em{color:var(--red);font-style:normal}
+nav{display:flex;gap:20px;color:#c3cbe2;font-size:14px}
+nav a:hover{color:var(--blue)}
+.navright{display:flex;gap:8px;align-items:center}
+input{width:180px;padding:11px 13px;border:1px solid #303b5b;border-radius:22px;background:#0b1124;color:white;outline:none}
+input:focus{border-color:var(--blue)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:12px;font-weight:800;border:1px solid #343e5d;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-3px)}
+.primary{background:linear-gradient(100deg,#ff1749,#dc258e);border:0;color:white;box-shadow:0 0 25px #ff174944}
+.secondary{background:#0d1429;color:white}
+.hero{min-height:480px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;padding:40px 0}
+.eyebrow{display:inline-block;border:1px solid #ff174955;background:#ff174911;border-radius:30px;padding:9px 13px;color:#ffb5c8;font-size:11px;font-weight:900;letter-spacing:1.3px}
+h1{font-size:clamp(45px,7vw,82px);letter-spacing:-4px;line-height:.95;margin:22px 0}
+.gradient{background:linear-gradient(90deg,#fff,#ff416c 48%,#00d5ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero p{max-width:520px;color:var(--muted);line-height:1.8}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
+.stats{display:flex;gap:25px;flex-wrap:wrap;margin-top:28px}
+.stats b{display:block;font-size:17px}.stats small{display:block;color:var(--muted);margin-top:5px}
+.visual{min-height:350px;position:relative;display:grid;place-items:center;perspective:900px;overflow:hidden}
+.visual:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#ff174966,transparent 68%);filter:blur(15px)}
+.ring{position:absolute;width:300px;height:120px;border:2px solid #00d5ff88;border-radius:50%;transform:rotate(-25deg) rotateX(60deg);box-shadow:0 0 25px #00d5ff33}
+.ring.two{width:360px;height:150px;border-color:#ff174988;transform:rotate(25deg) rotateX(60deg)}
+.controller{z-index:1;font-size:clamp(130px,20vw,200px);filter:drop-shadow(0 15px 12px #000) drop-shadow(0 0 30px #ff174988);animation:float 4s ease-in-out infinite}
+.holo{position:absolute;z-index:2;right:0;top:12%;padding:13px;background:#0c1328ed;border:1px solid #00d5ff77;border-radius:12px;font-size:11px;line-height:1.7}
+.holo b{display:block;color:var(--blue)}
+.holo.bottom{right:auto;top:auto;left:0;bottom:10%;border-color:#ff174977}
+.holo.bottom b{color:#ff5478}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-15px) rotate(4deg)}}
+section{scroll-margin-top:85px}
+.section{padding:25px 0 35px}
+.kicker{font-size:11px;font-weight:900;letter-spacing:2px;color:var(--blue)}
+h2{font-size:clamp(25px,4vw,35px);margin:8px 0}
+.muted{color:var(--muted);font-size:14px}
+.categories{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin:20px 0 28px}
+.cat{padding:14px 5px;min-height:82px;border:1px solid #293452;border-radius:14px;background:linear-gradient(145deg,#171c34,#080c1a);color:white;font-weight:800;cursor:pointer}
+.cat span{display:block;font-size:24px;margin-bottom:8px}
+.cat:hover,.cat.active{border-color:var(--red);box-shadow:0 0 20px #ff174933;transform:translateY(-3px)}
+.games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.game{overflow:hidden;border:1px solid #293452;border-radius:17px;background:linear-gradient(155deg,#161c34,#090d1b);transition:.25s;min-width:0}
+.game:hover{transform:translateY(-5px);border-color:#ff315f;box-shadow:0 15px 30px #0008,0 0 17px #ff174922}
+.cover{height:145px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle,var(--glow,#6836ae),#10152a 72%)}
+.cover:before{content:"";position:absolute;width:145px;height:145px;border:1px solid #ffffff33;border-radius:35%;transform:rotate(35deg)}
+.cover:after{content:"";position:absolute;width:180px;height:65px;border:1px solid #ffffff33;border-radius:50%;transform:rotate(-25deg)}
+.emoji{z-index:1;font-size:60px;filter:drop-shadow(0 10px 12px #0009);transition:.2s}
+.game:hover .emoji{transform:scale(1.14) rotate(-5deg)}
+.tag{position:absolute;z-index:2;left:9px;top:9px;background:#070b19dd;border:1px solid #ffffff33;border-radius:6px;padding:5px 7px;font-size:10px;font-weight:900}
+.info{padding:13px}
+.info h3{font-size:16px;margin:0 0 8px}
+.info p{font-size:12px;line-height:1.5;color:var(--muted);min-height:36px;margin:0 0 13px}
+.bottomrow{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.type{font-size:11px;color:#bdc7e5}
+.play{border:0;border-radius:8px;background:linear-gradient(100deg,#ff1749,#d72591);color:white;padding:9px 11px;font-size:11px;font-weight:900;cursor:pointer}
+.play:hover{box-shadow:0 0 15px #ff174966}
+.empty{display:none;text-align:center;padding:35px;color:var(--muted)}
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center;padding:24px;border:1px solid #293452;border-radius:20px;background:linear-gradient(110deg,#1b122a,#0c1428);margin:15px 0 35px}
+.featureart{min-height:200px;display:grid;place-items:center;font-size:95px;border-radius:15px;background:radial-gradient(circle,#ff174955,transparent 60%),#0a1020}
+.feature p{color:var(--muted);line-height:1.8}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:25px 0 40px}
+.benefit{text-align:center;padding:17px 10px;border:1px solid #293452;border-radius:13px;background:#0b1020}
+.benefit span{display:block;font-size:25px;margin-bottom:8px}
+.benefit b{font-size:13px}.benefit small{display:block;color:var(--muted);font-size:11px;margin-top:6px}
+footer{border-top:1px solid #293452;padding:24px 0;color:var(--muted);font-size:13px}
+.footer{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}
+.menu{display:none;background:#11182d;color:white;border:1px solid #303a58;border-radius:9px;padding:10px}
+@media(max-width:1000px){nav{gap:10px}.categories{grid-template-columns:repeat(4,1fr)}.games{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){
+ .wrap{width:93%}.nav{min-height:63px;gap:8px}.logo{font-size:16px}.logo-icon{padding:7px}
+ nav{display:none}.menu{display:block}
+ .navright input{width:42px;padding:11px 7px}.navright input:focus{width:155px;position:absolute;right:48px;top:15px;background:#0b1124;z-index:4}
+ .hero{grid-template-columns:1fr;padding:25px 0;gap:0}.hero-copy{text-align:center}.hero p{font-size:14px;margin-left:auto;margin-right:auto}
+ h1{font-size:53px;letter-spacing:-2.5px}.actions,.stats{justify-content:center}
+ .visual{min-height:275px;order:-1}.controller{font-size:145px}.ring{width:230px;height:95px}.ring.two{width:275px;height:115px}
+ .holo{font-size:9px;top:3%}.holo.bottom{bottom:3%}.stats{gap:17px}
+ .categories{grid-template-columns:repeat(4,1fr);gap:8px}.cat{font-size:11px;min-height:72px}.cat span{font-size:21px}
+ .games{gap:10px}.cover{height:115px}.emoji{font-size:47px}.info{padding:10px}.info h3{font-size:14px}.info p{font-size:11px;min-height:45px}.type{font-size:9px}.play{padding:8px;font-size:10px}
+ .feature{grid-template-columns:1fr;padding:14px;gap:14px}.featureart{min-height:150px;font-size:75px}.benefits{grid-template-columns:repeat(2,1fr)}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header class="topbar">
-  <a class="brand" href="#" aria-label="GameZone home"><span class="brand-icon">🎮</span><span class="brand-text">GameZone</span></a>
-  <nav class="nav" aria-label="Main navigation"><a href="#home">Home</a><a href="#games-section">Games</a><a href="#categories">Categories</a><a href="#about">About</a></nav>
-  <div class="top-actions">
-    <label class="search-mini"><span>⌕</span><input id="quickSearch" placeholder="Search games..." aria-label="Quick search" oninput="syncSearch(this.value)"></label>
-    <button class="btn" type="button" onclick="adminLogin()">🔒 Admin</button>
-  </div>
+<header>
+<div class="wrap nav">
+ <a class="logo" href="#"><span class="logo-icon">🎮</span><span>GAME<em>ZONE</em></span></a>
+ <nav><a href="#">Home</a><a href="#games">Games</a><a href="#categories">Categories</a><a href="#featured">Featured</a></nav>
+ <div class="navright">
+  <input id="search" type="search" placeholder="⌕ Search games..." aria-label="Search games">
+  <button class="menu" id="menuBtn" aria-label="Go to games">☰</button>
+ </div>
+</div>
 </header>
 
-<section class="hero" id="home">
-  <div>
-    <span class="eyebrow">✦ WELCOME TO YOUR NEXT LEVEL</span>
-    <h1>Game<span class="grad">Zone</span></h1>
-    <h2 style="margin:0;color:#9eefff;letter-spacing:2px;font-size:clamp(15px,2vw,22px)">PLAY · EXPLORE · CHALLENGE</h2>
-    <p>Jump into quick challenges, puzzle adventures and classic browser games. Find your next favorite and play directly online.</p>
-    <div class="hero-buttons"><a class="btn" href="#games-section">🎮 Explore Games</a><a class="btn ghost" href="#featured">⚡ Trending Now</a></div>
-    <div class="hero-stats"><div class="hero-stat"><b id="heroCount">6+</b><span>GAMES</span></div><div class="hero-stat"><b>∞</b><span>FUN</span></div><div class="hero-stat"><b>▶</b><span>PLAY ONLINE</span></div></div>
-  </div>
-  <div class="stage" aria-label="Floating gaming controller illustration"><div class="orbit"></div><div class="orbit two"></div><div class="controller">🎮</div><div class="stage-tag">PLAY<br>EXPLORE<br>REPEAT</div></div>
+<main><div class="wrap">
+<section class="hero">
+ <div class="hero-copy">
+  <div class="eyebrow">● NEXT GEN GAMING EXPERIENCE</div>
+  <h1>GAME<span class="gradient">ZONE</span><br><span class="gradient">NOVA.</span></h1>
+  <p>Enter a universe of fun. Discover arcade favourites, clever puzzles and exciting browser games. Choose your challenge and start playing.</p>
+  <div class="actions"><a class="btn primary" href="#games">🎮 Play Games ↗</a><a class="btn secondary" href="#featured">Explore More</a></div>
+  <div class="stats"><div><b>⚡ Instant</b><small>Browser play</small></div><div><b>🕹️ Free</b><small>Fun for everyone</small></div><div><b>🌌 Anytime</b><small>Play on your device</small></div></div>
+ </div>
+ <div class="visual"><div class="ring"></div><div class="ring two"></div><div class="controller">🎮</div><div class="holo"><b>● SYSTEM ONLINE</b>GAMING UNIVERSE<br>READY TO EXPLORE</div><div class="holo bottom"><b>✦ LEVEL UP</b>Your next favourite awaits</div></div>
 </section>
 
 <section class="section" id="categories">
-  <div class="section-title"><h2>🎮 POPULAR <span>CATEGORIES</span></h2></div>
-  <div class="category-grid">
-    <button class="category active" data-cat="All" onclick="chooseCategory('All')"><span class="emoji">▦</span>All Games</button>
-    <button class="category" data-cat="Arcade" onclick="chooseCategory('Arcade')"><span class="emoji">🕹️</span>Arcade</button>
-    <button class="category" data-cat="Puzzle" onclick="chooseCategory('Puzzle')"><span class="emoji">🧩</span>Puzzle</button>
-    <button class="category" data-cat="Action" onclick="chooseCategory('Action')"><span class="emoji">⚔️</span>Action</button>
-    <button class="category" data-cat="Racing" onclick="chooseCategory('Racing')"><span class="emoji">🏎️</span>Racing</button>
-    <button class="category" data-cat="Adventure" onclick="chooseCategory('Adventure')"><span class="emoji">🗺️</span>Adventure</button>
-    <button class="category" data-cat="Other" onclick="chooseCategory('Other')"><span class="emoji">⭐</span>Other</button>
-  </div>
+ <div class="kicker">EXPLORE YOUR WORLD</div><h2>Game Categories</h2>
+ <div class="categories">
+  <button class="cat active" data-cat="All"><span>🎮</span>All Games</button>
+  <button class="cat" data-cat="Arcade"><span>👾</span>Arcade</button>
+  <button class="cat" data-cat="Puzzle"><span>🧩</span>Puzzle</button>
+  <button class="cat" data-cat="Classic"><span>🏆</span>Classic</button>
+  <button class="cat" data-cat="Casual"><span>🌟</span>Casual</button>
+  <button class="cat" data-cat="Strategy"><span>♟️</span>Strategy</button>
+  <button class="cat" data-cat="Adventure"><span>🚀</span>Adventure</button>
+ </div>
 </section>
 
-<section class="section" id="games-section">
-  <div class="section-title"><h2>🎮 EXPLORE <span>GAMES</span></h2><span style="color:var(--muted);font-size:12px">Your next challenge awaits</span></div>
-  <div class="library-tools"><input class="field" id="search" type="search" placeholder="⌕ Search your next game..." aria-label="Search games" oninput="syncQuickSearch(this.value)"><select class="field" id="filter" aria-label="Filter games" onchange="render()"><option>All</option><option>Arcade</option><option>Puzzle</option><option>Action</option><option>Racing</option><option>Adventure</option><option>Other</option></select></div>
-  <div id="games" aria-live="polite"></div>
+<section class="section" id="games">
+ <div class="kicker">THE ARCADE</div><h2>Trending <span class="gradient">Games</span></h2>
+ <p class="muted">Choose a game and jump straight into the fun.</p>
+ <div class="games" id="gameGrid">
+  <article class="game" data-name="Google Snake" data-cat="Classic" data-search="snake arcade">
+   <a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#207d58"><span class="tag">CLASSIC</span><span class="emoji">🐍</span></div><div class="info"><h3>Google Snake</h3><p>Eat, grow, and avoid your own tail.</p><div class="bottomrow"><span class="type">🏆 Classic</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+  <article class="game" data-name="2048" data-cat="Puzzle" data-search="number tile puzzle">
+   <a href="https://play2048.co/" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#bd762b"><span class="tag">PUZZLE</span><span class="emoji">🔢</span></div><div class="info"><h3>2048</h3><p>Merge tiles and reach the magic number.</p><div class="bottomrow"><span class="type">🧩 Puzzle</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+  <article class="game" data-name="Hextris" data-cat="Arcade" data-search="blocks hexagon">
+   <a href="https://hextris.io/" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#8138b5"><span class="tag">ARCADE</span><span class="emoji">⬡</span></div><div class="info"><h3>Hextris</h3><p>Rotate, match and clear falling blocks.</p><div class="bottomrow"><span class="type">👾 Arcade</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+  <article class="game" data-name="Quick Draw" data-cat="Casual" data-search="drawing AI sketch">
+   <a href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#2768b5"><span class="tag">CASUAL</span><span class="emoji">✏️</span></div><div class="info"><h3>Quick, Draw!</h3><p>Draw something and see if AI can guess it.</p><div class="bottomrow"><span class="type">🌟 Casual</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+  <article class="game" data-name="Chrome Dino" data-cat="Classic" data-search="dinosaur runner">
+   <a href="https://chromedino.com/" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#416d35"><span class="tag">CLASSIC</span><span class="emoji">🦖</span></div><div class="info"><h3>Chrome Dino</h3><p>Jump over obstacles and beat your score.</p><div class="bottomrow"><span class="type">🏆 Classic</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+  <article class="game" data-name="Little Alchemy 2" data-cat="Puzzle" data-search="elements combine chemistry">
+   <a href="https://littlealchemy2.com/" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#258ca4"><span class="tag">PUZZLE</span><span class="emoji">⚗️</span></div><div class="info"><h3>Little Alchemy 2</h3><p>Combine elements to discover new creations.</p><div class="bottomrow"><span class="type">🧩 Puzzle</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+  <article class="game" data-name="Minesweeper" data-cat="Strategy" data-search="logic mine">
+   <a href="https://minesweeper.online/" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#a34352"><span class="tag">STRATEGY</span><span class="emoji">💣</span></div><div class="info"><h3>Minesweeper</h3><p>Use logic to uncover safe squares.</p><div class="bottomrow"><span class="type">♟️ Strategy</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+  <article class="game" data-name="Solitaire" data-cat="Casual" data-search="cards">
+   <a href="https://solitaired.com/" target="_blank" rel="noopener noreferrer"><div class="cover" style="--glow:#4155a0"><span class="tag">CASUAL</span><span class="emoji">🃏</span></div><div class="info"><h3>Solitaire</h3><p>A timeless card game for a relaxing break.</p><div class="bottomrow"><span class="type">🌟 Casual</span><span class="play">PLAY ↗</span></div></div></a>
+  </article>
+ </div>
+ <div class="empty" id="empty">No games found. Try another search or category.</div>
 </section>
 
-<section class="section" id="featured">
-  <div class="section-title"><h2>🔥 FEATURED <span>GAMES</span></h2><a class="btn ghost" href="#games-section">View All →</a></div>
-  <div class="featured-grid">
-    <article class="feature"><span class="big-emoji">🐍</span><div><h3>Google Snake</h3><p>Classic arcade fun. Endless play.</p><a class="btn" style="margin-top:14px;padding:9px 12px;font-size:12px" href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener noreferrer">▶ Play Now</a></div></article>
-    <article class="feature"><span class="big-emoji">🔢</span><div><h3>2048</h3><p>Merge numbers and reach the goal.</p><a class="btn" style="margin-top:14px;padding:9px 12px;font-size:12px" href="https://play2048.co/" target="_blank" rel="noopener noreferrer">▶ Play Now</a></div></article>
-    <article class="feature"><span class="big-emoji">🦖</span><div><h3>Chrome Dino</h3><p>Jump, survive and beat your score.</p><a class="btn" style="margin-top:14px;padding:9px 12px;font-size:12px" href="https://chromedino.com/" target="_blank" rel="noopener noreferrer">▶ Play Now</a></div></article>
-  </div>
-  <div class="benefits" id="about">
-    <div class="benefit"><span class="emoji">🎮</span><div><b>Free to Play</b><small>Jump into browser games</small></div></div>
-    <div class="benefit"><span class="emoji">⚡</span><div><b>Instant Access</b><small>No app install needed</small></div></div>
-    <div class="benefit"><span class="emoji">🛡️</span><div><b>Play Smart</b><small>Use trusted game links</small></div></div>
-    <div class="benefit"><span class="emoji">💜</span><div><b>Made for Gamers</b><small>Fun on mobile and desktop</small></div></div>
-  </div>
+<section class="feature" id="featured">
+ <div class="featureart">🚀</div>
+ <div><div class="kicker">YOUR NEXT ADVENTURE</div><h2>Small breaks.<br><span class="gradient">BIG FUN.</span></h2><p>Discover browser-game favourites, test your skills, and come back whenever you're ready for another round.</p><a class="btn primary" href="#games">Find Your Game ↗</a></div>
 </section>
 
-<section class="section" id="admin" aria-label="Admin panel">
-  <h2>⚙️ Manage Games</h2>
-  <p class="note">Note: games added here are saved only in this browser. This is not a secure shared admin system; the password is visible in page source.</p>
-  <div class="admin-row"><div><label for="gameName">Game name</label><input class="field" id="gameName" placeholder="My game"></div><div><label for="gameCategory">Category</label><select class="field" id="gameCategory"><option>Arcade</option><option>Puzzle</option><option>Action</option><option>Racing</option><option>Adventure</option><option>Other</option></select></div><div><label for="gameEmoji">Emoji</label><input class="field" id="gameEmoji" placeholder="🎮"></div><div><label for="gameUrl">Game URL</label><input class="field" id="gameUrl" type="url" placeholder="https://example.com/game"></div></div>
-  <div class="hero-buttons"><button class="btn" onclick="saveGame()">💾 Save Game</button><button class="btn ghost" onclick="resetForm()">Clear</button><button class="btn ghost" onclick="closeAdmin()">Close Panel</button></div>
+<section class="benefits">
+ <div class="benefit"><span>🎮</span><b>Free to Play</b><small>Enjoy browser games</small></div>
+ <div class="benefit"><span>⚡</span><b>Instant Access</b><small>No download needed for this portal</small></div>
+ <div class="benefit"><span>📱</span><b>Mobile Friendly</b><small>Phone, tablet and desktop</small></div>
+ <div class="benefit"><span>🌌</span><b>GameZone Nova</b><small>Your gaming universe</small></div>
 </section>
+</div></main>
 
-<footer><a class="brand" href="#home"><span>🎮</span><span class="brand-text">GameZone</span></a><div>© <span id="year"></span> GameZone · Play responsibly</div><a href="#home">Back to top ↑</a></footer>
+<footer><div class="wrap footer"><div class="logo"><span class="logo-icon">🎮</span><span>GAME<em>ZONE</em></span></div><div>© <span id="year"></span> GameZone Nova</div><a href="#">Back to top ↑</a></div></footer>
 
 <script>
-const defaultGames=[
-{id:1,name:"Google Snake",category:"Arcade",emoji:"🐍",glow:"#31e8b4",url:"https://www.google.com/fbx?fbx=snake_arcade"},
-{id:2,name:"2048",category:"Puzzle",emoji:"🔢",glow:"#ff9e37",url:"https://play2048.co/"},
-{id:3,name:"Hextris",category:"Puzzle",emoji:"🔷",glow:"#20d9ff",url:"https://hextris.io/"},
-{id:4,name:"Quick Draw",category:"Arcade",emoji:"✏️",glow:"#ff38d1",url:"https://quickdraw.withgoogle.com/"},
-{id:5,name:"Chrome Dino",category:"Arcade",emoji:"🦖",glow:"#f7b955",url:"https://chromedino.com/"},
-{id:6,name:"Little Alchemy 2",category:"Puzzle",emoji:"🧪",glow:"#a855f7",url:"https://littlealchemy2.com/"}
-];
-let games;
-try{const saved=JSON.parse(localStorage.getItem("gamezone_games"));games=Array.isArray(saved)?saved:defaultGames.slice()}catch(e){games=defaultGames.slice()}
-let editingId=null;
-function esc(v){return String(v??"").
+const search=document.getElementById("search");
+const cards=[...document.querySelectorAll(".game")];
+const buttons=[...document.querySelectorAll(".cat")];
+const empty=document.getElementById("empty");
+let active="All";
+
+function filterGames(){
+ const q=search.value.trim().toLowerCase();
+ let count=0;
+ cards.forEach(card=>{
+  const text=(card.dataset.name+" "+card.dataset.cat+" "+card.dataset.search).toLowerCase();
+  const show=(active==="All"||card.dataset.cat===active)&&text.includes(q);
+  card.style.display=show?"":"none";
+  if(show)count++;
+ });
+ empty.style.display=count?"none":"block";
+}
+buttons.forEach(button=>button.addEventListener("click",()=>{
+ active=button.dataset.cat;
+ buttons.forEach(b=>b.classList.toggle("active",b===button));
+ filterGames();
+}));
+search.addEventListener("input",filterGames);
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("games").scrollIntoView({behavior:"smooth"}));
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
