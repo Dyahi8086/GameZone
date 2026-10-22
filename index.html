@@ -2,417 +2,309 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080b16">
-  <title>GameZone | Play & Connect</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #080b16;
-      --panel: #12182a;
-      --border: #28334d;
-      --text: #f4f7ff;
-      --muted: #9ba8c5;
-      --blue: #6c63ff;
-      --cyan: #19dfd0;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, Arial, sans-serif;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      padding: 15px;
-      background: #080b16ed;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .logo { font-size: 22px; font-weight: 900; }
-    .logo span { color: var(--cyan); }
-    button, input, select, textarea {
-      font: inherit;
-      border-radius: 10px;
-    }
-    button {
-      border: 0;
-      padding: 10px 14px;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    button.secondary { background: #26304a; }
-    button:disabled { opacity: .55; cursor: not-allowed; }
-    main { width: min(1100px, 94%); margin: auto; }
-    .hero {
-      margin: 22px 0;
-      padding: 28px 20px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: linear-gradient(135deg, #18204a, #111529, #123238);
-    }
-    h1 { font-size: clamp(28px, 6vw, 45px); margin: 0 0 8px; }
-    p { color: var(--muted); line-height: 1.6; }
-    .section-title { margin: 28px 0 14px; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 13px;
-    }
-    .game {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 16px;
-      min-height: 145px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .game .emoji { font-size: 31px; }
-    .game h3 { font-size: 16px; margin: 7px 0; }
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      margin: 15px 0;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      color: white;
-      background: #090e1d;
-      border: 1px solid var(--border);
-      margin: 6px 0 12px;
-    }
-    .row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .row > * { flex: 1; }
-    .status { min-height: 24px; color: var(--cyan); overflow-wrap: anywhere; }
-    .muted { color: var(--muted); font-size: 13px; }
-    nav {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 10px 0;
-    }
-    nav button { white-space: nowrap; }
-    .hidden { display: none !important; }
-    footer {
-      text-align: center;
-      padding: 28px 10px;
-      color: var(--muted);
-    }
-    a { color: var(--cyan); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080914">
+<title>GameZone | Gaming Universe</title>
+<style>
+:root{--bg:#080914;--panel:#12162a;--cyan:#22e6ed;--purple:#8657ff;--muted:#a7b1cf}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:system-ui,Arial,sans-serif}
+button,a,input{font:inherit}
+button{cursor:pointer;border:0;border-radius:12px;padding:12px 17px;color:white;background:linear-gradient(110deg,#7655ff,#13bde2);font-weight:750}
+a{color:var(--cyan);text-decoration:none}
+header{position:sticky;top:0;z-index:5;background:#080914ed;border-bottom:1px solid #272c46;padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:23px;font-weight:900}.logo span{color:var(--cyan)}
+nav{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+nav a{font-size:14px;color:#e3e8ff}
+main{width:min(1100px,94%);margin:auto}
+.hero{position:relative;overflow:hidden;min-height:400px;margin:24px 0;border:1px solid #30345b;border-radius:26px;background:radial-gradient(ellipse at 75% 45%,#41317d 0%,#151535 36%,#0c1023 75%);display:grid;grid-template-columns:1.1fr .9fr;align-items:center;padding:30px;gap:20px}
+.kicker{color:var(--cyan);letter-spacing:3px;font-size:12px;font-weight:800}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.02;margin:12px 0}
+.hero p,.muted{color:var(--muted);line-height:1.7}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.secondary{background:#242743;border:1px solid #41476a}
+.robotbox{height:300px;display:grid;place-items:center;perspective:650px;touch-action:pan-y;overflow:hidden}
+.robot{position:relative;width:155px;height:220px;transform-style:preserve-3d;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 20px #34e5f4aa);transition:transform .08s linear}
+.robot .head{position:absolute;top:10px;left:38px;width:80px;height:70px;border:3px solid #7bfaff;border-radius:25px 25px 17px 17px;background:linear-gradient(135deg,#384d73,#111728);box-shadow:inset 0 0 18px #29d8ed}
+.robot .eye{position:absolute;top:38px;width:19px;height:8px;background:#30faff;border-radius:8px;box-shadow:0 0 12px #30faff}
+.robot .eye.left{left:52px}.robot .eye.right{right:52px}
+.robot .body{position:absolute;top:88px;left:20px;width:115px;height:105px;border:3px solid #7bfaff;border-radius:22px 22px 12px 12px;background:linear-gradient(135deg,#52628c,#141a30);box-shadow:inset 0 0 20px #7358ff}
+.robot .core{position:absolute;top:117px;left:65px;width:25px;height:25px;border-radius:50%;background:#35fbff;box-shadow:0 0 22px #35fbff}
+.robot .arm{position:absolute;top:102px;width:18px;height:78px;border:3px solid #7bfaff;border-radius:12px;background:#202b49}
+.robot .arm.left{left:0;transform:rotate(10deg)}.robot .arm.right{right:0;transform:rotate(-10deg)}
+.robot .leg{position:absolute;top:184px;width:25px;height:34px;border-radius:8px;background:#263653;border:2px solid #7bfaff}
+.robot .leg.left{left:39px}.robot .leg.right{right:39px}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -9px}}
+.robot-caption{text-align:center;color:#8af9ff;font-size:12px}
+.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 14px}
+h2{margin:0;font-size:23px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.card,.panel{background:var(--panel);border:1px solid #292f4b;border-radius:17px;padding:16px}
+.card{display:flex;flex-direction:column;gap:10px;min-height:145px}
+.emoji{font-size:29px}.card h3{margin:0;font-size:16px}.card a{margin-top:auto;font-weight:700}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.pills button{padding:8px 12px;background:#1b2038;border:1px solid #343b59}
+.pills button.active{background:var(--purple)}
+.page{display:none;padding:15px 0 30px}.page.active{display:block}
+input{width:100%;padding:13px;border:1px solid #373e5e;border-radius:10px;background:#090d1d;color:white;margin:6px 0 12px}
+label{font-size:14px;color:#d7def4}
+.status{color:var(--cyan);overflow-wrap:anywhere;min-height:20px}
+footer{text-align:center;padding:30px;color:#8f9bb8}
+@media(max-width:700px){header{align-items:flex-start;flex-wrap:wrap}nav{gap:12px}.hero{grid-template-columns:1fr;padding:24px;min-height:0}.robotbox{height:230px;grid-row:1}.hero-copy{grid-row:2}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h1{font-size:39px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
 <header>
-  <div class="logo">🎮 Game<span>Zone</span></div>
-  <button id="accountButton" onclick="showSection('account')">Login</button>
+ <a class="logo" href="#home" onclick="showPage('home')">🎮 Game<span>Zone</span></a>
+ <nav>
+  <a href="#home" onclick="showPage('home')">Home</a>
+  <a href="#games" onclick="showPage('games')">Games</a>
+  <a href="#leaderboard" onclick="showPage('leaderboard')">Leaderboard</a>
+  <a href="#tournaments" onclick="showPage('tournaments')">Tournaments</a>
+  <a href="#account" onclick="showPage('account')">Account</a>
+ </nav>
+ <button onclick="showPage('account')" id="accountBtn">Login</button>
 </header>
-
 <main>
-  <section class="hero">
-    <h1>Play. Connect. Win.</h1>
-    <p>Apni favourite games khelo aur GameZone community ka hissa bano.</p>
-    <div class="row">
-      <button onclick="showSection('games')">🎮 Play Games</button>
-      <button class="secondary" onclick="showSection('account')">🔐 My Account</button>
+<section id="home" class="page active">
+ <div class="hero">
+  <div class="hero-copy">
+   <div class="kicker">YOUR NEXT GAMING DESTINATION</div>
+   <h1>PLAY.<br>CONNECT.<br><span style="color:#2be8ed">WIN.</span></h1>
+   <p>Enter the GameZone universe. Discover games, explore tournaments and challenge yourself.</p>
+   <div class="actions">
+    <button onclick="showPage('games')">🎮 Play Games</button>
+    <button class="secondary" onclick="guestMode()">Play as Guest</button>
+    <button class="secondary" onclick="showPage('account')">Login / Signup</button>
+   </div>
+   <p id="homeStatus" class="status">Welcome to GameZone!</p>
+  </div>
+  <div>
+   <div class="robotbox" id="robotbox" aria-label="Drag to rotate robot">
+    <div class="robot" id="robot">
+     <div class="head"></div><div class="eye left"></div><div class="eye right"></div>
+     <div class="body"></div><div class="core"></div>
+     <div class="arm left"></div><div class="arm right"></div>
+     <div class="leg left"></div><div class="leg right"></div>
     </div>
-    <p id="connectionStatus" class="status">Website starting...</p>
-  </section>
+   </div>
+   <div class="robot-caption">✦ AUTO ROTATION · TOUCH & DRAG ✦</div>
+  </div>
+ </div>
+ <div class="sectionhead"><h2>🔥 Trending Games</h2><a href="#games" onclick="showPage('games')">View all →</a></div>
+ <div class="grid" id="featured"></div>
+ <div class="sectionhead"><h2>🏆 Compete & Climb</h2></div>
+ <div class="grid">
+  <div class="card"><div class="emoji">🏆</div><h3>Tournaments</h3><p class="muted">Explore tournament information.</p><a href="#tournaments" onclick="showPage('tournaments')">Explore →</a></div>
+  <div class="card"><div class="emoji">📊</div><h3>Leaderboard</h3><p class="muted">See public rankings.</p><a href="#leaderboard" onclick="showPage('leaderboard')">View rankings →</a></div>
+  <div class="card"><div class="emoji">👤</div><h3>Your Account</h3><p class="muted">Sign in to access account features.</p><a href="#account" onclick="showPage('account')">Open account →</a></div>
+  <div class="card"><div class="emoji">💬</div><h3>Community</h3><p class="muted">Private messaging requires login.</p><a href="#community" onclick="showPage('community')">Open community →</a></div>
+ </div>
+</section>
 
-  <nav aria-label="Main navigation">
-    <button onclick="showSection('games')">Games</button>
-    <button onclick="showSection('account')">Login / Signup</button>
-    <button onclick="showSection('community')">Friends & Chat</button>
-    <button onclick="showSection('leaderboard')">Leaderboard</button>
-    <button onclick="showSection('tournaments')">Tournaments</button>
-  </nav>
+<section id="games" class="page">
+ <div class="sectionhead"><h2>🎮 Game Library</h2></div>
+ <input id="gameSearch" placeholder="Search games..." oninput="renderGames()">
+ <div class="pills" id="filters"></div>
+ <div class="grid" id="allGames"></div>
+</section>
 
-  <section id="games">
-    <h2 class="section-title">🔥 Popular Games</h2>
-    <div class="grid" id="gameGrid"></div>
-  </section>
+<section id="account" class="page">
+ <div class="sectionhead"><h2>🔐 Login / Create Account</h2></div>
+ <div class="panel">
+  <p id="userStatus" class="muted">Guest mode. Login to access your account.</p>
+  <label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+  <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters">
+  <div class="actions">
+   <button id="signupBtn" onclick="signUp()">Create Account</button>
+   <button id="loginBtn" onclick="signIn()">Login</button>
+   <button class="secondary" onclick="googleLogin()">Google Login</button>
+   <button class="secondary" onclick="resetPassword()">Forgot Password</button>
+   <button class="secondary" onclick="signOut()">Logout</button>
+  </div>
+  <p id="authMessage" class="status"></p>
+  <p class="muted">Signup ke baad email verification zaroori ho sakti hai. Google login ke liye Supabase mein Google provider configure karo.</p>
+ </div>
+</section>
 
-  <section id="account" class="hidden">
-    <h2 class="section-title">🔐 Your Account</h2>
-    <div class="panel">
-      <p id="userStatus">Login karke apna account kholo.</p>
-      <label for="email">Email address</label>
-      <input id="email" type="email" autocomplete="email"
-             placeholder="your@email.com">
-      <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password"
-             placeholder="Password (minimum 6 characters)">
-      <div class="row">
-        <button id="signupBtn" onclick="signUp()">Create Account</button>
-        <button id="loginBtn" onclick="signIn()">Login</button>
-      </div>
-      <button class="secondary" style="width:100%;margin-top:10px"
-              onclick="googleLogin()">Continue with Google</button>
-      <button class="secondary" style="width:100%;margin-top:10px"
-              onclick="resetPassword()">Forgot Password?</button>
-      <button id="logoutBtn" class="hidden" style="width:100%;margin-top:10px"
-              onclick="signOut()">Logout</button>
-      <p class="muted">Signup ke baad email verification maangi ja sakti hai.
-        Google Login ke liye Supabase mein Google provider enable karna hoga.</p>
-      <p id="authMessage" class="status" role="status"></p>
-    </div>
-  </section>
+<section id="community" class="page">
+ <div class="sectionhead"><h2>👥 Friends & Messages</h2></div>
+ <div class="panel"><p id="communityStatus">Private messages ke liye login karo.</p><p class="muted">Friends aur private chat ke liye Supabase database tables aur Row Level Security policies configure karni hongi.</p></div>
+</section>
 
-  <section id="community" class="hidden">
-    <h2 class="section-title">👥 Friends & Chat</h2>
-    <div class="panel">
-      <p>Friends aur private messages use karne ke liye pehle login karo.</p>
-      <p id="communityStatus" class="status">Login required.</p>
-      <p class="muted">Is section ko chalane ke liye profiles, friend_requests
-        aur messages tables, proper foreign keys aur Row Level Security policies
-        Supabase mein configure honi chahiye.</p>
-    </div>
-  </section>
+<section id="leaderboard" class="page">
+ <div class="sectionhead"><h2>🏆 Leaderboard</h2></div>
+ <div class="panel"><p id="leaderboardStatus">Public leaderboard database se connect hone par yahan dikhega.</p><ol id="leaderboardList"></ol></div>
+</section>
 
-  <section id="leaderboard" class="hidden">
-    <h2 class="section-title">🏆 Leaderboard</h2>
-    <div class="panel">
-      <p id="leaderboardStatus">Leaderboard load karne ke liye database setup zaroori hai.</p>
-      <ol id="leaderboardList"></ol>
-    </div>
-  </section>
-
-  <section id="tournaments" class="hidden">
-    <h2 class="section-title">🏅 Tournaments</h2>
-    <div class="panel">
-      <p id="tournamentStatus">Tournament list abhi configure nahi hui hai.</p>
-      <p class="muted">Tournament feature ke liye tournaments table aur
-        secure registration policies chahiye.</p>
-    </div>
-  </section>
+<section id="tournaments" class="page">
+ <div class="sectionhead"><h2>🥇 Tournaments</h2></div>
+ <div class="panel"><p id="tournamentStatus">Tournament information yahan dikhegi jab database configure hoga.</p></div>
+</section>
 </main>
-
 <footer>© <span id="year"></span> GameZone · Play fair, have fun.</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
 
-// Apna Supabase Project URL aur Publishable Key yahan daalo.
-// Secret/service_role key kabhi public HTML mein mat daalna.
+// Apne purane code se apna asli URL aur Publishable Key yahan paste karna.
 const SUPABASE_URL = "https://yfcdscjvebwvkvjvnaxi.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_AGSqsuA7Z9EYIPlGD-sHtQ_v5Ls6iXY";
 
-const games = [
-  ["🐍", "Google Snake", "https://www.google.com/fbx?fbx=snake_arcade"],
-  ["🔢", "2048", "https://play2048.co/"],
-  ["🔷", "Hextris", "https://hextris.io/"],
-  ["🎨", "Quick Draw", "https://quickdraw.withgoogle.com/"],
-  ["🦖", "Chrome Dino", "https://chromedino.com/"],
-  ["🧪", "Little Alchemy 2", "https://littlealchemy2.com/"],
-  ["💣", "Minesweeper", "https://minesweeper.online/"],
-  ["🃏", "Solitaire", "https://solitaired.com/"],
-  ["🏀", "Basketball Stars", "https://www.basketballstars.com/"],
-  ["🧱", "Tetris", "https://tetris.com/play-tetris"],
-  ["🍬", "Cut the Rope", "https://www.cuttherope.net/"],
-  ["👾", "Pac-Man", "https://www.google.com/logos/2010/pacman10-i.html"]
+const games=[
+ ["🐍","Google Snake","https://www.google.com/fbx?fbx=snake_arcade","Puzzle"],
+ ["🔢","2048","https://play2048.co/","Puzzle"],
+ ["🔷","Hextris","https://hextris.io/","Puzzle"],
+ ["🎨","Quick Draw","https://quickdraw.withgoogle.com/","Casual"],
+ ["🦖","Chrome Dino","https://chromedino.com/","Arcade"],
+ ["🧪","Little Alchemy 2","https://littlealchemy2.com/","Puzzle"],
+ ["💣","Minesweeper","https://minesweeper.online/","Puzzle"],
+ ["🃏","Solitaire","https://solitaired.com/","Cards"],
+ ["🏀","Basketball Stars","https://www.basketballstars.com/","Sports"],
+ ["🧱","Tetris","https://tetris.com/play-tetris","Puzzle"],
+ ["🍬","Cut the Rope","https://www.cuttherope.net/","Puzzle"],
+ ["👾","Pac-Man","https://www.google.com/logos/2010/pacman10-i.html","Arcade"]
 ];
+let category="All";
+let client=null;
+let currentUser=null;
+let guest=true;
+let robotAngle=0,dragging=false,lastX=0,lastMove=0;
 
-const gameGrid = document.getElementById("gameGrid");
-games.forEach(([emoji, name, url]) => {
-  const article = document.createElement("article");
-  article.className = "game";
-
-  const icon = document.createElement("div");
-  icon.className = "emoji";
-  icon.textContent = emoji;
-
-  const title = document.createElement("h3");
-  title.textContent = name;
-
-  const link = document.createElement("a");
-  link.href = url;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.textContent = "Play Now ↗";
-
-  article.append(icon, title, link);
-  gameGrid.appendChild(article);
-});
-
-document.getElementById("year").textContent = new Date().getFullYear();
-
-const configured =
-  /^https:\/\/[a-zA-Z0-9-]+\.supabase\.co\/?$/.test(SUPABASE_URL) &&
-  SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_") &&
-  !SUPABASE_PUBLISHABLE_KEY.includes("YOUR_");
-
-let supabaseClient = null;
-let currentUser = null;
-
-function showSection(id) {
-  ["games", "account", "community", "leaderboard", "tournaments"]
-    .forEach(sectionId => {
-      document.getElementById(sectionId)
-        .classList.toggle("hidden", sectionId !== id);
-    });
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
+ if(location.hash!=="#"+id) history.replaceState(null,"","#"+id);
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(id==="community"&&!currentUser) document.getElementById("communityStatus").textContent="Guest mode mein private messages available nahi hain. Login karo.";
 }
-
-function showAuthMessage(message) {
-  document.getElementById("authMessage").textContent = message;
+function guestMode(){
+ guest=true;
+ document.getElementById("homeStatus").textContent="Guest mode active — games aur public pages use kar sakte ho.";
+ showPage("games");
 }
+function safeText(el,text){el.textContent=text;}
+function renderCard(game){
+ const [emoji,name,url]=game;
+ const card=document.createElement("article");card.className="card";
+ const icon=document.createElement("div");icon.className="emoji";icon.textContent=emoji;
+ const title=document.createElement("h3");title.textContent=name;
+ const link=document.createElement("a");link.href=url;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Play Now ↗";
+ card.append(icon,title,link);return card;
+}
+function renderFeatured(){
+ const host=document.getElementById("featured");host.replaceChildren();
+ games.slice(0,4).forEach(g=>host.appendChild(renderCard(g)));
+}
+function renderFilters(){
+ const host=document.getElementById("filters");host.replaceChildren();
+ ["All","Puzzle","Arcade","Casual","Cards","Sports"].forEach(cat=>{
+  const b=document.createElement("button");b.textContent=cat;
+  b.className=cat===category?"active":"";
+  b.onclick=()=>{category=cat;renderFilters();renderGames();};
+  host.appendChild(b);
+ });
+}
+function renderGames(){
+ const q=(document.getElementById("gameSearch").value||"").toLowerCase();
+ const host=document.getElementById("allGames");host.replaceChildren();
+ games.filter(g=>(category==="All"||g[3]===category)&&g[1].toLowerCase().includes(q))
+ .forEach(g=>host.appendChild(renderCard(g)));
+}
+const configured=
+ /^https:\/\/[a-zA-Z0-9-]+\.supabase\.co\/?$/.test(SUPABASE_URL)&&
+ SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")&&
+ !SUPABASE_PUBLISHABLE_KEY.includes("YOUR_");
 
-function setBusy(busy) {
-  ["signupBtn", "loginBtn"].forEach(id => {
-    document.getElementById(id).disabled = busy;
+function authMessage(msg){safeText(document.getElementById("authMessage"),msg);}
+function updateUser(user){
+ currentUser=user||null;
+ guest=!currentUser;
+ document.getElementById("accountBtn").textContent=currentUser?"My Account":"Login";
+ document.getElementById("userStatus").textContent=currentUser
+  ?"Logged in: "+currentUser.email
+  :"Guest mode. Login to access your account.";
+ document.getElementById("communityStatus").textContent=currentUser
+  ?"Login successful. Friends/chat database setup abhi required hai."
+  :"Guest mode mein private messages available nahi hain. Login karo.";
+ document.getElementById("homeStatus").textContent=currentUser
+  ?"Welcome back! "+currentUser.email
+  :"Guest mode available — login optional.";
+}
+async function signUp(){
+ if(!client)return authMessage("Pehle apna Supabase URL aur Publishable Key set karo.");
+ const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+ if(!email||password.length<6)return authMessage("Valid email aur minimum 6-character password daalo.");
+ try{
+  const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});
+  if(error)throw error;
+  authMessage(data.session?"Account created and logged in.":"Signup successful. Email verification check karo.");
+ }catch(e){authMessage("Signup error: "+e.message);}
+}
+async function signIn(){
+ if(!client)return authMessage("Pehle apna Supabase URL aur Publishable Key set karo.");
+ const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+ if(!email||!password)return authMessage("Email aur password daalo.");
+ try{
+  const {error}=await client.auth.signInWithPassword({email,password});
+  if(error)throw error;
+  authMessage("Login successful!");
+  showPage("home");
+ }catch(e){authMessage("Login error: "+e.message);}
+}
+async function googleLogin(){
+ if(!client)return authMessage("Pehle Supabase URL aur Publishable Key set karo.");
+ try{
+  const {error}=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});
+  if(error)throw error;
+ }catch(e){authMessage("Google Login error: "+e.message);}
+}
+async function resetPassword(){
+ if(!client)return authMessage("Pehle Supabase setup karo.");
+ const email=document.getElementById("email").value.trim();
+ if(!email)return authMessage("Pehle email daalo.");
+ try{
+  const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+  if(error)throw error;authMessage("Agar account maujood hai to reset email bheji gayi hai.");
+ }catch(e){authMessage("Reset error: "+e.message);}
+}
+async function signOut(){
+ if(!client)return;
+ try{const {error}=await client.auth.signOut();if(error)throw error;authMessage("Logout successful.");showPage("home");}
+ catch(e){authMessage("Logout error: "+e.message);}
+}
+async function init(){
+ document.getElementById("year").textContent=new Date().getFullYear();
+ renderFeatured();renderFilters();renderGames();
+ const requested=location.hash.slice(1);
+ if(["home","games","account","community","leaderboard","tournaments"].includes(requested))showPage(requested);
+ if(!configured){
+  document.getElementById("homeStatus").textContent="Supabase setup required for account features.";
+  return;
+ }
+ if(!window.supabase){document.getElementById("homeStatus").textContent="Supabase library load nahi hui; internet check karo.";return;}
+ try{
+  client=window.supabase.createClient(SUPABASE_URL.replace(/\/$/,""),SUPABASE_PUBLISHABLE_KEY,{
+   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
   });
+  const {data,error}=await client.auth.getSession();if(error)throw error;
+  updateUser(data.session?.user||null);
+  client.auth.onAuthStateChange((_event,session)=>updateUser(session?.user||null));
+ }catch(e){document.getElementById("homeStatus").textContent="Supabase error: "+e.message;}
 }
 
-function updateAccount(user) {
-  currentUser = user || null;
-  const loggedIn = Boolean(currentUser);
-
-  document.getElementById("accountButton").textContent =
-    loggedIn ? "My Account" : "Login";
-  document.getElementById("logoutBtn").classList.toggle("hidden", !loggedIn);
-  document.getElementById("userStatus").textContent = loggedIn
-    ? "Logged in: " + currentUser.email
-    : "Login karke apna account kholo.";
-
-  document.getElementById("communityStatus").textContent = loggedIn
-    ? "Logged in. Friends aur chat ke liye database tables configure karo."
-    : "Friends aur chat ke liye login zaroori hai.";
-}
-
-async function signUp() {
-  if (!supabaseClient) return showAuthMessage("Pehle Supabase URL aur key sahi daalo.");
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!email || password.length < 6) {
-    return showAuthMessage("Sahi email aur kam se kam 6 character ka password daalo.");
-  }
-
-  setBusy(true);
-  showAuthMessage("Account ban raha hai...");
-  try {
-    const { data, error } = await supabaseClient.auth.signUp({ email, password });
-    if (error) throw error;
-    showAuthMessage(data.session
-      ? "Account ban gaya. Aap login ho gaye."
-      : "Signup request successful. Email verification check karo.");
-  } catch (error) {
-    showAuthMessage("Signup error: " + error.message);
-  } finally {
-    setBusy(false);
-  }
-}
-
-async function signIn() {
-  if (!supabaseClient) return showAuthMessage("Pehle Supabase URL aur key sahi daalo.");
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  if (!email || !password) return showAuthMessage("Email aur password daalo.");
-
-  setBusy(true);
-  showAuthMessage("Login ho raha hai...");
-  try {
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    showAuthMessage("Login successful!");
-  } catch (error) {
-    showAuthMessage("Login error: " + error.message);
-  } finally {
-    setBusy(false);
-  }
-}
-
-async function googleLogin() {
-  if (!supabaseClient) return showAuthMessage("Pehle Supabase URL aur key sahi daalo.");
-  try {
-    const { error } = await supabaseClient.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.origin + window.location.pathname }
-    });
-    if (error) throw error;
-  } catch (error) {
-    showAuthMessage("Google Login error: " + error.message);
-  }
-}
-
-async function resetPassword() {
-  if (!supabaseClient) return showAuthMessage("Pehle Supabase setup karo.");
-  const email = document.getElementById("email").value.trim();
-  if (!email) return showAuthMessage("Pehle email address daalo.");
-
-  try {
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + window.location.pathname
-    });
-    if (error) throw error;
-    showAuthMessage("Agar account maujood hai, password reset email bheji gayi hai.");
-  } catch (error) {
-    showAuthMessage("Reset error: " + error.message);
-  }
-}
-
-async function signOut() {
-  if (!supabaseClient) return;
-  try {
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) throw error;
-    showAuthMessage("Logout successful.");
-  } catch (error) {
-    showAuthMessage("Logout error: " + error.message);
-  }
-}
-
-async function initialize() {
-  if (!configured) {
-    document.getElementById("connectionStatus").textContent =
-      "Setup pending: Supabase URL aur Publishable Key daalo.";
-    return;
-  }
-
-  if (!window.supabase || !window.supabase.createClient) {
-    document.getElementById("connectionStatus").textContent =
-      "Supabase library load nahi hui. Internet check karo.";
-    return;
-  }
-
-  try {
-    supabaseClient = window.supabase.createClient(
-      SUPABASE_URL.replace(/\/$/, ""),
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-    const { data, error } = await supabaseClient.auth.getSession();
-    if (error) throw error;
-
-    updateAccount(data.session?.user || null);
-    document.getElementById("connectionStatus").textContent =
-      "Supabase connected. Account status ready.";
-
-    supabaseClient.auth.onAuthStateChange((_event, session) => {
-      updateAccount(session?.user || null);
-    });
-  } catch (error) {
-    document.getElementById("connectionStatus").textContent =
-      "Supabase setup error: " + error.message;
-  }
-}
-
-initialize();
+// Lightweight illustrative robot: auto-rotates; drag to turn.
+// A real 3D model is needed for genuine 360-degree 3D viewing.
+const box=document.getElementById("robotbox"),robot=document.getElementById("robot");
+function paintRobot(){robot.style.transform="rotateY("+robotAngle+"deg) rotateX(-3deg)";}
+box.addEventListener("pointerdown",e=>{dragging=true;lastX=e.clientX;lastMove=Date.now();box.setPointerCapture(e.pointerId);});
+box.addEventListener("pointermove",e=>{if(!dragging)return;robotAngle+=(e.clientX-lastX)*0.9;lastX=e.clientX;lastMove=Date.now();paintRobot();});
+function stopDrag(){dragging=false;}
+box.addEventListener("pointerup",stopDrag);box.addEventListener("pointercancel",stopDrag);
+setInterval(()=>{if(!dragging&&Date.now()-lastMove>1000){robotAngle+=0.45;paintRobot();}},30);
+init();
 </script>
 </body>
 </html>
