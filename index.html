@@ -1,300 +1,240 @@
+
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GAME ZONE - Play Beyond Limits | Ultra 3D Platform</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: { cyan: '#00f2fe', purple: '#9d4edd', pink: '#f72585', darkBg: '#080811', cardBg: 'rgba(20, 20, 35, 0.6)' }
-          },
-          fontFamily: { orbitron: ['Orbitron', 'sans-serif'], inter: ['Inter', 'sans-serif'] }
-        }
-      }
-    }
-  </script>
-
-  <!-- Google Fonts & Lucide & Three.js -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <style>
-    body { background-color: #06060c; color: #f1f5f9; font-family: 'Inter', sans-serif; overflow-x: hidden; touch-action: manipulation; }
-    .font-orbitron { font-family: 'Orbitron', sans-serif; }
-    .glass-panel { background: rgba(15, 17, 28, 0.65); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .glass-card { background: rgba(22, 25, 42, 0.5); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.07); transition: all 0.3s ease; }
-    .glass-card:hover { transform: translateY(-6px) scale(1.02); border-color: rgba(0, 242, 254, 0.4); box-shadow: 0 15px 30px -10px rgba(0, 242, 254, 0.25); }
-    .glow-text { text-shadow: 0 0 20px rgba(0, 242, 254, 0.6), 0 0 40px rgba(247, 37, 133, 0.4); }
-    .gradient-btn { background: linear-gradient(135deg, #00f2fe 0%, #9d4edd 50%, #f72585 100%); background-size: 200% 200%; animation: gradientShift 6s ease infinite; }
-    @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    ::-webkit-scrollbar { width: 6px; }::-webkit-scrollbar-track { background: #06060c; }::-webkit-scrollbar-thumb { background: #1e2238; border-radius: 3px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050914">
+<title>GameZone — Play. Explore. Enjoy.</title>
+<style>
+:root{--bg:#050914;--panel:#0d1628;--line:#24334b;--blue:#16c9ff;--purple:#7654ff;--muted:#a7b4ca}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+header{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 4%;background:#070d19;border-bottom:1px solid #202b40;position:sticky;top:0;z-index:10}
+.logo{font-size:clamp(17px,2vw,25px);font-weight:900;letter-spacing:-.8px;white-space:nowrap}
+.logo span{color:var(--blue)}
+.logo em{font-style:normal;color:#8c73ff}
+nav{display:flex;gap:24px;font-size:13px;color:#c5cee0}
+nav a:hover{color:var(--blue)}
+.search{width:min(240px,28vw);padding:12px 14px;border-radius:24px;background:#111c30;border:1px solid #30415c;color:white;outline:none;font-size:12px}
+.search:focus{border-color:var(--blue)}
+main{max-width:1500px;margin:auto;padding:22px 4% 60px}
+.hero{min-height:350px;position:relative;overflow:hidden;display:flex;align-items:center;border:1px solid #27334d;border-radius:14px;background:#101a31}
+.hero-art{position:absolute;inset:0;background:linear-gradient(90deg,#080e1bf5 0%,#080e1be8 32%,#080e1b88 62%,#080e1b25 100%),url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=85') center 43%/cover;transform:scale(1.02)}
+.hero:after{content:"";position:absolute;inset:auto 0 0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple),#fa42be)}
+.hero-content{position:relative;z-index:1;padding:38px;max-width:610px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:#7feaff;font-weight:bold}
+h1{font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-2px;margin:17px 0}
+h1 span{color:#8b83ff}
+.hero p{font-size:14px;line-height:1.7;color:#c0cbe0;max-width:430px}
+.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;justify-content:center;align-items:center;padding:14px 19px;border-radius:7px;font-size:11px;font-weight:800;letter-spacing:.4px;border:1px solid #536486;background:#101a2c}
+.btn.primary{background:linear-gradient(100deg,#06bff3,#514cff,#a638f1);border:0;box-shadow:0 5px 24px #4c54ff35}
+.btn:hover{filter:brightness(1.18)}
+.section{margin-top:34px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:17px}
+h2{font-size:23px;margin:0 0 7px;letter-spacing:-.5px}
+.sub{color:var(--muted);font-size:12px;line-height:1.6;margin:0}
+.categories{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}
+.cat{padding:15px 6px;background:#0d1627;border:1px solid #24334b;border-radius:9px;color:#dce6f7;cursor:pointer;font-size:11px;min-width:0}
+.cat .emoji{display:block;font-size:24px;margin-bottom:10px}
+.cat.active,.cat:hover{border-color:#20cfff;background:linear-gradient(145deg,#102d48,#11152a);box-shadow:inset 0 0 18px #1bc9ff13}
+.cat.active{color:#8ceeff}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.game{min-width:0;overflow:hidden;background:#0b1424;border:1px solid #23334b;border-radius:10px;transition:transform .2s,border-color .2s}
+.game:hover{transform:translateY(-4px);border-color:#687fff}
+.game[hidden]{display:none}
+.cover{height:145px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 70%,var(--glow,#2564ac),transparent 65%),linear-gradient(135deg,#1a2a46,#080e1b)}
+.cover:before{content:"";position:absolute;width:150px;height:55px;border:1px solid #ffffff2b;border-radius:50%;transform:rotate(-20deg);box-shadow:0 0 0 15px #ffffff04,0 0 0 30px #ffffff04}
+.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#08101be8,transparent 75%)}
+.cover .symbol{position:relative;z-index:1;font-size:55px;filter:drop-shadow(0 6px 15px #0009);transition:transform .25s}
+.game:hover .symbol{transform:scale(1.12) rotate(-4deg)}
+.game-info{padding:12px}
+.game h3{font-size:14px;margin:0 0 7px}
+.game p{font-size:11px;color:#aab7cc;line-height:1.5;margin:0;min-height:32px}
+.play{display:flex;align-items:center;justify-content:center;margin-top:12px;padding:11px 5px;border-radius:6px;background:linear-gradient(100deg,#087ef7,#414eff,#a22ae0);font-size:10px;font-weight:800}
+.play:hover{filter:brightness(1.2)}
+#empty{padding:24px 0;color:#b9c4d8}
+footer{border-top:1px solid #1e2b41;padding:26px 4%;color:#8290a9;font-size:11px;text-align:center}
+@media(min-width:1100px){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:850px){nav{display:none}.categories{grid-template-columns:repeat(4,minmax(0,1fr))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{min-height:320px}}
+@media(max-width:560px){
+header{height:62px;padding:0 4%;gap:10px}.logo{font-size:18px}.search{width:44vw;padding:10px 12px;font-size:11px}
+main{padding:14px 4% 40px}.hero{min-height:355px;border-radius:10px}
+.hero-art{background-position:58% center}
+.hero-content{padding:23px 18px}h1{font-size:43px}
+.hero p{font-size:13px;max-width:300px}
+.btn{padding:13px 14px}
+.section{margin-top:29px}h2{font-size:21px}
+.categories{gap:8px}.cat{padding:12px 4px;font-size:10px}.cat .emoji{font-size:21px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cover{height:120px}.cover .symbol{font-size:45px}
+.game-info{padding:10px}.game h3{font-size:12px}.game p{font-size:10px;min-height:31px}
+.play{font-size:10px;padding:10px 3px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+</style>
 </head>
-<body class="selection:bg-cyan-500 selection:text-black">
+<body>
+<header>
+  <a class="logo" href="#">🎮 GAME<span>ZONE</span><em>.</em></a>
+  <nav><a href="#">Home</a><a href="#games">Games</a><a href="#categories">Categories</a><a href="#popular">Popular</a></nav>
+  <input class="search" id="search" type="search" placeholder="⌕ Search games..." aria-label="Search games">
+</header>
 
-  <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 lg:px-8 py-3.5">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-      <a href="#" class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-purple-600 to-pink-500 p-[2px]">
-          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-            <i data-lucide="gamepad-2" class="w-6 h-6 text-cyan-400"></i>
-          </div>
-        </div>
-        <span class="font-orbitron text-xl lg:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">GAME<span class="text-cyan-400">ZONE</span></span>
-      </a>
-
-      <div class="hidden md:flex items-center relative flex-1 max-w-md mx-6">
-        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 text-slate-400"></i>
-        <input type="text" id="searchInput" placeholder="Search games (Snake, 2048, Dino)..." class="w-full bg-slate-900/85 text-sm text-slate-200 placeholder-slate-500 rounded-full pl-10 pr-4 py-2 border border-slate-700/60 focus:outline-none focus:border-cyan-400">
-      </div>
-
-      <div class="flex items-center gap-3">
-        <button onclick="toggleSound()" class="p-2.5 rounded-full bg-slate-800/80 text-cyan-400 border border-slate-700"><i data-lucide="volume-2" id="soundIcon" class="w-5 h-5"></i></button>
-        <a href="#games" class="gradient-btn text-slate-950 font-orbitron font-bold text-xs lg:text-sm px-5 py-2.5 rounded-full">PLAY NOW</a>
-      </div>
-    </div>
-    <div class="mt-3 md:hidden">
-      <div class="relative">
-        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3 text-slate-400"></i>
-        <input type="text" id="searchInputMobile" placeholder="Search games..." class="w-full bg-slate-900/90 text-sm text-slate-200 placeholder-slate-500 rounded-full pl-10 pr-4 py-2 border border-slate-700/60">
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO SECTION -->
-  <section id="hero" class="relative min-h-[80vh] flex items-center justify-center px-4 py-12">
-    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-      <div class="lg:col-span-7 z-10 text-center lg:text-left">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> ENTER ANOTHER DIMENSION
-        </div>
-        <h1 class="font-orbitron text-4xl sm:text-6xl lg:text-7xl font-black leading-none mb-6">
-          PLAY <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 glow-text">BEYOND LIMITS.</span>
-        </h1>
-        <p class="text-slate-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-8 font-light">
-          Step into a new gaming universe. Discover arcade classics, puzzles, and 3D adventures waiting to be explored.
-        </p>
-        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-10">
-          <a href="#games" onclick="playAudioFX()" class="gradient-btn text-slate-950 font-orbitron font-bold px-8 py-4 rounded-xl text-sm flex items-center gap-2">
-            <i data-lucide="play" class="w-5 h-5 fill-current"></i> ENTER THE ARCADE
-          </a>
-          <a href="#categories" class="glass-panel text-slate-200 font-medium px-6 py-4 rounded-xl text-sm flex items-center gap-2">EXPLORE GAMES</a>
-        </div>
-      </div>
-      <div class="lg:col-span-5 relative h-[350px] sm:h-[420px] w-full flex items-center justify-center">
-        <div id="hero-3d-container" class="w-full h-full relative cursor-grab"></div>
-      </div>
-    </div>
-  </section>  <!-- CATEGORIES -->
-  <section id="categories" class="max-w-7xl mx-auto px-4 py-8">
-    <div class="mb-6">
-      <span class="text-xs font-orbitron text-cyan-400 font-semibold tracking-widest uppercase">FIND YOUR NEXT OBSESSION</span>
-      <h2 class="font-orbitron text-2xl sm:text-4xl font-bold mt-1 text-slate-100">Choose your universe.</h2>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3" id="categoryGrid"></div>
-  </section>
-
-  <!-- GAMES GRID -->
-  <section id="games" class="max-w-7xl mx-auto px-4 py-8">
-    <div class="flex items-end justify-between mb-6">
-      <div>
-        <span class="text-xs font-orbitron text-pink-500 font-semibold tracking-widest uppercase">THE GAME COLLECTION</span>
-        <h2 class="font-orbitron text-2xl sm:text-4xl font-bold mt-1 text-slate-100">Find your next <span class="text-cyan-400">favourite.</span></h2>
-      </div>
-      <div class="text-xs text-slate-400 font-orbitron">SHOWING: <span id="gameCount" class="text-cyan-400 font-bold">10</span> GAMES</div>
-    </div>
-    <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="glass-panel border-t border-slate-800/80 mt-16 py-8 px-4 text-center">
-    <p class="text-xs text-slate-500">© 2026 GAME ZONE. Built for high performance & realistic 3D gaming.</p>
-  </footer>
-
-  <!-- MODAL -->
-  <div id="gameModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-xl hidden flex-col items-center justify-center p-2 sm:p-6">
-    <div class="relative w-full max-w-4xl h-[85vh] glass-panel rounded-2xl overflow-hidden flex flex-col border border-cyan-500/30">
-      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80">
-        <div class="flex items-center gap-3">
-          <span id="modalGameIcon" class="text-2xl">🎮</span>
-          <div>
-            <h3 id="modalGameTitle" class="font-orbitron text-lg font-bold text-cyan-400">Title</h3>
-            <span id="modalGameCategory" class="text-xs text-slate-400 uppercase font-orbitron">Category</span>
-          </div>
-        </div>
-        <button onclick="closeGameModal()" class="p-2 rounded-lg bg-slate-800 text-slate-300"><i data-lucide="x" class="w-6 h-6"></i></button>
-      </div>
-      <div id="gameViewport" class="flex-1 relative bg-black flex items-center justify-center overflow-hidden"></div>
+<main>
+<section class="hero">
+  <div class="hero-art"></div>
+  <div class="hero-content">
+    <div class="eyebrow">WELCOME TO YOUR GAMING WORLD</div>
+    <h1>PLAY.<br>EXPLORE.<br><span>ENJOY.</span></h1>
+    <p>Discover amazing free games, explore different worlds and find your next favourite. Your next adventure starts here.</p>
+    <div class="buttons">
+      <a class="btn primary" href="#games">🎮 &nbsp; EXPLORE GAMES →</a>
+      <a class="btn" href="#categories">VIEW CATEGORIES</a>
     </div>
   </div>
+</section>
 
-  <!-- SCRIPT -->
-  <script>
-    lucide.createIcons();
-    const gamesData = [
-      { id: 'snake', title: 'Google Snake', category: 'Classic', icon: '🐍', desc: 'Eat, grow, and avoid your own tail in this arcade favorite.' },
-      { id: '2048', title: '2048', category: 'Puzzle', icon: '🔢', desc: 'Merge matching numbers to reach the ultimate 2048 tile.' },
-      { id: 'hextris', title: 'Hextris', category: 'Arcade', icon: '⬡', desc: 'Rotate the hexagon to stack and match falling colored blocks.' },
-      { id: 'dino', title: 'Chrome Dino', category: 'Runner', icon: '🦖', desc: 'Jump over obstacles and run as far as you can in 3D speed.' },
-      { id: 'pacman', title: 'Pac-Man', category: 'Arcade', icon: '🟡', desc: 'Chomp dots and evade ghosts through retro labyrinth mazes.' },
-      { id: 'tetris', title: 'Tetris 3D', category: 'Puzzle', icon: '🧱', desc: 'Fit falling geometric blocks to clear lines and score high.' },
-      { id: 'minesweeper', title: 'Minesweeper', category: 'Strategy', icon: '💣', desc: 'Use pure logic to sweep the grid and flag hidden mines.' },
-      { id: 'solitaire', title: 'Solitaire', category: 'Classic', icon: '🃏', desc: 'The timeless card game designed for relaxing strategic play.' },
-      { id: 'basketball', title: 'Basketball', category: 'Sports', icon: '🏀', desc: 'Aim your shot and sink consecutive 3-pointers.' },
-      { id: 'cuttherope', title: 'Cut the Rope', category: 'Casual', icon: '🍬', desc: 'Cut ropes strategically to feed candy to Om Nom.' }
-    ];
+<section class="section" id="categories">
+  <div class="categories">
+    <button class="cat active" data-cat="All"><span class="emoji">🎮</span>All Games</button>
+    <button class="cat" data-cat="Arcade"><span class="emoji">👾</span>Arcade</button>
+    <button class="cat" data-cat="Puzzle"><span class="emoji">🧩</span>Puzzle</button>
+    <button class="cat" data-cat="Action"><span class="emoji">⚔️</span>Action</button>
+    <button class="cat" data-cat="Sports"><span class="emoji">🏀</span>Sports</button>
+    <button class="cat" data-cat="Strategy"><span class="emoji">♟️</span>Strategy</button>
+    <button class="cat" data-cat="Creative"><span class="emoji">🎨</span>Creative</button>
+    <button class="cat" data-cat="Classic"><span class="emoji">👑</span>Classic</button>
+  </div>
+</section>
 
-    const categories = [
-      { id: 'all', label: 'All Games', icon: 'gamepad-2' },
-      { id: 'Arcade', label: 'Arcade', icon: 'ghost' },
-      { id: 'Puzzle', label: 'Puzzle', icon: 'puzzle' },
-      { id: 'Classic', label: 'Classic', icon: 'trophy' },
-      { id: 'Casual', label: 'Casual', icon: 'star' },
-      { id: 'Strategy', label: 'Strategy', icon: 'sword' },
-      { id: 'Sports', label: 'Sports', icon: 'dribbble' }
-    ];
+<section class="section" id="popular">
+  <div class="section-head">
+    <div><h2>🔥 Popular Games</h2><p class="sub">Pick a game and jump straight into the fun.</p></div>
+    <a class="sub" href="#games">View all →</a>
+  </div>
+  <div class="grid" id="games">
 
-    let activeCategory = 'all';
-    let searchQuery = '';
-    let soundEnabled = true;
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    <article class="game" data-name="Google Snake" data-cat="Arcade">
+      <a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#167f64"><span class="symbol">🐍</span></div>
+        <div class="game-info"><h3>Google Snake</h3><p>Grow your snake and beat your best score.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    function playAudioFX() {
-      if (!soundEnabled) return;
-      try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-      } catch(e){}
-    }
+    <article class="game" data-name="2048" data-cat="Puzzle">
+      <a href="https://play2048.co/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#b17b36"><span class="symbol">🔢</span></div>
+        <div class="game-info"><h3>2048</h3><p>Merge number tiles to reach the goal.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    function toggleSound() {
-      soundEnabled = !soundEnabled;
-      document.getElementById('soundIcon').setAttribute('data-lucide', soundEnabled ? 'volume-2' : 'volume-x');
-      lucide.createIcons();
-    }
+    <article class="game" data-name="Hextris" data-cat="Puzzle">
+      <a href="https://hextris.io/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#663bce"><span class="symbol">🔷</span></div>
+        <div class="game-info"><h3>Hextris</h3><p>Match blocks in this fast puzzle challenge.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    function renderCategories() {
-      document.getElementById('categoryGrid').innerHTML = categories.map(cat => `
-        <button onclick="setCategory('${cat.id}')" class="flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
-          activeCategory === cat.id ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300' : 'glass-card border-slate-800 text-slate-400'
-        }">
-          <i data-lucide="${cat.icon}" class="w-5 h-5 mb-1.5"></i>
-          <span class="text-xs font-orbitron">${cat.label}</span>
-        </button>
-      `).join('');
-      lucide.createIcons();
-    }
+    <article class="game" data-name="Quick Draw" data-cat="Creative">
+      <a href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#3975a5"><span class="symbol">🎨</span></div>
+        <div class="game-info"><h3>Quick, Draw!</h3><p>Draw something and let AI guess it.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    function setCategory(id) { activeCategory = id; playAudioFX(); renderCategories(); renderGames(); }
+    <article class="game" data-name="Chrome Dino" data-cat="Arcade">
+      <a href="https://chromedino.com/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#8a5c2d"><span class="symbol">🦖</span></div>
+        <div class="game-info"><h3>Chrome Dino</h3><p>Jump over obstacles and run farther.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    function renderGames() {
-      const filtered = gamesData.filter(g => activeCategory === 'all' || g.category === activeCategory);
-      const searched = filtered.filter(g => g.title.toLowerCase().includes(searchQuery.toLowerCase()) || g.desc.toLowerCase().includes(searchQuery.toLowerCase()));
-      document.getElementById('gameCount').innerText = searched.length;
+    <article class="game" data-name="Little Alchemy 2" data-cat="Creative">
+      <a href="https://littlealchemy2.com/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#16758e"><span class="symbol">🧪</span></div>
+        <div class="game-info"><h3>Little Alchemy 2</h3><p>Combine elements and discover new things.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-      document.getElementById('gamesGrid').innerHTML = searched.map(game => `
-        <div class="glass-card rounded-2xl p-5 flex flex-col justify-between group relative overflow-hidden">
-          <div>
-            <div class="w-14 h-14 rounded-2xl bg-slate-900/80 border border-slate-700 flex items-center justify-center text-3xl mb-4">${game.icon}</div>
-            <span class="text-[10px] font-orbitron text-cyan-400 uppercase bg-cyan-950/60 border border-cyan-500/20 px-2.5 py-1 rounded-full">${game.category}</span>
-            <h3 class="font-orbitron font-bold text-lg text-slate-100 mt-2">${game.title}</h3>
-            <p class="text-xs text-slate-400 mt-1 line-clamp-2">${game.desc}</p>
-          </div>
-          <button onclick="launchGame('${game.id}')" class="mt-6 w-full py-2.5 rounded-xl gradient-btn text-slate-950 font-orbitron font-bold text-xs uppercase flex items-center justify-center gap-2">
-            <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> PLAY NOW
-          </button>
-        </div>
-      `).join('');
-      lucide.createIcons();
-    }
+    <article class="game" data-name="Minesweeper" data-cat="Strategy">
+      <a href="https://minesweeper.online/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#365c91"><span class="symbol">💣</span></div>
+        <div class="game-info"><h3>Minesweeper</h3><p>Use logic to find the safe squares.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    document.getElementById('searchInput').addEventListener('input', (e) => { searchQuery = e.target.value; renderGames(); });
-    document.getElementById('searchInputMobile').addEventListener('input', (e) => { searchQuery = e.target.value; renderGames(); });
+    <article class="game" data-name="Solitaire" data-cat="Classic">
+      <a href="https://solitaired.com/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#267750"><span class="symbol">🃏</span></div>
+        <div class="game-info"><h3>Solitaire</h3><p>A classic card game to enjoy anytime.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    function launchGame(gameId) {
-      playAudioFX();
-      const game = gamesData.find(g => g.id === gameId);
-      document.getElementById('modalGameTitle').innerText = game.title;
-      document.getElementById('modalGameCategory').innerText = game.category;
-      document.getElementById('modalGameIcon').innerText = game.icon;
-      document.getElementById('gameViewport').innerHTML = `
-        <div class="text-center p-8">
-          <div class="text-6xl mb-4 animate-bounce">${game.icon}</div>
-          <h4 class="font-orbitron text-xl font-bold text-cyan-400 mb-2">${game.title} Arena</h4>
-          <p class="text-xs text-slate-400 mb-6">Engine initialized. Ready for action!</p>
-          <button onclick="closeGameModal()" class="gradient-btn text-slate-950 font-orbitron font-bold text-xs px-6 py-3 rounded-xl">CLOSE / BACK</button>
-        </div>
-      `;
-      document.getElementById('gameModal').classList.remove('hidden');
-      document.getElementById('gameModal').classList.add('flex');
-    }
+    <article class="game" data-name="Basketball Stars" data-cat="Sports">
+      <a href="https://www.basketballstars.com/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#a65c2b"><span class="symbol">🏀</span></div>
+        <div class="game-info"><h3>Basketball Stars</h3><p>Take your shot and challenge your rival.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    function closeGameModal() {
-      document.getElementById('gameModal').classList.add('hidden');
-      document.getElementById('gameModal').classList.remove('flex');
-    }
+    <article class="game" data-name="Tetris" data-cat="Classic">
+      <a href="https://tetris.com/play-tetris" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#6739ae"><span class="symbol">🧱</span></div>
+        <div class="game-info"><h3>Tetris</h3><p>Stack blocks and clear the lines.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-    // Three.js Background & Hero Controller
-    function init3D() {
-      const bgScene = new THREE.Scene();
-      const bgCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      const bgRenderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true, antialias: true });
-      bgRenderer.setSize(window.innerWidth, window.innerHeight);
+    <article class="game" data-name="Cut the Rope" data-cat="Puzzle">
+      <a href="https://www.cuttherope.net/" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#317f48"><span class="symbol">🍬</span></div>
+        <div class="game-info"><h3>Cut the Rope</h3><p>Solve puzzles and deliver the candy.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-      const geom = new THREE.BufferGeometry();
-      const pos = new Float32Array(150 * 3);
-      for(let i=0; i<450; i++) pos[i] = (Math.random() - 0.5) * 20;
-      geom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const particles = new THREE.Points(geom, new THREE.PointsMaterial({ color: 0x00f2fe, size: 0.04, transparent: true, opacity: 0.5 }));
-      bgScene.add(particles);
-      bgCamera.position.z = 5;
+    <article class="game" data-name="Pac-Man" data-cat="Arcade">
+      <a href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener">
+        <div class="cover" style="--glow:#978024"><span class="symbol">🟡</span></div>
+        <div class="game-info"><h3>Pac-Man</h3><p>Explore the maze and collect dots.</p><span class="play">PLAY NOW →</span></div>
+      </a>
+    </article>
 
-      const container = document.getElementById('hero-3d-container');
-      const hScene = new THREE.Scene();
-      const hCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-      const hRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      hRenderer.setSize(container.clientWidth, container.clientHeight);
-      container.appendChild(hRenderer.domElement);
+  </div>
+  <p id="empty" hidden>No games found. Try another search.</p>
+</section>
+</main>
 
-      const group = new THREE.Group();
-      const body = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.1, 0.4), new THREE.MeshPhongMaterial({ color: 0x121526, emissive: 0x050814, specular: 0x00f2fe, shininess: 100 }));
-      group.add(body);
-      hScene.add(group);
-      hScene.add(new THREE.AmbientLight(0xffffff, 1));
-      hCamera.position.z = 4.5;
+<footer>GAMEZONE · PLAY • EXPLORE • ENJOY</footer>
 
-      function animate() {
-        requestAnimationFrame(animate);
-        particles.rotation.y += 0.001;
-        group.rotation.y += 0.01;
-        bgRenderer.render(bgScene, bgCamera);
-        hRenderer.render(hScene, hCamera);
-      }
-      animate();
-    }
+<script>
+let activeCategory='All';
+const cards=[...document.querySelectorAll('.game')];
+const search=document.getElementById('search');
 
-    window.addEventListener('DOMContentLoaded', () => { renderCategories(); renderGames(); init3D(); });
-  </script>
+function filterGames(){
+ const q=search.value.trim().toLowerCase();
+ let count=0;
+ cards.forEach(card=>{
+  const matchesName=card.dataset.name.toLowerCase().includes(q);
+  const matchesCategory=activeCategory==='All'||card.dataset.cat===activeCategory;
+  card.hidden=!(matchesName&&matchesCategory);
+  if(!card.hidden)count++;
+ });
+ document.getElementById('empty').hidden=count>0;
+}
+document.querySelectorAll('.cat').forEach(button=>{
+ button.addEventListener('click',()=>{
+  activeCategory=button.dataset.cat;
+  document.querySelectorAll('.cat').forEach(b=>b.classList.toggle('active',b===button));
+  filterGames();
+  document.getElementById('popular').scrollIntoView({behavior:'smooth',block:'start'});
+ });
+});
+search.addEventListener('input',filterGames);
+</script>
 </body>
 </html>
-
-  
