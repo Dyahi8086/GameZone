@@ -3,203 +3,208 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#050914">
-<title>GameZone — Play. Explore. Enjoy.</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d23">
+<title>GameZone — Anime Gaming World</title>
 <style>
-:root{--bg:#050914;--panel:#0d1628;--line:#24334b;--blue:#16c9ff;--purple:#7654ff;--muted:#a7b4ca}
+:root{--bg:#080d23;--panel:#101a37;--cyan:#53f2ff;--pink:#ff55ce;--purple:#875aff}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{margin:0;background:var(--bg);color:white;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button,input{font:inherit}
-header{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 4%;background:#070d19;border-bottom:1px solid #202b40;position:sticky;top:0;z-index:10}
-.logo{font-size:clamp(17px,2vw,25px);font-weight:900;letter-spacing:-.8px;white-space:nowrap}
-.logo span{color:var(--blue)}
-.logo em{font-style:normal;color:#8c73ff}
-nav{display:flex;gap:24px;font-size:13px;color:#c5cee0}
-nav a:hover{color:var(--blue)}
-.search{width:min(240px,28vw);padding:12px 14px;border-radius:24px;background:#111c30;border:1px solid #30415c;color:white;outline:none;font-size:12px}
-.search:focus{border-color:var(--blue)}
-main{max-width:1500px;margin:auto;padding:22px 4% 60px}
-.hero{min-height:350px;position:relative;overflow:hidden;display:flex;align-items:center;border:1px solid #27334d;border-radius:14px;background:#101a31}
-.hero-art{position:absolute;inset:0;background:linear-gradient(90deg,#080e1bf5 0%,#080e1be8 32%,#080e1b88 62%,#080e1b25 100%),url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=85') center 43%/cover;transform:scale(1.02)}
-.hero:after{content:"";position:absolute;inset:auto 0 0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple),#fa42be)}
-.hero-content{position:relative;z-index:1;padding:38px;max-width:610px}
-.eyebrow{font-size:10px;letter-spacing:3px;color:#7feaff;font-weight:bold}
-h1{font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-2px;margin:17px 0}
-h1 span{color:#8b83ff}
-.hero p{font-size:14px;line-height:1.7;color:#c0cbe0;max-width:430px}
-.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-.btn{display:inline-flex;justify-content:center;align-items:center;padding:14px 19px;border-radius:7px;font-size:11px;font-weight:800;letter-spacing:.4px;border:1px solid #536486;background:#101a2c}
-.btn.primary{background:linear-gradient(100deg,#06bff3,#514cff,#a638f1);border:0;box-shadow:0 5px 24px #4c54ff35}
-.btn:hover{filter:brightness(1.18)}
-.section{margin-top:34px}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:17px}
-h2{font-size:23px;margin:0 0 7px;letter-spacing:-.5px}
-.sub{color:var(--muted);font-size:12px;line-height:1.6;margin:0}
-.categories{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}
-.cat{padding:15px 6px;background:#0d1627;border:1px solid #24334b;border-radius:9px;color:#dce6f7;cursor:pointer;font-size:11px;min-width:0}
-.cat .emoji{display:block;font-size:24px;margin-bottom:10px}
-.cat.active,.cat:hover{border-color:#20cfff;background:linear-gradient(145deg,#102d48,#11152a);box-shadow:inset 0 0 18px #1bc9ff13}
-.cat.active{color:#8ceeff}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
-.game{min-width:0;overflow:hidden;background:#0b1424;border:1px solid #23334b;border-radius:10px;transition:transform .2s,border-color .2s}
-.game:hover{transform:translateY(-4px);border-color:#687fff}
+header{height:68px;padding:0 4%;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#080d23ed;border-bottom:1px solid #4a75bd66;position:sticky;top:0;z-index:10;backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:8px;font-weight:1000;font-size:clamp(17px,2.5vw,26px);letter-spacing:-1px;white-space:nowrap}
+.brand-icon{display:grid;place-items:center;width:37px;height:37px;border-radius:12px;background:linear-gradient(140deg,#00eaff,#554aff,#ff47cf);box-shadow:0 0 18px #2bd9ff75;transform:rotate(-7deg);font-size:22px}
+.brand b{color:#54eaff}.brand em{font-style:normal;color:#ff62d6}
+nav{display:flex;gap:20px;font-size:12px;color:#d9e5ff}
+nav a:hover{color:var(--cyan)}
+.search{width:min(220px,27vw);min-width:100px;padding:11px 13px;border:1px solid #334b7b;border-radius:25px;background:#101a35;color:white;outline:none;font-size:12px}
+.search:focus{border-color:var(--cyan);box-shadow:0 0 12px #53f2ff30}
+main{max-width:1500px;margin:auto;padding:16px 3.5% 50px}
+.hero{min-height:390px;position:relative;display:flex;align-items:center;overflow:hidden;border:1px solid #4663a3;border-radius:18px;background:#101b43}
+.hero-bg{position:absolute;inset:0;background:
+linear-gradient(90deg,#080e25f5 0%,#080e25e8 35%,#080e2540 72%,#080e2580 100%),
+url('https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1800&q=85') center 35%/cover}
+.hero:after{content:"";position:absolute;inset:auto 0 0;height:3px;background:linear-gradient(90deg,#40f4ff,#8a53ff,#ff50c9,#40f4ff)}
+.hero-content{position:relative;z-index:1;padding:30px;max-width:540px}
+.kicker{font-size:10px;letter-spacing:3px;color:#72f5ff;font-weight:bold}
+h1{font-size:clamp(40px,6.4vw,72px);line-height:.95;letter-spacing:-2px;margin:18px 0}
+h1 span{background:linear-gradient(90deg,#4df5ff,#9a78ff,#ff67d4);color:transparent;background-clip:text}
+.hero p{font-size:13px;line-height:1.8;color:#d5ddf4;max-width:365px}
+.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:23px}
+.btn{display:inline-block;padding:13px 17px;border:1px solid #50669b;border-radius:8px;background:#111c39;font-size:11px;font-weight:900}
+.btn.main{background:linear-gradient(100deg,#00cfff,#6152ff,#e83cbf);border:0;box-shadow:0 0 24px #6454ff75}
+.btn:hover{filter:brightness(1.2)}
+.hero-mascot{position:absolute;right:7%;top:17%;font-size:clamp(75px,13vw,150px);filter:drop-shadow(0 0 26px #50eaff);animation:float 4s ease-in-out infinite;z-index:1;pointer-events:none}
+.orb{position:absolute;right:9%;top:16%;width:clamp(100px,18vw,220px);aspect-ratio:1;border:1px solid #7eecff6b;border-radius:50%;box-shadow:0 0 40px #614aff45,inset 0 0 35px #4e5fff35;animation:spin 16s linear infinite}
+.orb:before,.orb:after{content:"";position:absolute;inset:18%;border:1px solid #ff62df80;border-radius:50%;transform:rotate(60deg) scaleX(1.5)}
+.orb:after{transform:rotate(-55deg) scaleX(1.5);border-color:#59f2ff75}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-15px) rotate(3deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stats{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}
+.stat{background:#101a37dc;border:1px solid #364c7d;border-radius:9px;padding:10px 13px;font-size:10px;color:#cad9f9}
+.stat b{color:#70f5ff;font-size:14px}
+.section{margin-top:29px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:15px}
+h2{font-size:22px;margin:0 0 6px}
+.sub{font-size:11px;line-height:1.6;color:#a9b9db;margin:0}
+.categories{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:9px}
+.cat{background:linear-gradient(145deg,#142449,#0c142d);border:1px solid #293f6d;border-radius:10px;padding:12px 4px;color:white;font-size:10px;cursor:pointer;min-width:0;transition:.2s}
+.cat-icon{display:block;font-size:24px;margin-bottom:8px;filter:drop-shadow(0 0 8px #50eaff70)}
+.cat:hover,.cat.active{border-color:#62f4ff;box-shadow:0 0 16px #37dfff32;transform:translateY(-2px);background:linear-gradient(145deg,#193b65,#20204c)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.game{min-width:0;position:relative;border-radius:12px;overflow:hidden;background:linear-gradient(150deg,#142344,#0b1125 70%);border:1px solid #2d4778;transition:transform .22s,border-color .22s;box-shadow:0 8px 18px #0003}
+.game:hover{transform:translateY(-5px);border-color:#72f4ff;box-shadow:0 8px 24px #4e5dff28}
 .game[hidden]{display:none}
-.cover{height:145px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 70%,var(--glow,#2564ac),transparent 65%),linear-gradient(135deg,#1a2a46,#080e1b)}
-.cover:before{content:"";position:absolute;width:150px;height:55px;border:1px solid #ffffff2b;border-radius:50%;transform:rotate(-20deg);box-shadow:0 0 0 15px #ffffff04,0 0 0 30px #ffffff04}
-.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#08101be8,transparent 75%)}
-.cover .symbol{position:relative;z-index:1;font-size:55px;filter:drop-shadow(0 6px 15px #0009);transition:transform .25s}
-.game:hover .symbol{transform:scale(1.12) rotate(-4deg)}
+.art{height:142px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 68%,var(--glow,#315d9e),transparent 65%),linear-gradient(145deg,#172747,#080e20)}
+.art:before{content:"";position:absolute;width:125px;height:45px;border:1px solid color-mix(in srgb,var(--glow,#53f2ff) 75%,transparent);border-radius:50%;transform:rotate(-20deg);box-shadow:0 0 0 12px #ffffff06,0 0 0 24px #ffffff04}
+.art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0b1328 0%,transparent 60%)}
+.logo3d{width:82px;height:82px;position:relative;z-index:1;display:grid;place-items:center;border:1px solid #ffffffa0;border-radius:23px;background:linear-gradient(145deg,#ffffff35,#ffffff05 50%,#00000040),linear-gradient(135deg,var(--glow,#328dff),#111a38 80%);box-shadow:0 12px 0 #030714,0 15px 23px #0008,0 0 23px color-mix(in srgb,var(--glow,#53f2ff) 65%,transparent),inset 0 1px 1px #ffffffad;transform:perspective(300px) rotateX(9deg) rotateY(-8deg);transition:transform .3s}
+.logo3d span{font-size:43px;filter:drop-shadow(0 4px 3px #0008);text-shadow:0 0 15px #ffffff55}
+.game:hover .logo3d{transform:perspective(300px) rotateX(-5deg) rotateY(10deg) translateY(-7px) scale(1.05)}
+.art-label{position:absolute;left:10px;top:10px;z-index:2;font-size:8px;font-weight:bold;letter-spacing:1px;padding:5px 7px;border-radius:5px;background:#060b1cb8;border:1px solid #ffffff30;color:#dceaff}
 .game-info{padding:12px}
-.game h3{font-size:14px;margin:0 0 7px}
-.game p{font-size:11px;color:#aab7cc;line-height:1.5;margin:0;min-height:32px}
-.play{display:flex;align-items:center;justify-content:center;margin-top:12px;padding:11px 5px;border-radius:6px;background:linear-gradient(100deg,#087ef7,#414eff,#a22ae0);font-size:10px;font-weight:800}
+.game h3{margin:0 0 7px;font-size:13px}
+.game p{margin:0;color:#a9b7d1;font-size:10px;line-height:1.55;min-height:31px}
+.play{display:block;text-align:center;margin-top:12px;padding:10px 4px;border-radius:6px;background:linear-gradient(90deg,#078be8,#5d50ff,#cb35cb);font-size:10px;font-weight:900;letter-spacing:.3px}
 .play:hover{filter:brightness(1.2)}
-#empty{padding:24px 0;color:#b9c4d8}
-footer{border-top:1px solid #1e2b41;padding:26px 4%;color:#8290a9;font-size:11px;text-align:center}
-@media(min-width:1100px){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
-@media(max-width:850px){nav{display:none}.categories{grid-template-columns:repeat(4,minmax(0,1fr))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{min-height:320px}}
-@media(max-width:560px){
-header{height:62px;padding:0 4%;gap:10px}.logo{font-size:18px}.search{width:44vw;padding:10px 12px;font-size:11px}
-main{padding:14px 4% 40px}.hero{min-height:355px;border-radius:10px}
-.hero-art{background-position:58% center}
-.hero-content{padding:23px 18px}h1{font-size:43px}
-.hero p{font-size:13px;max-width:300px}
-.btn{padding:13px 14px}
-.section{margin-top:29px}h2{font-size:21px}
-.categories{gap:8px}.cat{padding:12px 4px;font-size:10px}.cat .emoji{font-size:21px}
-.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.cover{height:120px}.cover .symbol{font-size:45px}
-.game-info{padding:10px}.game h3{font-size:12px}.game p{font-size:10px;min-height:31px}
-.play{font-size:10px;padding:10px 3px}
+#empty{padding:25px;color:#b7c9ed}
+footer{border-top:1px solid #283a62;text-align:center;padding:25px 10px;color:#91a2c4;font-size:10px;letter-spacing:1px}
+@media(min-width:1050px){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}.art{height:135px}}
+@media(max-width:800px){nav{display:none}.categories{grid-template-columns:repeat(4,minmax(0,1fr))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{min-height:340px}.hero-mascot{right:5%;top:19%}}
+@media(max-width:540px){
+ header{height:61px;padding:0 3%;gap:8px}.brand{font-size:17px}.brand-icon{width:30px;height:30px;font-size:18px}.search{width:39vw;font-size:10px;padding:10px}
+ main{padding:12px 3% 38px}.hero{min-height:355px;border-radius:12px}.hero-bg{background-position:58% center}.hero-content{padding:20px 16px;max-width:90%}h1{font-size:44px}.hero p{max-width:275px;font-size:12px}
+ .hero-mascot{font-size:74px;right:1%;top:18%;opacity:.8}.orb{right:1%;top:18%;width:110px;opacity:.75}
+ .stats{gap:6px}.stat{padding:8px;font-size:9px}.stat b{font-size:12px}
+ .section{margin-top:24px}h2{font-size:20px}.categories{gap:7px}.cat{padding:10px 2px;font-size:9px}.cat-icon{font-size:21px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.art{height:120px}.logo3d{width:72px;height:72px;border-radius:19px}.logo3d span{font-size:38px}.game-info{padding:10px}.game h3{font-size:12px}.game p{font-size:10px;min-height:31px}.play{font-size:9px;padding:10px 2px}
 }
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <header>
-  <a class="logo" href="#">🎮 GAME<span>ZONE</span><em>.</em></a>
-  <nav><a href="#">Home</a><a href="#games">Games</a><a href="#categories">Categories</a><a href="#popular">Popular</a></nav>
-  <input class="search" id="search" type="search" placeholder="⌕ Search games..." aria-label="Search games">
+  <a class="brand" href="#"><span class="brand-icon">🎮</span><span>GAME<b>ZONE</b><em>✦</em></span></a>
+  <nav><a href="#">Home</a><a href="#games">Games</a><a href="#categories">Categories</a></nav>
+  <input id="search" class="search" type="search" placeholder="⌕ Search games..." aria-label="Search games">
 </header>
 
 <main>
 <section class="hero">
-  <div class="hero-art"></div>
+  <div class="hero-bg"></div>
+  <div class="orb"></div>
+  <div class="hero-mascot">🐱</div>
   <div class="hero-content">
-    <div class="eyebrow">WELCOME TO YOUR GAMING WORLD</div>
-    <h1>PLAY.<br>EXPLORE.<br><span>ENJOY.</span></h1>
-    <p>Discover amazing free games, explore different worlds and find your next favourite. Your next adventure starts here.</p>
-    <div class="buttons">
-      <a class="btn primary" href="#games">🎮 &nbsp; EXPLORE GAMES →</a>
-      <a class="btn" href="#categories">VIEW CATEGORIES</a>
-    </div>
+    <div class="kicker">✦ WELCOME TO YOUR WORLD ✦</div>
+    <h1>GAME<span>ZONE</span></h1>
+    <p style="font-weight:900;letter-spacing:2px">PLAY · EXPLORE · ENJOY</p>
+    <p>Step into a colorful gaming universe. Discover puzzles, arcade adventures and classic favourites—all in one place.</p>
+    <div class="buttons"><a class="btn main" href="#games">🎮 &nbsp; PLAY NOW →</a><a class="btn" href="#categories">EXPLORE WORLDS</a></div>
+    <div class="stats"><div class="stat"><b>12+</b><br>GAMES</div><div class="stat"><b>FREE</b><br>TO PLAY</div><div class="stat"><b>∞</b><br>FUN AWAITS</div></div>
   </div>
 </section>
 
 <section class="section" id="categories">
+  <div class="section-head"><div><h2>Choose Your World ✨</h2><p class="sub">Tap a category to discover games.</p></div></div>
   <div class="categories">
-    <button class="cat active" data-cat="All"><span class="emoji">🎮</span>All Games</button>
-    <button class="cat" data-cat="Arcade"><span class="emoji">👾</span>Arcade</button>
-    <button class="cat" data-cat="Puzzle"><span class="emoji">🧩</span>Puzzle</button>
-    <button class="cat" data-cat="Action"><span class="emoji">⚔️</span>Action</button>
-    <button class="cat" data-cat="Sports"><span class="emoji">🏀</span>Sports</button>
-    <button class="cat" data-cat="Strategy"><span class="emoji">♟️</span>Strategy</button>
-    <button class="cat" data-cat="Creative"><span class="emoji">🎨</span>Creative</button>
-    <button class="cat" data-cat="Classic"><span class="emoji">👑</span>Classic</button>
+    <button class="cat active" data-cat="All"><span class="cat-icon">🎮</span>All Games</button>
+    <button class="cat" data-cat="Arcade"><span class="cat-icon">👾</span>Arcade</button>
+    <button class="cat" data-cat="Puzzle"><span class="cat-icon">🧩</span>Puzzle</button>
+    <button class="cat" data-cat="Creative"><span class="cat-icon">🎨</span>Creative</button>
+    <button class="cat" data-cat="Sports"><span class="cat-icon">🏀</span>Sports</button>
+    <button class="cat" data-cat="Strategy"><span class="cat-icon">♟️</span>Strategy</button>
+    <button class="cat" data-cat="Classic"><span class="cat-icon">👑</span>Classic</button>
+    <button class="cat" data-cat="Adventure"><span class="cat-icon">🌍</span>Adventure</button>
   </div>
 </section>
 
-<section class="section" id="popular">
-  <div class="section-head">
-    <div><h2>🔥 Popular Games</h2><p class="sub">Pick a game and jump straight into the fun.</p></div>
-    <a class="sub" href="#games">View all →</a>
-  </div>
-  <div class="grid" id="games">
+<section class="section" id="games">
+  <div class="section-head"><div><h2>🔥 Popular Games</h2><p class="sub">Your next favourite is waiting.</p></div><span class="sub">12 games</span></div>
+  <div class="grid">
 
     <article class="game" data-name="Google Snake" data-cat="Arcade">
       <a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#167f64"><span class="symbol">🐍</span></div>
-        <div class="game-info"><h3>Google Snake</h3><p>Grow your snake and beat your best score.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#24d69b"><span class="art-label">ARCADE</span><div class="logo3d"><span>🐍</span></div></div>
+        <div class="game-info"><h3>Google Snake</h3><p>Grow your snake and beat your best score.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="2048" data-cat="Puzzle">
       <a href="https://play2048.co/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#b17b36"><span class="symbol">🔢</span></div>
-        <div class="game-info"><h3>2048</h3><p>Merge number tiles to reach the goal.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#ffae38"><span class="art-label">PUZZLE</span><div class="logo3d"><span>🔢</span></div></div>
+        <div class="game-info"><h3>2048</h3><p>Merge number tiles to reach the goal.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Hextris" data-cat="Puzzle">
       <a href="https://hextris.io/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#663bce"><span class="symbol">🔷</span></div>
-        <div class="game-info"><h3>Hextris</h3><p>Match blocks in this fast puzzle challenge.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#a451ff"><span class="art-label">PUZZLE</span><div class="logo3d"><span>🔷</span></div></div>
+        <div class="game-info"><h3>Hextris</h3><p>Match blocks in a fast-paced puzzle.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Quick Draw" data-cat="Creative">
       <a href="https://quickdraw.withgoogle.com/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#3975a5"><span class="symbol">🎨</span></div>
-        <div class="game-info"><h3>Quick, Draw!</h3><p>Draw something and let AI guess it.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#4a96ff"><span class="art-label">CREATIVE</span><div class="logo3d"><span>🖍️</span></div></div>
+        <div class="game-info"><h3>Quick, Draw!</h3><p>Draw something and let AI guess it.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Chrome Dino" data-cat="Arcade">
       <a href="https://chromedino.com/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#8a5c2d"><span class="symbol">🦖</span></div>
-        <div class="game-info"><h3>Chrome Dino</h3><p>Jump over obstacles and run farther.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#f19b45"><span class="art-label">ARCADE</span><div class="logo3d"><span>🦖</span></div></div>
+        <div class="game-info"><h3>Chrome Dino</h3><p>Jump over obstacles and run farther.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
-    <article class="game" data-name="Little Alchemy 2" data-cat="Creative">
+    <article class="game" data-name="Little Alchemy 2" data-cat="Adventure">
       <a href="https://littlealchemy2.com/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#16758e"><span class="symbol">🧪</span></div>
-        <div class="game-info"><h3>Little Alchemy 2</h3><p>Combine elements and discover new things.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#37d9ed"><span class="art-label">DISCOVER</span><div class="logo3d"><span>🧪</span></div></div>
+        <div class="game-info"><h3>Little Alchemy 2</h3><p>Combine elements and discover new things.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Minesweeper" data-cat="Strategy">
       <a href="https://minesweeper.online/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#365c91"><span class="symbol">💣</span></div>
-        <div class="game-info"><h3>Minesweeper</h3><p>Use logic to find the safe squares.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#5088ff"><span class="art-label">STRATEGY</span><div class="logo3d"><span>💣</span></div></div>
+        <div class="game-info"><h3>Minesweeper</h3><p>Use logic to uncover the safe squares.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Solitaire" data-cat="Classic">
       <a href="https://solitaired.com/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#267750"><span class="symbol">🃏</span></div>
-        <div class="game-info"><h3>Solitaire</h3><p>A classic card game to enjoy anytime.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#35c879"><span class="art-label">CLASSIC</span><div class="logo3d"><span>🃏</span></div></div>
+        <div class="game-info"><h3>Solitaire</h3><p>A classic card game for a relaxing break.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Basketball Stars" data-cat="Sports">
       <a href="https://www.basketballstars.com/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#a65c2b"><span class="symbol">🏀</span></div>
-        <div class="game-info"><h3>Basketball Stars</h3><p>Take your shot and challenge your rival.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#ff8745"><span class="art-label">SPORTS</span><div class="logo3d"><span>🏀</span></div></div>
+        <div class="game-info"><h3>Basketball Stars</h3><p>Take your shot and challenge your rival.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Tetris" data-cat="Classic">
       <a href="https://tetris.com/play-tetris" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#6739ae"><span class="symbol">🧱</span></div>
-        <div class="game-info"><h3>Tetris</h3><p>Stack blocks and clear the lines.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#bd51ff"><span class="art-label">CLASSIC</span><div class="logo3d"><span>🧱</span></div></div>
+        <div class="game-info"><h3>Tetris</h3><p>Stack blocks and clear the lines.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Cut the Rope" data-cat="Puzzle">
       <a href="https://www.cuttherope.net/" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#317f48"><span class="symbol">🍬</span></div>
-        <div class="game-info"><h3>Cut the Rope</h3><p>Solve puzzles and deliver the candy.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#51d85e"><span class="art-label">PUZZLE</span><div class="logo3d"><span>🍬</span></div></div>
+        <div class="game-info"><h3>Cut the Rope</h3><p>Solve puzzles and deliver the candy.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
     <article class="game" data-name="Pac-Man" data-cat="Arcade">
       <a href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" rel="noopener">
-        <div class="cover" style="--glow:#978024"><span class="symbol">🟡</span></div>
-        <div class="game-info"><h3>Pac-Man</h3><p>Explore the maze and collect dots.</p><span class="play">PLAY NOW →</span></div>
+        <div class="art" style="--glow:#f7d447"><span class="art-label">ARCADE</span><div class="logo3d"><span>🟡</span></div></div>
+        <div class="game-info"><h3>Pac-Man</h3><p>Explore the maze and collect dots.</p><span class="play">PLAY NOW ↗</span></div>
       </a>
     </article>
 
@@ -208,33 +213,31 @@ main{padding:14px 4% 40px}.hero{min-height:355px;border-radius:10px}
 </section>
 </main>
 
-<footer>GAMEZONE · PLAY • EXPLORE • ENJOY</footer>
+<footer>🎮 GAMEZONE · PLAY · EXPLORE · ENJOY</footer>
 
 <script>
-let activeCategory='All';
-const cards=[...document.querySelectorAll('.game')];
+let category='All';
+const games=[...document.querySelectorAll('.game')];
 const search=document.getElementById('search');
-
-function filterGames(){
+function filter(){
  const q=search.value.trim().toLowerCase();
  let count=0;
- cards.forEach(card=>{
-  const matchesName=card.dataset.name.toLowerCase().includes(q);
-  const matchesCategory=activeCategory==='All'||card.dataset.cat===activeCategory;
-  card.hidden=!(matchesName&&matchesCategory);
-  if(!card.hidden)count++;
+ games.forEach(g=>{
+  const showName=g.dataset.name.toLowerCase().includes(q);
+  const showCat=category==='All'||g.dataset.cat===category;
+  g.hidden=!(showName&&showCat);
+  if(!g.hidden)count++;
  });
  document.getElementById('empty').hidden=count>0;
 }
-document.querySelectorAll('.cat').forEach(button=>{
- button.addEventListener('click',()=>{
-  activeCategory=button.dataset.cat;
-  document.querySelectorAll('.cat').forEach(b=>b.classList.toggle('active',b===button));
-  filterGames();
-  document.getElementById('popular').scrollIntoView({behavior:'smooth',block:'start'});
+document.querySelectorAll('.cat').forEach(b=>{
+ b.addEventListener('click',()=>{
+  category=b.dataset.cat;
+  document.querySelectorAll('.cat').forEach(x=>x.classList.toggle('active',x===b));
+  filter();
  });
 });
-search.addEventListener('input',filterGames);
+search.addEventListener('input',filter);
 </script>
 </body>
 </html>
