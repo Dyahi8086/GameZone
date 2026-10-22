@@ -13,7 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL="PASTE_YOUR_PROJECT_URL_HERE";
 const SUPABASE_PUBLISHABLE_KEY="PASTE_YOUR_PUBLISHABLE_KEY_HERE";
-const configured=SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("PASTE_")&&SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_");
+const configured=SUPABASE_URL.startsWith("https://yfcdscjvebwvkvjvnaxi.supabase.co")&&!SUPABASE_URL.includes("sb_publishable_AGSqsuA7Z9EYIPlGD-sHtQ_v5Ls6iXY")&&SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_");
 const db=window.supabase&&configured?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY):null;
 const games=[["Google Snake","Arcade","🐍","https://www.google.com/fbx?fbx=snake_arcade"],["2048","Puzzle","🔢","https://play2048.co/"],["Hextris","Puzzle","🔷","https://hextris.io/"],["Quick Draw","Creative","🎨","https://quickdraw.withgoogle.com/"],["Chrome Dino","Arcade","🦖","https://chromedino.com/"],["Little Alchemy 2","Adventure","🧪","https://littlealchemy2.com/"],["Minesweeper","Strategy","💣","https://minesweeper.online/"],["Solitaire","Classic","🃏","https://solitaired.com/"],["Basketball Stars","Sports","🏀","https://www.basketballstars.com/"],["Tetris","Classic","🧱","https://tetris.com/play-tetris"],["Cut the Rope","Puzzle","🍬","https://www.cuttherope.net/"],["Pac-Man","Arcade","🟡","https://www.google.com/logos/2010/pacman10-i.html"]];
 let user=null,profile=null,chatUser=null,poll=null;
