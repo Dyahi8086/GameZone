@@ -1,0 +1,8 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>GameZone file check</title>
+<style>body{font:16px system-ui;background:#05060f;color:#e8ecff;padding:20px}.o{color:#3dffa2}.x{color:#ff6b6b;font-weight:700}</style></head><body>
+<h1>GameZone file check</h1><div id=r>Checking…</div><p><a href=index.html style=color:#00e5ff>Home</a> · <a href=library.html style=color:#00e5ff>Library</a></p>
+<script>
+const F='index.html library.html gz-style.css gz-common.js gz-games.js gz-landing.js gz-library.js play-space-shooter.html play-neon-racer.html play-adventure-quest.html'.split(' ');
+Promise.all(F.map(f=>fetch(f,{cache:'no-store'}).then(r=>({f,s:r.status})).catch(()=>({f,s:'error'})))).then(a=>{
+document.getElementById('r').innerHTML=a.map(x=>'<div class='+(x.s==200?'o':'x')+'>'+(x.s==200?'✔ ':'✘ MISSING ')+x.f+' ('+x.s+')</div>').join('')+(a.every(x=>x.s==200)?'<p class=o>All files found.</p>':'<p class=x>Upload the missing files into the same folder as index.html.</p>')});
+</script></body></html>

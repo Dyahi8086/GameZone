@@ -1,0 +1,26 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=theme-color content="#05060f"><link rel=icon href="data:,"><link rel=stylesheet href=gz-style.css></head><body class=g><canvas id=c></canvas><script src=gz-common.js></script><script>
+let P,bul,en,pu,pt,tm,stars=[];
+const burst=(x,y,c)=>{for(let i=0;i<(GZ.rm?4:12);i++)pt.push({x,y,vx:(Math.random()-.5)*260,vy:(Math.random()-.5)*260,l:.5,c})};
+GZ.run({id:'shooter',name:'Space Shooter',drag:true,pad:'',desc:'Blast the swarm. Grab ⚡ for rapid fire. Reach 300 points to earn the Ace Pilot badge and a new theme.',keys:'Move: arrows / WASD · Fire: hold Space · Touch: drag to steer (auto-fire)',
+init(){P={x:G.w/2,y:G.h-110,l:3,cd:0,rf:0,inv:0};bul=[];en=[];pu=[];pt=[];tm=1;stars=Array.from({length:50},()=>({x:Math.random()*G.w,y:Math.random()*G.h,s:20+Math.random()*60}))},
+update(dt){const k=G.k;
+if(G.ptr){P.x+=(G.ptr.x-P.x)*Math.min(1,14*dt);P.y+=(G.ptr.y-80-P.y)*Math.min(1,14*dt)}else{P.x+=(k.right-k.left)*400*dt;P.y+=(k.down-k.up)*300*dt}
+P.x=Math.max(20,Math.min(G.w-20,P.x));P.y=Math.max(80,Math.min(G.h-30,P.y));P.cd-=dt;P.rf-=dt;P.inv-=dt;
+if((G.ptr||k.fire)&&P.cd<=0){P.cd=P.rf>0?.09:.22;bul.push({x:P.x,y:P.y-18});if(P.rf>0)bul.push({x:P.x-12,y:P.y-8},{x:P.x+12,y:P.y-8});GZ.beep(900,.03,'square',.02)}
+bul.forEach(b=>b.y-=640*dt);bul=bul.filter(b=>b.y>-10);
+tm-=dt;if(tm<=0){tm=Math.max(.3,1-G.score/1800);en.push({x:30+Math.random()*(G.w-60),y:-20,v:80+Math.min(G.score/10,160)+Math.random()*40,hp:G.score>250&&Math.random()<.25?3:1,ph:Math.random()*6})}
+en.forEach(e=>{e.y+=e.v*dt;e.x+=Math.sin(G.t*2+e.ph)*50*dt});
+for(const e of en)for(const b of bul)if(!b.d&&!e.dead&&Math.abs(e.x-b.x)<18&&Math.abs(e.y-b.y)<18){b.d=1;if(--e.hp<=0){e.dead=1;G.score+=10;burst(e.x,e.y,'#ff2bd6');GZ.beep(200,.08,'sawtooth',.04);if(Math.random()<.08)pu.push({x:e.x,y:e.y})}}
+bul=bul.filter(b=>!b.d);
+for(const e of en)if(!e.dead&&P.inv<=0&&Math.abs(e.x-P.x)<22&&Math.abs(e.y-P.y)<22){e.dead=1;P.l--;P.inv=1.5;burst(P.x,P.y,'#00e5ff');GZ.beep(90,.3,'sawtooth',.06);if(P.l<=0)return G.end()}
+en=en.filter(e=>!e.dead&&e.y<G.h+30);
+pu.forEach(u=>u.y+=100*dt);pu=pu.filter(u=>{if(Math.abs(u.x-P.x)<24&&Math.abs(u.y-P.y)<24){P.rf=6;GZ.beep(1200,.12,'sine');return false}return u.y<G.h+20});
+pt.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.l-=dt});pt=pt.filter(p=>p.l>0);stars.forEach(s=>s.y=(s.y+s.s*dt)%G.h)},
+draw(c,w,h){c.fillStyle='#05060f';c.fillRect(0,0,w,h);c.fillStyle='#8899ff';stars.forEach(s=>c.fillRect(s.x,s.y,1.5,1.5));
+c.fillStyle='#00e5ff';bul.forEach(b=>c.fillRect(b.x-2,b.y-8,4,12));
+en.forEach(e=>{c.fillStyle=e.hp>1?'#ff7a18':'#ff2bd6';c.beginPath();c.moveTo(e.x,e.y+16);c.lineTo(e.x-16,e.y-12);c.lineTo(e.x,e.y-4);c.lineTo(e.x+16,e.y-12);c.fill()});
+c.font='18px system-ui';c.fillStyle='#ffd166';pu.forEach(u=>c.fillText('⚡',u.x-8,u.y+6));
+pt.forEach(p=>{c.globalAlpha=Math.min(1,p.l*2);c.fillStyle=p.c;c.fillRect(p.x,p.y,3,3)});c.globalAlpha=1;
+if(P.inv<=0||Math.floor(P.inv*10)%2){c.fillStyle='#00e5ff';c.beginPath();c.moveTo(P.x,P.y-20);c.lineTo(P.x-16,P.y+16);c.lineTo(P.x,P.y+8);c.lineTo(P.x+16,P.y+16);c.fill()}
+c.fillStyle='#fff';c.fillText('♥'.repeat(Math.max(0,P.l))+(P.rf>0?'  ⚡ RAPID':''),12,66)}});
+</script><script>if(typeof GZ=="undefined")document.body.innerHTML="<p style=\"padding:20px;color:#fff\">Missing gz-common.js. Upload all package files to the same folder as index.html.</p>"</script></body></html>

@@ -1,0 +1,20 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=theme-color content="#05060f"><link rel=icon href="data:,"><link rel=stylesheet href=gz-style.css></head><body class=g><canvas id=c></canvas><script src=gz-common.js></script><script>
+let L,P,T,C,off,S,pl,pr,tm;const lanes=4,rw=()=>Math.min(G.w*.94,440),lx=i=>G.w/2-rw()/2+rw()/lanes*(i+.5);
+GZ.run({id:'racer',name:'Neon Racer',pad:'lr',desc:'Dodge traffic, grab gold coins. Reach 1000 points to earn the Neon Legend badge and a new theme.',keys:'Change lane: ← → or A D · Touch: ◀ ▶ buttons',
+init(){L=1;P={x:lx(1),hp:3,inv:0};T=[];C=[];off=0;S=300;pl=pr=0;tm=0},
+update(dt){const k=G.k;if(k.left&&!pl&&L>0){L--;GZ.beep(500,.04,'triangle')}if(k.right&&!pr&&L<lanes-1){L++;GZ.beep(500,.04,'triangle')}pl=k.left;pr=k.right;
+P.x+=(lx(L)-P.x)*Math.min(1,14*dt);P.inv-=dt;S=Math.min(280+G.t*8,700);off=(off+S*dt)%80;G.score+=S*dt/20;
+tm-=dt;if(tm<=0){tm=Math.max(.35,1-G.t/90);const l=Math.random()*lanes|0;Math.random()<.25?C.push({l,y:-30}):T.push({l,y:-60,v:120+Math.random()*80,c:Math.random()*360|0})}
+T.forEach(t=>t.y+=(S-t.v)*dt);C.forEach(c=>c.y+=S*dt);const py=G.h-150;
+for(const t of T)if(P.inv<=0&&t.l==L&&Math.abs(t.y-py)<54){t.y=1e5;P.hp--;P.inv=1.2;G.t=Math.max(0,G.t-8);GZ.beep(80,.3,'sawtooth',.07);if(P.hp<=0)return G.end()}
+for(const c of C)if(c.l==L&&Math.abs(c.y-py)<40){c.y=1e5;G.score+=25;GZ.beep(1200,.06,'sine')}
+T=T.filter(t=>t.y<G.h+80);C=C.filter(c=>c.y<G.h+80)},
+draw(c,w,h){c.fillStyle='#05060f';c.fillRect(0,0,w,h);const r=rw(),x0=w/2-r/2;c.fillStyle='#0b1030';c.fillRect(x0,0,r,h);
+c.strokeStyle='#00e5ff';c.lineWidth=3;c.beginPath();c.moveTo(x0,0);c.lineTo(x0,h);c.moveTo(x0+r,0);c.lineTo(x0+r,h);c.stroke();
+c.strokeStyle='#8b5cf6';c.lineWidth=2;for(let i=1;i<lanes;i++)for(let y=-80+off;y<h;y+=80){c.beginPath();c.moveTo(x0+r/lanes*i,y);c.lineTo(x0+r/lanes*i,y+36);c.stroke()}
+c.fillStyle='#ff2bd6';for(let y=-80+off;y<h;y+=80){c.fillRect(x0-14,y,5,24);c.fillRect(x0+r+9,y,5,24)}
+const car=(x,y,col)=>{c.fillStyle=col;c.fillRect(x-15,y-28,30,56);c.fillStyle='#000a';c.fillRect(x-11,y-14,22,12)};
+T.forEach(t=>car(lx(t.l),t.y,'hsl('+t.c+' 90% 55%)'));c.fillStyle='#ffd166';C.forEach(o=>{c.beginPath();c.arc(lx(o.l),o.y,9,0,6.3);c.fill()});
+if(P.inv<=0||Math.floor(P.inv*10)%2)car(P.x,h-150,'#00e5ff');
+c.fillStyle='#fff';c.font='18px system-ui';c.fillText('♥'.repeat(Math.max(0,P.hp))+'  '+Math.floor(S/5)+' km/h',12,66)}});
+</script><script>if(typeof GZ=="undefined")document.body.innerHTML="<p style=\"padding:20px;color:#fff\">Missing gz-common.js. Upload all package files to the same folder as index.html.</p>"</script></body></html>
