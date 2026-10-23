@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#05060f"><link rel="stylesheet" href="main.css"><title>Adventure Quest – GameZone</title></head><body class="game"><a class="btn back" href="games.html">← Library</a><canvas id="c"></canvas>
+<div class="dpad"><span></span><button data-d="0,-1" aria-label="Up">↑</button><span></span><button data-d="-1,0" aria-label="Left">←</button><button data-d="0,1" aria-label="Down">↓</button><button data-d="1,0" aria-label="Right">→</button></div><script>
+const M=["###########","#P..#...K.#","#.#.#.###.#","#.#...#...#","#.#####.#.#","#K..#...#.#","###.#.###.#","#K....#..D#","###########"];
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H,t,ox,oy,g,pl,K,EN,msg,won;
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight-145;t=Math.floor(Math.min(W/11,(H-30)/9));ox=(W-t*11)/2;oy=Math.max(40,(H-t*9)/2)}rs();onresize=rs;
+function reset(){g=M.map(r=>r.split(''));pl={x:1,y:1};K=0;won=false;msg='Collect 3 keys, then reach the door';EN=[{x:5,y:5},{x:8,y:3}]}reset();
+function mv(dx,dy){if(won){reset();return}const nx=pl.x+dx,ny=pl.y+dy,v=g[ny][nx];if(v=='#')return;
+if(v=='D'){if(K<3){msg='The door needs 3 keys';return}won=true;msg='You escaped! Tap to play again'}
+if(v=='K'){g[ny][nx]='.';K++;msg='Keys: '+K+'/3'}pl.x=nx;pl.y=ny;hit()}
+function hit(){if(!won&&EN.some(e=>e.x==pl.x&&e.y==pl.y)){pl={x:1,y:1};msg='Caught! Back to start'}}
+setInterval(()=>{if(won)return;EN.forEach(e=>{const d=[[1,0],[-1,0],[0,1],[0,-1]][Math.random()*4|0],nx=e.x+d[0],ny=e.y+d[1];if(g[ny][nx]!='#'&&g[ny][nx]!='D'){e.x=nx;e.y=ny}});hit()},450);
+document.querySelectorAll('[data-d]').forEach(b=>b.onpointerdown=e=>{e.stopPropagation();const d=b.dataset.d.split(',');mv(+d[0],+d[1])});
+onkeydown=e=>{const m={ArrowUp:[0,-1],w:[0,-1],ArrowDown:[0,1],s:[0,1],ArrowLeft:[-1,0],a:[-1,0],ArrowRight:[1,0],d:[1,0]}[e.key];if(m){e.preventDefault();mv(...m)}};
+function loop(){x.fillStyle='#070714';x.fillRect(0,0,W,H);x.shadowBlur=10;x.font=t*.7+"px sans-serif";
+for(let j=0;j<9;j++)for(let i=0;i<11;i++){const v=g[j][i],X=ox+i*t,Y=oy+j*t;
+if(v=='#'){x.fillStyle='#1b1f55';x.shadowColor='#a855f7';x.fillRect(X+1,Y+1,t-2,t-2)}
+else{x.shadowBlur=0;x.fillStyle='#0b0d26';x.fillRect(X,Y,t,t);x.shadowBlur=10;
+if(v=='K'){x.fillStyle=x.shadowColor='#fd0';x.fillText('🗝',X+t*.2,Y+t*.75)}
+if(v=='D'){x.fillStyle=x.shadowColor=K>=3?'#0f8':'#f2b';x.fillRect(X+t*.2,Y+t*.1,t*.6,t*.8)}}}
+x.font=t*.7+'px sans-serif';x.fillStyle=x.shadowColor='#f2b';EN.forEach(e=>x.fillText('👾',ox+e.x*t+t*.1,oy+e.y*t+t*.75));
+x.fillStyle=x.shadowColor='#0ff';x.beginPath();x.arc(ox+pl.x*t+t/2,oy+pl.y*t+t/2,t*.32,0,6.3);x.fill();
+x.shadowBlur=0;x.fillStyle='#fff';x.font='17px sans-serif';x.textAlign='center';x.fillText(msg+'  ·  Keys '+K+'/3',W/2,24);x.textAlign='left';
+requestAnimationFrame(loop)}loop()
+</script></body></html>

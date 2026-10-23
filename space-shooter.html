@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#05060f"><link rel="stylesheet" href="main.css"><title>Space Shooter – GameZone</title></head><body class="game"><a class="btn back" href="games.html">← Library</a><canvas id="c"></canvas><script>
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();onresize=rs;
+let p,B,E,S,L,T,over,tx;
+function reset(){p={x:W/2};tx=W/2;B=[];E=[];S=0;L=3;T=0;over=false}reset();
+onpointermove=e=>tx=e.clientX;onpointerdown=e=>{tx=e.clientX;if(over)reset()};
+onkeydown=e=>{if(e.key=='ArrowLeft')tx-=70;if(e.key=='ArrowRight')tx+=70;if(over&&e.key==' ')reset()};
+function loop(){T++;tx=Math.max(24,Math.min(W-24,tx));p.x+=(tx-p.x)*.25;
+if(!over){if(T%12==0)B.push({x:p.x,y:H-90});
+if(T%Math.max(16,50-S/6|0)==0)E.push({x:24+Math.random()*(W-48),y:-20,v:1.4+Math.random()*1.4+S/250});
+B.forEach(b=>b.y-=9);E.forEach(e=>e.y+=e.v);
+E.forEach(e=>B.forEach(b=>{if(!b.d&&!e.d&&Math.abs(b.x-e.x)<20&&Math.abs(b.y-e.y)<20){b.d=e.d=1;S+=10}}));
+E.forEach(e=>{if(!e.d&&e.y>H){e.d=1;if(--L<=0)over=true}});
+B=B.filter(b=>!b.d&&b.y>0);E=E.filter(e=>!e.d)}
+x.fillStyle='#070714';x.fillRect(0,0,W,H);x.shadowBlur=12;
+x.fillStyle=x.shadowColor='#0ff';B.forEach(b=>x.fillRect(b.x-2,b.y,4,14));
+x.fillStyle=x.shadowColor='#f2b';E.forEach(e=>{x.beginPath();x.moveTo(e.x-16,e.y-14);x.lineTo(e.x+16,e.y-14);x.lineTo(e.x,e.y+16);x.fill()});
+x.fillStyle=x.shadowColor='#8df';x.beginPath();x.moveTo(p.x,H-120);x.lineTo(p.x+22,H-80);x.lineTo(p.x-22,H-80);x.fill();
+x.shadowBlur=0;x.fillStyle='#fff';x.font='18px sans-serif';x.textAlign='right';x.fillText('Score '+S+'  Lives '+L,W-14,30);
+if(over){x.font='bold 28px sans-serif';x.textAlign='center';x.fillText('GAME OVER – tap to restart',W/2,H/2)}
+requestAnimationFrame(loop)}loop()
+</script></body></html>
