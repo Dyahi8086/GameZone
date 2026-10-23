@@ -1,1 +1,28 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#050711"><title>GameZone Portal Lab</title><link rel="stylesheet" href="style.css"></head><body><div class="stars"></div><header><a class="brand" href="#home"><b>G</b> GAMEZONE</a><small>PORTAL LAB · TEST</small><a class="nav" href="#worlds">Explore ↘</a></header><main><section class="hero" id="home"><div class="portal"><i></i><i></i><i></i><b>G</b><em></em><em></em><em></em></div><div class="copy"><p class="eyebrow">● YOUR NEXT WORLD IS WAITING</p><h1>SCROLL INTO<br><span>THE UNKNOWN</span></h1><p class="sub">One portal. Infinite ways to play.</p><a class="btn" href="#worlds">ENTER THE PORTAL ↓</a><p class="scroll">SCROLL TO TRAVEL</p></div><label>GAMEZONE / PORTAL 001</label></section><div class="divider">REALITY IS ONLY THE LOADING SCREEN</div><section class="worlds" id="worlds"><div class="heading"><p class="eyebrow">CHOOSE YOUR DIMENSION</p><h2>WHERE WILL YOU <span>LAND?</span></h2><p>A separate visual test. Your current live site stays untouched.</p></div><div class="cards"><article class="reveal"><div class="art shoot">✦</div><small>DIMENSION 01 / ACTION</small><h3>NEON STRIKE</h3><p>Enter the starfield. Outsmart the incoming wave.</p><button data-world="NEON STRIKE">Preview portal ↗</button></article><article class="reveal"><div class="art race">◆</div><small>DIMENSION 02 / SPEED</small><h3>CYBER CIRCUIT</h3><p>Follow the light. Leave the ordinary behind.</p><button data-world="CYBER CIRCUIT">Preview portal ↗</button></article><article class="reveal"><div class="art quest">⌑</div><small>DIMENSION 03 / EXPLORE</small><h3>LOST GALAXY</h3><p>Find the gate hidden beyond the dark.</p><button data-world="LOST GALAXY">Preview portal ↗</button></article></div><footer>GAMEZONE · PORTAL LAB <a href="#home">Back to top ↑</a></footer></section></main><div class="modal" hidden><div class="modalbox"><button class="close" aria-label="Close">×</button><div class="mini">G</div><p class="eyebrow">PORTAL PREVIEW</p><h2>DIMENSION READY</h2><p>This is a visual demo. Later, connect this portal to one of your real games.</p><button class="btn done">BACK TO WORLDS</button></div></div><script src="script.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#09090b">
+<title>GameZone – Play Free Online Games</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="stage"><div class="screen">
+<header class="top"><a class="logo" href="#hub">GAMEZONE<i>GAMING</i></a>
+<div class="qu"><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="3 4"/></svg><div><b id="qa">READY TO PLAY</b><small id="qb">PICK A GAME</small></div><em id="tm">0:00</em></div>
+<div class="sp"></div>
+<button class="ic" data-pres title="Presentation / full view"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 5h18v11H3zm2 2v7h14V7zm4 11h6v2H9z" fill-rule="evenodd"/></svg></button>
+<button class="ic" data-go="profile" title="Achievements"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22zm7-6v-5a7 7 0 0 0-5-6.7V3a2 2 0 0 0-4 0v1.3A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg></button>
+<button class="ic mail" data-go="hub" title="Library"><svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M3 5h18v14H3zm2 2v.5l7 5 7-5V7zm14 3l-7 5-7-5v7h14z"/></svg></button>
+<button class="wallet" data-go="profile"><span>⚡ My XP</span></button>
+<button class="user" id="rename" title="Change nickname"><span class="hx"><b id="av"></b></span><span class="who"><b id="nm">PLAYER ▾</b><i class="seg" id="seg"></i><small id="lvltxt"></small></span></button></header>
+<nav class="side"><a href="#hub" data-r="hub" title="Home"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg></a><hr>
+<a href="#" data-p="snake" class="gi g1" title="Play Snake"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/></svg></a>
+<a href="#tournament" data-r="tournament" class="gi g2" title="Challenge"><svg viewBox="0 0 24 24"><path d="M6 7h12L6 17h12" stroke="#e8212b" stroke-width="3.6" fill="none"/></svg></a>
+<a href="#profile" data-r="profile" class="gi g3" title="Profile"><svg viewBox="0 0 24 24"><path d="M8 19L14 5M13 20l6-14" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg></a>
+<span class="fill"></span>
+<a href="#" data-p="tetris" class="ci c1" title="Tetris"><svg viewBox="0 0 24 24"><path d="M12 4l7 4v8l-7 4-7-4V8z" fill="none" stroke="#fff" stroke-width="2.4"/></svg></a>
+<a href="#" data-p="2048" class="ci c2" title="2048"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="12" cy="12" r="2" fill="#fff"/></svg></a>
+<a href="#" data-p="pac" class="ci c3" title="Pac-Man"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="#111" stroke-width="2.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="#111" stroke-width="2.6"/></svg></a>
+<a href="#hub" class="plus" title="Library">⊕</a></nav>
+<main id="view"></main>
+<aside class="rail"><small>MY RECENT</small><em id="today">0 today</em><div id="recent"></div></aside>
+</div></div>
+<div id="modal" hidden><div class="box"><div class="bar"><b>Snake</b><span id="sc">0</span><button id="pause">Pause</button><button id="close">✕</button></div>
+<canvas id="cv" width="300" height="300"></canvas>
+<div class="pad"><button data-d="U">▲</button><div><button data-d="L">◀</button><button data-d="D">▼</button><button data-d="R">▶</button></div></div></div></div>
+<script src="app.js"></script></body></html>
