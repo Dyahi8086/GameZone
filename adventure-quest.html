@@ -1,0 +1,30 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=theme-color content="#05060f"><link rel=icon href="data:,"><link rel=stylesheet href=../css/style.css></head><body class=g><canvas id=c></canvas><script src=../js/common.js></script><script>
+let W,H,M,p,gu,sh,ex,hp,lv,cd,gt,inv,tl,got,ts,ox,oy;const coarse=matchMedia('(pointer:coarse)').matches;
+function gen(){const por=innerHeight>innerWidth;W=por?11:17;H=por?15:11;M=Array.from({length:H},()=>Array(W).fill(1));const st=[[1,1]];M[1][1]=0;
+while(st.length){const[x,y]=st[st.length-1],n=[[2,0],[-2,0],[0,2],[0,-2]].filter(([a,b])=>x+a>0&&y+b>0&&x+a<W-1&&y+b<H-1&&M[y+b][x+a]===1).sort(()=>Math.random()-.5)[0];
+if(!n){st.pop();continue}M[y+n[1]/2][x+n[0]/2]=0;M[y+n[1]][x+n[0]]=0;st.push([x+n[0],y+n[1]])}
+for(let i=0;i<W;i++){const x=1+Math.random()*(W-2)|0,y=1+Math.random()*(H-2)|0;M[y][x]=0}
+const fl=[];M.forEach((r,y)=>r.forEach((v,x)=>!v&&fl.push({x,y})));fl.sort(()=>Math.random()-.5);
+ex={x:W-2,y:H-2};const d=a=>Math.abs(a.x-1)+Math.abs(a.y-1);
+sh=fl.filter(f=>d(f)>=4&&!(f.x==ex.x&&f.y==ex.y)).slice(0,5);const far=fl.filter(f=>d(f)>=9);
+gu=(far.length?far:fl).slice(0,Math.min(1+lv,5)).map(f=>({x:f.x,y:f.y}));p={x:1,y:1,px:1,py:1};cd=0;gt=.5;tl=0;inv=1}
+GZ.run({id:'quest',name:'Adventure Quest',pad:'dp',desc:'Collect all 5 shards in the fog, then reach the cyan portal. Guardians hunt you. Each level adds danger. Reach 800 points for the Shard Hunter badge and a new theme.',keys:'Move: arrows / WASD · Touch: D-pad',
+init(){lv=0;hp=3;gen()},
+update(dt){cd-=dt;inv-=dt;tl+=dt;const k=G.k;
+if(cd<=0){let dx=k.right-k.left,dy=k.down-k.up;if(dx&&dy)dy=0;if(dx||dy){const nx=p.x+dx,ny=p.y+dy;if(!M[ny][nx]){p.x=nx;p.y=ny;GZ.beep(300,.02,'triangle',.02)}cd=.13}}
+p.px+=(p.x-p.px)*Math.min(1,20*dt);p.py+=(p.y-p.py)*Math.min(1,20*dt);
+sh=sh.filter(s=>{if(s.x==p.x&&s.y==p.y){G.score+=100;GZ.beep(1000,.1,'sine');return false}return true});
+gt-=dt;if(gt<=0){gt=Math.max(.28,.5-lv*.03);gu.forEach(g=>{const o=[[1,0],[-1,0],[0,1],[0,-1]].filter(a=>!M[g.y+a[1]][g.x+a[0]]);if(!o.length)return;const f=a=>Math.abs(g.x+a[0]-p.x)+Math.abs(g.y+a[1]-p.y);o.sort((a,b)=>f(a)-f(b));const m=Math.random()<.55?o[0]:o[Math.random()*o.length|0];g.x+=m[0];g.y+=m[1]})}
+if(inv<=0&&gu.some(g=>g.x==p.x&&g.y==p.y)){hp--;inv=1.5;p.x=p.px=1;p.y=p.py=1;GZ.beep(90,.3,'sawtooth',.06);if(hp<=0)return G.end()}
+if(!sh.length&&p.x==ex.x&&p.y==ex.y){G.score+=200+Math.max(0,Math.floor(90-tl));lv++;GZ.beep(1400,.25,'sine');gen()}},
+draw(c,w,h){const bot=coarse?170:0;ts=Math.max(8,Math.floor(Math.min(w/W,(h-80-bot)/H)));ox=(w-ts*W)/2;oy=70+(h-70-bot-ts*H)/2;
+c.fillStyle='#05060f';c.fillRect(0,0,w,h);
+for(let y=0;y<H;y++)for(let x=0;x<W;x++){c.fillStyle=M[y][x]?'#1a2050':'#0a0e26';c.fillRect(ox+x*ts,oy+y*ts,ts-1,ts-1)}
+const cx=a=>ox+(a+.5)*ts,cy=a=>oy+(a+.5)*ts;
+c.fillStyle=sh.length?'#334':'#00e5ff';c.beginPath();c.arc(cx(ex.x),cy(ex.y),ts*.35,0,6.3);c.fill();
+c.fillStyle='#ffd166';sh.forEach(s=>{c.beginPath();c.moveTo(cx(s.x),cy(s.y)-ts*.3);c.lineTo(cx(s.x)+ts*.25,cy(s.y));c.lineTo(cx(s.x),cy(s.y)+ts*.3);c.lineTo(cx(s.x)-ts*.25,cy(s.y));c.fill()});
+c.fillStyle='#ff2bd6';gu.forEach(g=>{c.beginPath();c.arc(cx(g.x),cy(g.y),ts*.33,0,6.3);c.fill()});
+if(inv<=0||Math.floor(inv*10)%2){c.fillStyle='#fff';c.beginPath();c.arc(cx(p.px),cy(p.py),ts*.3,0,6.3);c.fill()}
+const g=c.createRadialGradient(cx(p.px),cy(p.py),ts*1.5,cx(p.px),cy(p.py),ts*5);g.addColorStop(0,'rgba(5,6,15,0)');g.addColorStop(1,'rgba(5,6,15,.93)');c.fillStyle=g;c.fillRect(0,0,w,h);
+c.fillStyle='#fff';c.font='18px system-ui';c.fillText('♥'.repeat(Math.max(0,hp))+'   ◆ '+(5-sh.length)+'/5   Level '+(lv+1),12,66)}});
+</script></body></html>
