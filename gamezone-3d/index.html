@@ -2,140 +2,152 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GameZone 3D</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08090b">
+<title>GAMENOVA — The Reveal</title>
 <style>
+:root{--ice:#e9f2f5;--muted:#a5adb3;--accent:#d8b78b}
 *{box-sizing:border-box}
-body{margin:0;background:#030611;color:white;font-family:Arial,sans-serif;overflow-x:hidden}
-.page{min-height:100vh;position:relative;overflow:hidden}
-#intro{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 55%,#173b66 0%,#071326 40%,#030611 75%)}
-.logo{position:absolute;top:25px;left:22px;font-size:23px;font-weight:900;letter-spacing:3px;color:#50faff}
-.logo span{color:#ff315d}
-.tag{color:#8eabc9;letter-spacing:5px;font-size:11px;margin-top:30px}
-h1{font-size:clamp(40px,10vw,90px);line-height:.95;margin:16px 0;text-shadow:0 0 30px #00d9ff66;letter-spacing:-3px}
-h1 span{color:#50faff}
-.subtitle{color:#9db5d2;letter-spacing:2px;font-size:12px}
-.car-scene{width:min(94vw,650px);height:260px;position:relative;perspective:700px;margin:15px auto}
-.grid{position:absolute;inset:20px -10px 0;background-image:linear-gradient(#00cfff33 1px,transparent 1px),linear-gradient(90deg,#00cfff33 1px,transparent 1px);background-size:35px 35px;transform:rotateX(62deg) scale(1.3);transform-origin:center bottom;mask-image:linear-gradient(transparent,#000)}
-.car{position:absolute;top:65px;left:50%;width:min(85vw,520px);height:160px;transform:translateX(-50%) rotateX(8deg);filter:drop-shadow(0 15px 22px #00cfff77);animation:float 3s ease-in-out infinite}
-@keyframes float{50%{transform:translate(-50%,-9px) rotateX(8deg)}}
-.enter{display:inline-block;background:linear-gradient(100deg,#00d9ff,#436aff);border:0;color:#00101b;font-weight:900;letter-spacing:2px;padding:17px 30px;border-radius:5px;text-decoration:none;box-shadow:0 0 30px #00cfff55;cursor:pointer}
+html,body{margin:0;width:100%;height:100%;background:#08090b;color:var(--ice);font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+body{min-height:100svh}
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block}
+.vignette{position:fixed;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.65),transparent 36%,transparent 65%,rgba(0,0,0,.45)),linear-gradient(0deg,rgba(0,0,0,.76),transparent 38%,rgba(0,0,0,.24));}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+header{position:fixed;z-index:5;top:0;left:0;right:0;padding:26px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff1b}
+.brand{font-size:17px;font-weight:900;letter-spacing:.22em}.brand span{font-weight:400;color:var(--accent)}
+.nav{display:flex;gap:28px;align-items:center;font-size:9px;letter-spacing:.2em;color:#d2d5d6}
+.nav span{opacity:.72}
+.sound{border:1px solid #ffffff55;padding:10px 13px;background:#11131888;color:white;font-size:9px;letter-spacing:.15em}
+.copy{position:fixed;z-index:4;left:clamp(22px,8vw,120px);top:27%;width:min(390px,80vw);pointer-events:none}
+.kicker{font-size:9px;letter-spacing:.34em;color:var(--accent);margin-bottom:18px}
+h1{font-size:clamp(43px,8vw,104px);line-height:.87;letter-spacing:-.065em;font-weight:500;margin:0;text-transform:uppercase}
+h1 em{font-style:normal;display:block;font-weight:800}
+.rule{width:48px;height:1px;background:var(--accent);margin:25px 0 17px}
+.desc{font-size:11px;line-height:1.9;letter-spacing:.12em;color:#c3c8cb;max-width:260px}
+.actions{position:fixed;z-index:6;left:clamp(22px,8vw,120px);bottom:10%;display:flex;align-items:center;gap:18px}
+.enter{pointer-events:auto;background:#e7e9e8;color:#101214;border:0;padding:17px 22px;font-size:10px;font-weight:800;letter-spacing:.2em;cursor:pointer;transition:transform .25s,background .25s}
 .enter:active{transform:scale(.96)}
-.hint{font-size:10px;letter-spacing:2px;color:#647d9d;margin-top:18px}
-#world{display:none;background:radial-gradient(ellipse at 50% 0%,#153d62,#070b19 55%,#02040b);padding:25px 18px 50px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.small-logo{font-weight:900;letter-spacing:2px;color:#50faff}
-.pill{font-size:10px;border:1px solid #28506b;padding:8px 11px;border-radius:30px;color:#9defff}
-.hero{padding:55px 0 25px}
-.hero h2{font-size:clamp(32px,8vw,58px);margin:0 0 12px;letter-spacing:-2px}
-.hero p{color:#94a9c5;line-height:1.7;font-size:14px;max-width:520px}
-.section-title{font-size:12px;letter-spacing:3px;color:#50faff;margin:30px 0 16px}
-.zones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.card{min-height:175px;border:1px solid #23405d;border-radius:13px;padding:16px;position:relative;overflow:hidden;background:linear-gradient(145deg,#162b46,#080e1d 75%);transition:.25s}
-.card:active{transform:scale(.97)}
-.card:before{content:"";position:absolute;width:130px;height:130px;right:-40px;top:-30px;border-radius:50%;background:var(--glow);filter:blur(35px);opacity:.4}
-.emoji{font-size:40px;filter:drop-shadow(0 0 15px var(--glow))}
-.card h3{font-size:16px;margin:17px 0 7px;position:relative}
-.card p{font-size:11px;color:#93a8c4;line-height:1.5;position:relative}
-.play{font-size:10px;letter-spacing:1px;color:var(--glow);font-weight:bold}
-footer{text-align:center;color:#506784;font-size:10px;letter-spacing:2px;margin-top:45px}
-@media(min-width:650px){.zones{grid-template-columns:repeat(3,minmax(0,1fr))}.car-scene{height:300px}.car{top:70px}}
+.enter b{font-size:16px;margin-left:18px;font-weight:400}
+.draghint{font-size:8px;letter-spacing:.16em;color:#c1c5c8;line-height:1.8}
+.bottom{position:fixed;z-index:4;left:clamp(22px,5vw,72px);right:clamp(22px,5vw,72px);bottom:25px;display:flex;justify-content:space-between;align-items:end;color:#a5aaad;font-size:8px;letter-spacing:.19em}
+.counter{display:flex;align-items:center;gap:12px}.counter strong{font-size:12px;color:white;font-weight:500}.line{width:70px;height:1px;background:#ffffff55}
+.corner{position:fixed;right:clamp(20px,5vw,72px);top:28%;z-index:3;writing-mode:vertical-rl;font-size:8px;letter-spacing:.28em;color:#c5c8c9;opacity:.8}
+#notice{position:fixed;z-index:10;inset:0;display:none;align-items:center;justify-content:center;background:#050609eF;text-align:center;padding:25px}
+#notice .box{max-width:420px}#notice h2{font-size:clamp(30px,7vw,60px);margin:0 0 14px;letter-spacing:-.04em}#notice p{color:#b8c0c5;font-size:12px;line-height:1.8}#notice button{margin-top:18px}
+@media(max-width:650px){
+ header{padding:20px 20px}.nav{gap:10px}.nav span:nth-child(2),.nav span:nth-child(3){display:none}
+ .copy{top:22%;left:22px;width:80vw}h1{font-size:clamp(48px,13vw,75px)}
+ .desc{max-width:230px}.actions{left:22px;bottom:12%;align-items:flex-start;flex-direction:column;gap:12px}
+ .bottom{bottom:18px}.corner{top:auto;bottom:29%;right:18px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<canvas id="scene" aria-label="Interactive 3D concept car in a dark studio"></canvas>
+<div class="vignette"></div><div class="grain"></div>
+<header><div class="brand">GAME<span>NOVA</span></div><div class="nav"><span>THE REVEAL</span><span>01 / CONCEPT</span><span>SCROLL / DRAG TO EXPLORE</span><button class="sound" id="soundBtn">SOUND OFF</button></div></header>
+<main class="copy"><div class="kicker">A NEW WORLD IS LOADING</div><h1>BEYOND<br><em>THE DRIVE.</em></h1><div class="rule"></div><div class="desc">A world built for those who never play it safe. Your next level begins with a single entry.</div></main>
+<div class="corner">GAMENOVA • FUTURE IS YOURS</div>
+<div class="actions"><button class="enter" id="enterBtn">ENTER GAMENOVA <b>↗</b></button><div class="draghint">DRAG TO ORBIT<br>MOVE YOUR PHONE / SWIPE</div></div>
+<div class="bottom"><div class="counter"><strong>01</strong><div class="line"></div><span>THE REVEAL</span></div><span>DESIGNED FOR THE NEXT GENERATION</span><span>EST. 2026</span></div>
+<div id="notice"><div class="box"><div class="kicker">WELCOME TO THE NEXT LEVEL</div><h2>THE WORLD<br>IS YOURS.</h2><p>This is the GameNova entry experience. The gaming-world page is the next stage—keep this page as your cinematic opening.</p><button class="enter" id="closeNotice">BACK TO THE CAR <b>↗</b></button></div></div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
 
-<section class="page" id="intro">
-  <div class="logo">GAME<span>ZONE</span></div>
-  <div class="tag">THE NEXT LEVEL STARTS HERE</div>
-  <h1>ENTER THE<br><span>FUTURE.</span></h1>
-  <div class="subtitle">YOUR WORLD. YOUR RULES. YOUR GAME.</div>
+const canvas=document.querySelector('#scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.18;
 
-  <div class="car-scene">
-    <div class="grid"></div>
-    <svg class="car" viewBox="0 0 600 220" role="img" aria-label="Futuristic racing car">
-      <defs>
-        <linearGradient id="body" x1="0" y1="0" x2="0.8" y2="1">
-          <stop stop-color="#e5ffff"/><stop offset=".28" stop-color="#42d9ff"/>
-          <stop offset=".57" stop-color="#1262c7"/><stop offset="1" stop-color="#06142d"/>
-        </linearGradient>
-        <linearGradient id="glass"><stop stop-color="#071326"/><stop offset=".5" stop-color="#41eaff"/><stop offset="1" stop-color="#101b3c"/></linearGradient>
-      </defs>
-      <ellipse cx="300" cy="184" rx="225" ry="19" fill="#00cfff" opacity=".25"/>
-      <path d="M55 145 L95 116 L180 98 L235 53 Q252 39 280 40 L367 50 Q391 53 417 84 L492 105 L551 138 L532 161 L468 173 L112 171 L65 161Z" fill="url(#body)" stroke="#8ff7ff" stroke-width="2"/>
-      <path d="M210 99 L253 57 Q264 49 283 51 L355 60 Q373 63 394 91Z" fill="url(#glass)" stroke="#80efff" stroke-width="2"/>
-      <path d="M273 52 L286 98 M359 61 L349 98" stroke="#8ef5ff" stroke-width="2" opacity=".7"/>
-      <path d="M85 126 L176 111 L153 138 L65 148Z" fill="#061426"/>
-      <path d="M411 108 L487 119 L520 139 L452 137Z" fill="#071326"/>
-      <path d="M69 148 L139 145 L124 157 L64 157Z" fill="#ff315d"/>
-      <path d="M460 146 L535 146 L523 158 L461 158Z" fill="#ff315d"/>
-      <path d="M176 160 L431 160 L408 173 L183 173Z" fill="#06101e"/>
-      <path d="M208 178 L395 178 L426 192 L178 192Z" fill="#00dfff" opacity=".8"/>
-      <g fill="#030711" stroke="#315d82" stroke-width="5">
-        <ellipse cx="166" cy="166" rx="36" ry="35"/><ellipse cx="435" cy="166" rx="36" ry="35"/>
-      </g>
-      <g fill="#1b3550" stroke="#66eaff" stroke-width="3">
-        <ellipse cx="166" cy="166" rx="18" ry="18"/><ellipse cx="435" cy="166" rx="18" ry="18"/>
-      </g>
-      <g stroke="#b7ffff" stroke-width="3"><path d="M166 148 V184 M148 166 H184 M435 148 V184 M417 166 H453"/></g>
-      <path d="M260 110 L330 110 L351 144 L245 144Z" fill="#09213c" stroke="#36dfff" stroke-width="2"/>
-      <path d="M278 119 L318 119 L326 135 L268 135Z" fill="#51f4ff" opacity=".7"/>
-    </svg>
-  </div>
-
-  <button class="enter" onclick="enterWorld()">▶ ENTER GAMEZONE</button>
-  <div class="hint">TAP TO ENTER THE GAMING UNIVERSE</div>
-</section>
-
-<section class="page" id="world">
-  <div class="top">
-    <div class="small-logo">GAMEZONE<span style="color:#fff"> / WORLD</span></div>
-    <div class="pill">● ONLINE UNIVERSE</div>
-  </div>
-  <div class="hero">
-    <div class="tag">WELCOME, PLAYER</div>
-    <h2>CHOOSE YOUR<br><span style="color:#50faff">DIMENSION.</span></h2>
-    <p>Enter a world of speed, action and adventure. Choose your zone and get ready to play.</p>
-  </div>
-
-  <div class="section-title">— EXPLORE THE UNIVERSE</div>
-  <div class="zones">
-    <div class="card" style="--glow:#00eaff" onclick="zone('Racing Zone')">
-      <div class="emoji">🏎️</div><h3>RACING ZONE</h3><p>High speed. Neon roads. Full throttle.</p><div class="play">EXPLORE →</div>
-    </div>
-    <div class="card" style="--glow:#ff315d" onclick="zone('Robot Zone')">
-      <div class="emoji">🤖</div><h3>ROBOT ZONE</h3><p>Enter the future of giant machines.</p><div class="play">EXPLORE →</div>
-    </div>
-    <div class="card" style="--glow:#a35bff" onclick="zone('Action Zone')">
-      <div class="emoji">⚡</div><h3>ACTION ZONE</h3><p>Fast challenges and arcade action.</p><div class="play">EXPLORE →</div>
-    </div>
-    <div class="card" style="--glow:#4dff9b" onclick="zone('Puzzle Zone')">
-      <div class="emoji">🧩</div><h3>PUZZLE ZONE</h3><p>Test your brain. Beat the challenge.</p><div class="play">EXPLORE →</div>
-    </div>
-    <div class="card" style="--glow:#ffbd4a" onclick="zone('Arcade Zone')">
-      <div class="emoji">🕹️</div><h3>ARCADE ZONE</h3><p>Classic fun in a futuristic world.</p><div class="play">EXPLORE →</div>
-    </div>
-    <div class="card" style="--glow:#ff66c4" onclick="zone('Adventure Zone')">
-      <div class="emoji">🌌</div><h3>ADVENTURE ZONE</h3><p>Discover new worlds and missions.</p><div class="play">EXPLORE →</div>
-    </div>
-  </div>
-  <button class="enter" style="margin-top:25px" onclick="backHome()">← BACK TO ENTRY</button>
-  <footer>GAMEZONE • YOUR NEXT ADVENTURE AWAITS</footer>
-</section>
-
-<script>
-function enterWorld(){
- document.getElementById('intro').style.display='none';
- document.getElementById('world').style.display='block';
- window.scrollTo({top:0,behavior:'smooth'});
+const scene=new THREE.Scene();scene.background=new THREE.Color('#08090b');scene.fog=new THREE.Fog('#08090b',13,31);
+const camera=new THREE.PerspectiveCamera(34,innerWidth/innerHeight,.1,100);
+camera.position.set(7.8,4.1,10.8);
+const ambient=new THREE.HemisphereLight(0xdbe7ff,0x141416,2.0);scene.add(ambient);
+function area(color,intensity,pos){const l=new THREE.DirectionalLight(color,intensity);l.position.set(...pos);l.castShadow=true;scene.add(l);return l}
+area(0xf4f5f7,4,[1,8,3]);area(0x9dbbff,3,[-7,4,-3]);area(0xffc58a,2,[5,3,-7]);
+const floorMat=new THREE.MeshStandardMaterial({color:'#161719',metalness:.62,roughness:.28});
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(100,100),floorMat);floor.rotation.x=-Math.PI/2;floor.position.y=-.04;floor.receiveShadow=true;scene.add(floor);
+const grid=new THREE.GridHelper(60,60,0x303235,0x202225);grid.position.y=-.025;grid.material.transparent=true;grid.material.opacity=.22;scene.add(grid);
+// Studio light bars
+function bar(x,y,z,len,rot,color=0xf1f4f5){const m=new THREE.Mesh(new THREE.BoxGeometry(len,.025,.055),new THREE.MeshBasicMaterial({color}));m.position.set(x,y,z);m.rotation.z=rot;scene.add(m)}
+bar(-1,6,-1,7,-.3);bar(3,6,-2,5,.42);bar(-4,4,0,4,.8,0xcbd8e9);
+// A sculpted concept muscle car built from smooth meshes
+const car=new THREE.Group();scene.add(car);
+const paint=new THREE.MeshPhysicalMaterial({color:'#292d32',metalness:.88,roughness:.19,clearcoat:1,clearcoatRoughness:.12});
+const dark=new THREE.MeshStandardMaterial({color:'#07090c',metalness:.45,roughness:.28});
+const glass=new THREE.MeshPhysicalMaterial({color:'#101b22',metalness:.7,roughness:.1,clearcoat:1,transparent:true,opacity:.91});
+const chrome=new THREE.MeshStandardMaterial({color:'#aab3ba',metalness:.9,roughness:.16});
+const red=new THREE.MeshBasicMaterial({color:'#ff342e'});
+const white=new THREE.MeshBasicMaterial({color:'#d9f4ff'});
+function mesh(geo,mat,pos,scale,group=car){const m=new THREE.Mesh(geo,mat);m.position.set(...pos);if(scale)m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;group.add(m);return m}
+function box(mat,pos,size,group=car){return mesh(new THREE.BoxGeometry(...size),mat,pos,null,group)}
+// low, long body; front points toward -Z
+mesh(new THREE.BoxGeometry(2.05,.38,4.55),paint,[0,.72,0],[1,1,1]);
+mesh(new THREE.BoxGeometry(2.16,.23,2.5),paint,[0,.58,-.28]);
+mesh(new THREE.BoxGeometry(1.88,.20,1.25),paint,[0,.83,1.48]);
+mesh(new THREE.BoxGeometry(1.92,.18,1.2),paint,[0,.82,-1.62]);
+// Hood sculpting and trunk
+mesh(new THREE.BoxGeometry(1.72,.12,1.32),paint,[0,.92,-1.32]);
+mesh(new THREE.BoxGeometry(1.68,.1,.8),paint,[0,.91,1.55]);
+// Cabin
+const cabin=mesh(new THREE.BoxGeometry(1.48,.57,1.85),glass,[0,1.12,.03]);cabin.rotation.x=-.02;
+mesh(new THREE.BoxGeometry(1.58,.12,1.98),paint,[0,1.42,.03]);
+mesh(new THREE.BoxGeometry(1.53,.07,.16),chrome,[0,1.46,.03]);
+// side windows, doors, side skirts
+for(const s of [-1,1]){
+ mesh(new THREE.BoxGeometry(.035,.35,1.55),chrome,[s*.99,1.08,.02]);
+ mesh(new THREE.BoxGeometry(.1,.12,2.9),dark,[s*1.01,.47,.02]);
+ mesh(new THREE.BoxGeometry(.035,.025,.22),chrome,[s*1.045,.88,.28]);
+ // mirrors
+ mesh(new THREE.BoxGeometry(.19,.1,.22),paint,[s*1.05,1.13,-.65]);
+ // wheel and rim
+ for(const z of [-1.43,1.42]){
+  const tire=mesh(new THREE.CylinderGeometry(.43,.43,.23,32),dark,[s*1.03,.47,z]);tire.rotation.z=Math.PI/2;
+  const rim=mesh(new THREE.CylinderGeometry(.27,.27,.245,12),chrome,[s*1.04,.47,z]);rim.rotation.z=Math.PI/2;
+  const hub=mesh(new THREE.CylinderGeometry(.10,.10,.255,16),dark,[s*1.05,.47,z]);hub.rotation.z=Math.PI/2;
+  for(let i=0;i<5;i++){let a=i*Math.PI*2/5;const spoke=mesh(new THREE.BoxGeometry(.035,.22,.03),chrome,[s*1.055,.47+Math.sin(a)*.12,z+Math.cos(a)*.12]);spoke.rotation.x=a;}
+ }
 }
-function backHome(){
- document.getElementById('world').style.display='none';
- document.getElementById('intro').style.display='flex';
- window.scrollTo({top:0,behavior:'smooth'});
-}
-function zone(name){
- alert(name+' selected! Real playable games can be connected to this zone next.');
-}
+// Front grille, headlights and rear lights
+mesh(new THREE.BoxGeometry(1.1,.17,.035),dark,[0,.64,-2.29]);
+mesh(new THREE.BoxGeometry(.43,.075,.04),white,[-.67,.81,-2.30]);mesh(new THREE.BoxGeometry(.43,.075,.04),white,[.67,.81,-2.30]);
+mesh(new THREE.BoxGeometry(.46,.09,.04),red,[-.67,.81,2.29]);mesh(new THREE.BoxGeometry(.46,.09,.04),red,[.67,.81,2.29]);
+mesh(new THREE.BoxGeometry(1.35,.045,.1),dark,[0,.47,-2.27]);
+mesh(new THREE.BoxGeometry(1.55,.06,.24),paint,[0,.94,1.95]);
+// subtle draped cover: folded cloth-like panels around roof/rear, removed on reveal
+const clothMat=new THREE.MeshStandardMaterial({color:'#b8b8b3',roughness:.88,metalness:.03,side:THREE.DoubleSide});
+const cloth=new THREE.Group();scene.add(cloth);
+const clothGeo=new THREE.PlaneGeometry(2.35,4.85,32,48);
+const p=clothGeo.attributes.position;
+for(let i=0;i<p.count;i++){let x=p.getX(i),y=p.getY(i);p.setZ(i,Math.sin(x*5+y*2)*.075+Math.cos(y*4+x*2)*.035);if(y< -1.1)p.setZ(i,p.getZ(i)+.18)}
+clothGeo.computeVertexNormals();
+const sheet=new THREE.Mesh(clothGeo,clothMat);sheet.rotation.x=-Math.PI/2;sheet.position.set(0,1.95,.05);sheet.castShadow=true;cloth.add(sheet);
+const edge=new THREE.Mesh(new THREE.PlaneGeometry(2.35,.7,20,12),clothMat);edge.rotation.x=-Math.PI/2;edge.rotation.z=.1;edge.position.set(.1,1.25,2.15);cloth.add(edge);
+cloth.visible=true;
+
+const target=new THREE.Vector3(0,.8,0);
+let down=false,lastX=0,lastY=0,theta=.62,phi=1.22,radius=13.2,auto=true,reveal=0;
+function updateCamera(){phi=Math.max(.55,Math.min(1.45,phi));camera.position.set(target.x+radius*Math.sin(phi)*Math.sin(theta),target.y+radius*Math.cos(phi),target.z+radius*Math.sin(phi)*Math.cos(theta));camera.lookAt(target)}
+updateCamera();
+canvas.addEventListener('pointerdown',e=>{down=true;lastX=e.clientX;lastY=e.clientY;auto=false;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!down)return;theta-=(e.clientX-lastX)*.008;phi+=(e.clientY-lastY)*.005;lastX=e.clientX;lastY=e.clientY;updateCamera()});
+canvas.addEventListener('pointerup',()=>down=false);canvas.addEventListener('pointercancel',()=>down=false);
+canvas.addEventListener('wheel',e=>{radius=Math.max(8,Math.min(17,radius+e.deltaY*.008));updateCamera()},{passive:true});
+let t0=performance.now();
+function animate(now){requestAnimationFrame(animate);const t=(now-t0)/1000;if(auto&&!down){theta=.62+Math.sin(t*.16)*.18;updateCamera()}car.position.y=Math.sin(t*.7)*.018;
+if(reveal>0){reveal=Math.min(1,reveal+.012);cloth.position.set(.15*reveal, -1.2*reveal, .8*reveal);cloth.rotation.z=-.12*reveal;if(reveal>=1)cloth.visible=false}
+renderer.render(scene,camera)}
+requestAnimationFrame(animate);
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7))});
+document.querySelector('#enterBtn').addEventListener('click',()=>{reveal=0;cloth.visible=true;document.querySelector('#notice').style.display='flex';});
+document.querySelector('#closeNotice').addEventListener('click',()=>{document.querySelector('#notice').style.display='none';});
+document.querySelector('#soundBtn').addEventListener('click',e=>{e.currentTarget.textContent=e.currentTarget.textContent==='SOUND OFF'?'SOUND ON':'SOUND OFF';});
 </script>
 </body>
 </html>
