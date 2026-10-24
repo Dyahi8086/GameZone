@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameZone 3D</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#030611;color:white;font-family:Arial,sans-serif;overflow-x:hidden}
+.page{min-height:100vh;position:relative;overflow:hidden}
+#intro{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 55%,#173b66 0%,#071326 40%,#030611 75%)}
+.logo{position:absolute;top:25px;left:22px;font-size:23px;font-weight:900;letter-spacing:3px;color:#50faff}
+.logo span{color:#ff315d}
+.tag{color:#8eabc9;letter-spacing:5px;font-size:11px;margin-top:30px}
+h1{font-size:clamp(40px,10vw,90px);line-height:.95;margin:16px 0;text-shadow:0 0 30px #00d9ff66;letter-spacing:-3px}
+h1 span{color:#50faff}
+.subtitle{color:#9db5d2;letter-spacing:2px;font-size:12px}
+.car-scene{width:min(94vw,650px);height:260px;position:relative;perspective:700px;margin:15px auto}
+.grid{position:absolute;inset:20px -10px 0;background-image:linear-gradient(#00cfff33 1px,transparent 1px),linear-gradient(90deg,#00cfff33 1px,transparent 1px);background-size:35px 35px;transform:rotateX(62deg) scale(1.3);transform-origin:center bottom;mask-image:linear-gradient(transparent,#000)}
+.car{position:absolute;top:65px;left:50%;width:min(85vw,520px);height:160px;transform:translateX(-50%) rotateX(8deg);filter:drop-shadow(0 15px 22px #00cfff77);animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translate(-50%,-9px) rotateX(8deg)}}
+.enter{display:inline-block;background:linear-gradient(100deg,#00d9ff,#436aff);border:0;color:#00101b;font-weight:900;letter-spacing:2px;padding:17px 30px;border-radius:5px;text-decoration:none;box-shadow:0 0 30px #00cfff55;cursor:pointer}
+.enter:active{transform:scale(.96)}
+.hint{font-size:10px;letter-spacing:2px;color:#647d9d;margin-top:18px}
+#world{display:none;background:radial-gradient(ellipse at 50% 0%,#153d62,#070b19 55%,#02040b);padding:25px 18px 50px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.small-logo{font-weight:900;letter-spacing:2px;color:#50faff}
+.pill{font-size:10px;border:1px solid #28506b;padding:8px 11px;border-radius:30px;color:#9defff}
+.hero{padding:55px 0 25px}
+.hero h2{font-size:clamp(32px,8vw,58px);margin:0 0 12px;letter-spacing:-2px}
+.hero p{color:#94a9c5;line-height:1.7;font-size:14px;max-width:520px}
+.section-title{font-size:12px;letter-spacing:3px;color:#50faff;margin:30px 0 16px}
+.zones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.card{min-height:175px;border:1px solid #23405d;border-radius:13px;padding:16px;position:relative;overflow:hidden;background:linear-gradient(145deg,#162b46,#080e1d 75%);transition:.25s}
+.card:active{transform:scale(.97)}
+.card:before{content:"";position:absolute;width:130px;height:130px;right:-40px;top:-30px;border-radius:50%;background:var(--glow);filter:blur(35px);opacity:.4}
+.emoji{font-size:40px;filter:drop-shadow(0 0 15px var(--glow))}
+.card h3{font-size:16px;margin:17px 0 7px;position:relative}
+.card p{font-size:11px;color:#93a8c4;line-height:1.5;position:relative}
+.play{font-size:10px;letter-spacing:1px;color:var(--glow);font-weight:bold}
+footer{text-align:center;color:#506784;font-size:10px;letter-spacing:2px;margin-top:45px}
+@media(min-width:650px){.zones{grid-template-columns:repeat(3,minmax(0,1fr))}.car-scene{height:300px}.car{top:70px}}
+</style>
+</head>
+<body>
+
+<section class="page" id="intro">
+  <div class="logo">GAME<span>ZONE</span></div>
+  <div class="tag">THE NEXT LEVEL STARTS HERE</div>
+  <h1>ENTER THE<br><span>FUTURE.</span></h1>
+  <div class="subtitle">YOUR WORLD. YOUR RULES. YOUR GAME.</div>
+
+  <div class="car-scene">
+    <div class="grid"></div>
+    <svg class="car" viewBox="0 0 600 220" role="img" aria-label="Futuristic racing car">
+      <defs>
+        <linearGradient id="body" x1="0" y1="0" x2="0.8" y2="1">
+          <stop stop-color="#e5ffff"/><stop offset=".28" stop-color="#42d9ff"/>
+          <stop offset=".57" stop-color="#1262c7"/><stop offset="1" stop-color="#06142d"/>
+        </linearGradient>
+        <linearGradient id="glass"><stop stop-color="#071326"/><stop offset=".5" stop-color="#41eaff"/><stop offset="1" stop-color="#101b3c"/></linearGradient>
+      </defs>
+      <ellipse cx="300" cy="184" rx="225" ry="19" fill="#00cfff" opacity=".25"/>
+      <path d="M55 145 L95 116 L180 98 L235 53 Q252 39 280 40 L367 50 Q391 53 417 84 L492 105 L551 138 L532 161 L468 173 L112 171 L65 161Z" fill="url(#body)" stroke="#8ff7ff" stroke-width="2"/>
+      <path d="M210 99 L253 57 Q264 49 283 51 L355 60 Q373 63 394 91Z" fill="url(#glass)" stroke="#80efff" stroke-width="2"/>
+      <path d="M273 52 L286 98 M359 61 L349 98" stroke="#8ef5ff" stroke-width="2" opacity=".7"/>
+      <path d="M85 126 L176 111 L153 138 L65 148Z" fill="#061426"/>
+      <path d="M411 108 L487 119 L520 139 L452 137Z" fill="#071326"/>
+      <path d="M69 148 L139 145 L124 157 L64 157Z" fill="#ff315d"/>
+      <path d="M460 146 L535 146 L523 158 L461 158Z" fill="#ff315d"/>
+      <path d="M176 160 L431 160 L408 173 L183 173Z" fill="#06101e"/>
+      <path d="M208 178 L395 178 L426 192 L178 192Z" fill="#00dfff" opacity=".8"/>
+      <g fill="#030711" stroke="#315d82" stroke-width="5">
+        <ellipse cx="166" cy="166" rx="36" ry="35"/><ellipse cx="435" cy="166" rx="36" ry="35"/>
+      </g>
+      <g fill="#1b3550" stroke="#66eaff" stroke-width="3">
+        <ellipse cx="166" cy="166" rx="18" ry="18"/><ellipse cx="435" cy="166" rx="18" ry="18"/>
+      </g>
+      <g stroke="#b7ffff" stroke-width="3"><path d="M166 148 V184 M148 166 H184 M435 148 V184 M417 166 H453"/></g>
+      <path d="M260 110 L330 110 L351 144 L245 144Z" fill="#09213c" stroke="#36dfff" stroke-width="2"/>
+      <path d="M278 119 L318 119 L326 135 L268 135Z" fill="#51f4ff" opacity=".7"/>
+    </svg>
+  </div>
+
+  <button class="enter" onclick="enterWorld()">▶ ENTER GAMEZONE</button>
+  <div class="hint">TAP TO ENTER THE GAMING UNIVERSE</div>
+</section>
+
+<section class="page" id="world">
+  <div class="top">
+    <div class="small-logo">GAMEZONE<span style="color:#fff"> / WORLD</span></div>
+    <div class="pill">● ONLINE UNIVERSE</div>
+  </div>
+  <div class="hero">
+    <div class="tag">WELCOME, PLAYER</div>
+    <h2>CHOOSE YOUR<br><span style="color:#50faff">DIMENSION.</span></h2>
+    <p>Enter a world of speed, action and adventure. Choose your zone and get ready to play.</p>
+  </div>
+
+  <div class="section-title">— EXPLORE THE UNIVERSE</div>
+  <div class="zones">
+    <div class="card" style="--glow:#00eaff" onclick="zone('Racing Zone')">
+      <div class="emoji">🏎️</div><h3>RACING ZONE</h3><p>High speed. Neon roads. Full throttle.</p><div class="play">EXPLORE →</div>
+    </div>
+    <div class="card" style="--glow:#ff315d" onclick="zone('Robot Zone')">
+      <div class="emoji">🤖</div><h3>ROBOT ZONE</h3><p>Enter the future of giant machines.</p><div class="play">EXPLORE →</div>
+    </div>
+    <div class="card" style="--glow:#a35bff" onclick="zone('Action Zone')">
+      <div class="emoji">⚡</div><h3>ACTION ZONE</h3><p>Fast challenges and arcade action.</p><div class="play">EXPLORE →</div>
+    </div>
+    <div class="card" style="--glow:#4dff9b" onclick="zone('Puzzle Zone')">
+      <div class="emoji">🧩</div><h3>PUZZLE ZONE</h3><p>Test your brain. Beat the challenge.</p><div class="play">EXPLORE →</div>
+    </div>
+    <div class="card" style="--glow:#ffbd4a" onclick="zone('Arcade Zone')">
+      <div class="emoji">🕹️</div><h3>ARCADE ZONE</h3><p>Classic fun in a futuristic world.</p><div class="play">EXPLORE →</div>
+    </div>
+    <div class="card" style="--glow:#ff66c4" onclick="zone('Adventure Zone')">
+      <div class="emoji">🌌</div><h3>ADVENTURE ZONE</h3><p>Discover new worlds and missions.</p><div class="play">EXPLORE →</div>
+    </div>
+  </div>
+  <button class="enter" style="margin-top:25px" onclick="backHome()">← BACK TO ENTRY</button>
+  <footer>GAMEZONE • YOUR NEXT ADVENTURE AWAITS</footer>
+</section>
+
+<script>
+function enterWorld(){
+ document.getElementById('intro').style.display='none';
+ document.getElementById('world').style.display='block';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function backHome(){
+ document.getElementById('world').style.display='none';
+ document.getElementById('intro').style.display='flex';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function zone(name){
+ alert(name+' selected! Real playable games can be connected to this zone next.');
+}
+</script>
+</body>
+</html>
