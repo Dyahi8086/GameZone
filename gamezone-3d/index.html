@@ -29,7 +29,7 @@
 
         #home-screen.hidden {
             opacity: 0;
-            transform: scale(1.05); /* Smooth zoom out effect */
+            transform: scale(1.05); 
             pointer-events: none;
         }
 
@@ -125,48 +125,68 @@
             z-index: 20;
         }
 
+        /* 🔥 FIX: Header ko thoda padding diya aur responsive kiya */
         .dash-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 30px;
-            background: rgba(0,0,0,0.8);
+            padding: 20px 15px; /* Side se padding kam ki taaki jagah bache */
+            background: rgba(10, 10, 10, 0.95); /* Thoda solid background */
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 30;
-            border-bottom: 1px solid rgba(255,105,180,0.3);
+            border-bottom: 2px solid rgba(255,105,180,0.4);
+            flex-wrap: wrap; /* Agar jagah kam ho toh niche aa jaye */
+            gap: 10px;
         }
 
         .dash-header h2 {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 5vw, 1.8rem); /* Text auto adjust */
             color: #ff69b4;
-            text-shadow: 0 0 10px rgba(255,105,180,0.5);
+            text-shadow: 0 0 15px rgba(255,105,180,0.6);
             letter-spacing: 2px;
+            line-height: 1.2;
+            max-width: 65%; /* Taaki button ke saath fit ho */
         }
 
         .back-btn {
             background: transparent;
-            color: #fff;
-            border: 1px solid #fff;
-            padding: 8px 20px;
+            color: #ff69b4;
+            border: 1px solid #ff69b4;
+            padding: 10px 15px;
             border-radius: 5px;
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.8rem;
             transition: 0.3s;
+            white-space: nowrap; /* Text ek line mein rahe */
         }
 
-        .back-btn:hover {
-            background: #fff;
+        .back-btn:hover, .back-btn:active {
+            background: #ff69b4;
             color: #000;
+            box-shadow: 0 0 15px #ff69b4;
         }
 
+        /* 🔥 FIX: Grid Layout */
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 40px 30px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Mobile pe 2 columns */
+            gap: 15px;
+            padding: 20px 15px;
+        }
+
+        /* Desktop ke liye grid adjust */
+        @media (min-width: 768px) {
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                padding: 40px 30px;
+                gap: 25px;
+            }
+            .dash-header { padding: 20px 40px; }
+            .dash-header h2 { max-width: 100%; }
         }
 
         .game-card {
@@ -185,16 +205,20 @@
 
         .game-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255,105,180,0.2);
+            box-shadow: 0 10px 20px rgba(255,105,180,0.3);
             border-color: #ff69b4;
         }
 
-        /* Fake Image Background for Cards */
         .game-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(45deg, #222, #444);
             z-index: 1;
+            transition: 0.3s;
+        }
+        
+        .game-card:hover .game-bg {
+            transform: scale(1.1); /* Zoom effect on hover */
         }
 
         .game-bg.c1 { background: linear-gradient(45deg, #3a1c71, #d76d77, #ffaf7b); }
@@ -205,29 +229,31 @@
         .game-info {
             position: relative;
             z-index: 2;
-            padding: 20px;
+            padding: 15px;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         }
 
         .game-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            margin-bottom: 3px;
             color: #fff;
+            text-shadow: 1px 1px 3px #000;
         }
 
         .game-info p {
-            font-size: 0.8rem;
-            color: #aaa;
+            font-size: 0.7rem;
+            color: #ff69b4;
             font-family: sans-serif;
+            font-weight: bold;
         }
 
         .play-tag {
             position: absolute;
-            top: 15px; right: 15px;
+            top: 10px; right: 10px;
             background: #ff69b4;
             color: #000;
-            padding: 5px 10px;
-            font-size: 0.7rem;
+            padding: 4px 8px;
+            font-size: 0.6rem;
             font-weight: bold;
             border-radius: 3px;
             z-index: 2;
@@ -242,7 +268,7 @@
         }
 
         /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #ff69b4; border-radius: 4px; }
     </style>
@@ -269,14 +295,14 @@
     <div id="dashboard-screen">
         <div class="dash-header">
             <h2>SELECT YOUR GAME</h2>
-            <button class="back-btn" id="backBtn">← Back to 3D</button>
+            <button class="back-btn" id="backBtn">← Back</button>
         </div>
 
         <div class="games-grid">
             <!-- Game Card 1 -->
             <div class="game-card">
                 <div class="game-bg c1"></div>
-                <div class="play-tag">PLAY NOW</div>
+                <div class="play-tag">PLAY</div>
                 <div class="game-info">
                     <h3>Cyber Racer</h3>
                     <p>Racing · 3D</p>
@@ -286,7 +312,7 @@
             <!-- Game Card 2 -->
             <div class="game-card">
                 <div class="game-bg c2"></div>
-                <div class="play-tag">PLAY NOW</div>
+                <div class="play-tag">PLAY</div>
                 <div class="game-info">
                     <h3>Neon Shooter</h3>
                     <p>Action · FPS</p>
@@ -296,7 +322,7 @@
             <!-- Game Card 3 -->
             <div class="game-card">
                 <div class="game-bg c3"></div>
-                <div class="play-tag">PLAY NOW</div>
+                <div class="play-tag">PLAY</div>
                 <div class="game-info">
                     <h3>Puzzle Matrix</h3>
                     <p>Brain · Logic</p>
@@ -306,10 +332,30 @@
             <!-- Game Card 4 -->
             <div class="game-card">
                 <div class="game-bg c4"></div>
-                <div class="play-tag">PLAY NOW</div>
+                <div class="play-tag">PLAY</div>
                 <div class="game-info">
                     <h3>Space Explorer</h3>
                     <p>Adventure · 3D</p>
+                </div>
+            </div>
+            
+            <!-- Game Card 5 -->
+            <div class="game-card">
+                <div class="game-bg c1"></div>
+                <div class="play-tag">PLAY</div>
+                <div class="game-info">
+                    <h3>Ludo King</h3>
+                    <p>Board · Classic</p>
+                </div>
+            </div>
+            
+            <!-- Game Card 6 -->
+            <div class="game-card">
+                <div class="game-bg c2"></div>
+                <div class="play-tag">PLAY</div>
+                <div class="game-info">
+                    <h3>Subway Surf</h3>
+                    <p>Runner · 3D</p>
                 </div>
             </div>
         </div>
@@ -328,28 +374,24 @@
     <script type="module">
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+        import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+        import { RoomEnvironment } from 'https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
 
-        // --- UI LOGIC (Button Click handling) ---
+        // --- UI LOGIC ---
         const enterBtn = document.getElementById('enterBtn');
         const backBtn = document.getElementById('backBtn');
         const homeScreen = document.getElementById('home-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
 
         enterBtn.addEventListener('click', () => {
-            // 3D Home ko hide karo
             homeScreen.classList.add('hidden');
-            // Games dashboard ko dikhao (Thoda delay taaki animation smooth lage)
             setTimeout(() => {
                 dashboardScreen.classList.add('active');
             }, 300);
         });
 
         backBtn.addEventListener('click', () => {
-            // Games dashboard ko hide karo
             dashboardScreen.classList.remove('active');
-            // Wapas 3D Home pe jao
             setTimeout(() => {
                 homeScreen.classList.remove('hidden');
             }, 300);
