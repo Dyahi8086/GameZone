@@ -2,68 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GAMENOVA | 3D Car</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GAMENOVA 3D CAR</title>
 <style>
 *{box-sizing:border-box}
-html,body{
- margin:0;width:100%;height:100%;overflow:hidden;
- background:#05070b;color:white;font-family:Arial,sans-serif
-}
-#scene{
- position:fixed;inset:0;width:100%;height:100%;
- display:block;touch-action:none
-}
-.overlay{
- position:fixed;inset:0;pointer-events:none;
- background:linear-gradient(180deg,#02050a66,transparent 45%,#02050acc)
-}
-header{
- position:fixed;top:20px;left:18px;right:18px;
- display:flex;justify-content:space-between;
- font-size:11px;letter-spacing:3px
-}
-.logo{font-weight:900}
-.cyan{color:#7df7ff}
-.hero{
- position:fixed;top:12%;left:0;right:0;
- text-align:center;pointer-events:none;padding:0 12px
-}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05070b;color:white;font-family:Arial,sans-serif}
+canvas{position:fixed;inset:0;width:100%;height:100%;touch-action:none}
+header{position:fixed;top:20px;left:18px;right:18px;display:flex;justify-content:space-between;font-size:11px;letter-spacing:3px}
+.hero{position:fixed;top:12%;width:100%;text-align:center;pointer-events:none}
 .tag{font-size:10px;letter-spacing:4px;color:#7df7ff}
-h1{font-size:clamp(30px,8vw,55px);margin:14px 0;letter-spacing:2px}
+h1{font-size:clamp(30px,8vw,55px);margin:14px 0}
 p{font-size:12px;color:#c1cbd8}
-.bottom{
- position:fixed;bottom:25px;width:100%;
- text-align:center;pointer-events:none
-}
-.hint{font-size:10px;letter-spacing:2px;color:#b4c1d0}
-#status{
- position:fixed;bottom:55px;left:10px;right:10px;
- text-align:center;font-size:12px;color:#7df7ff;
- line-height:1.5
-}
+#status{position:fixed;bottom:55px;width:100%;text-align:center;color:#7df7ff;font-size:12px;padding:0 15px}
+.bottom{position:fixed;bottom:25px;width:100%;text-align:center;font-size:10px;letter-spacing:2px;color:#b4c1d0;pointer-events:none}
 </style>
 </head>
 <body>
-
 <canvas id="scene"></canvas>
-<div class="overlay"></div>
 
 <header>
- <div class="logo"><span class="cyan">◆</span> GAMENOVA</div>
- <div>● 3D GARAGE</div>
+  <div>◆ GAMENOVA</div>
+  <div>● 3D GARAGE</div>
 </header>
 
 <section class="hero">
- <div class="tag">CINEMATIC AUTOMOTIVE EXPERIENCE</div>
- <h1>THE <span class="cyan">MACHINE</span></h1>
- <p>One car. Dark studio. Pure detail.</p>
+  <div class="tag">CINEMATIC AUTOMOTIVE EXPERIENCE</div>
+  <h1>THE <span style="color:#7df7ff">MACHINE</span></h1>
+  <p>One car. Dark studio. Pure detail.</p>
 </section>
 
 <div id="status">Loading 3D car...</div>
-<div class="bottom">
- <div class="hint">DRAG TO ROTATE · SCROLL TO ZOOM</div>
-</div>
+<div class="bottom">DRAG TO ROTATE · PINCH OR SCROLL TO ZOOM</div>
 
 <script type="module">
 import * as THREE from
@@ -75,207 +44,170 @@ import { GLTFLoader } from
 const canvas=document.getElementById('scene');
 const status=document.getElementById('status');
 
+try {
 const renderer=new THREE.WebGLRenderer({
- canvas:canvas,
- antialias:true,
- powerPreference:'high-performance'
+  canvas,
+  antialias:true,
+  powerPreference:'high-performance'
 });
 
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
-renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+renderer.setSize(window.innerWidth,window.innerHeight);
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure=1.2;
 
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x05070b);
-scene.fog=new THREE.Fog(0x05070b,20,50);
+scene.fog=new THREE.Fog(0x05070b,20,60);
 
 const camera=new THREE.PerspectiveCamera(
- 38,innerWidth/innerHeight,0.1,1000
+  40,window.innerWidth/window.innerHeight,0.1,1000
 );
 camera.position.set(5,3,8);
 
-scene.add(new THREE.HemisphereLight(
- 0xcce5ff,0x11131a,2.2
-));
+scene.add(new THREE.HemisphereLight(0xddeeff,0x151820,2.5));
 
-function addLight(color,power,x,y,z){
- const light=new THREE.DirectionalLight(color,power);
- light.position.set(x,y,z);
- scene.add(light);
+function light(color,intensity,x,y,z){
+  const l=new THREE.DirectionalLight(color,intensity);
+  l.position.set(x,y,z);
+  scene.add(l);
 }
-
-addLight(0xffffff,4,4,8,5);
-addLight(0x7df7ff,3,-5,4,-4);
-addLight(0xffd7ad,2,2,3,-7);
+light(0xffffff,4,4,8,5);
+light(0x7df7ff,3,-5,4,-4);
+light(0xffd7ad,2,2,3,-7);
 
 const floor=new THREE.Mesh(
- new THREE.PlaneGeometry(200,200),
- new THREE.MeshStandardMaterial({
-  color:0x090d13,
-  metalness:0.5,
-  roughness:0.3
- })
+  new THREE.PlaneGeometry(200,200),
+  new THREE.MeshStandardMaterial({
+    color:0x090d13,metalness:0.5,roughness:0.3
+  })
 );
 floor.rotation.x=-Math.PI/2;
 floor.position.y=-0.04;
 scene.add(floor);
 
-const grid=new THREE.GridHelper(
- 40,60,0x183247,0x0d1824
-);
-grid.position.y=-0.035;
+const grid=new THREE.GridHelper(40,60,0x183247,0x0d1824);
+grid.position.y=-0.03;
 scene.add(grid);
 
 function strip(x,y,z,sx,sy,sz){
- const mesh=new THREE.Mesh(
-  new THREE.BoxGeometry(sx,sy,sz),
-  new THREE.MeshBasicMaterial({color:0x8ceeff})
- );
- mesh.position.set(x,y,z);
- scene.add(mesh);
+  const m=new THREE.Mesh(
+    new THREE.BoxGeometry(sx,sy,sz),
+    new THREE.MeshBasicMaterial({color:0x8ceeff})
+  );
+  m.position.set(x,y,z);
+  scene.add(m);
 }
-
-strip(-4,4,-2,0.06,5,0.08);
-strip(4,4,-2,0.06,5,0.08);
+strip(-4,4,-2,0.05,5,0.08);
+strip(4,4,-2,0.05,5,0.08);
 strip(0,6,-3,8,0.05,0.08);
 
 const carGroup=new THREE.Group();
 scene.add(carGroup);
 
+let rotation=0;
 let dragging=false;
 let lastX=0;
 let lastY=0;
-let targetRotation=0;
-let targetCameraZ=8;
-let targetCameraY=3;
+let zoom=8;
 
 const loader=new GLTFLoader();
 
 loader.load(
- './carlson_sports_car.glb',
+  './cartoon_sports_car.glb',
 
- function(gltf){
-  const car=gltf.scene;
+  function(gltf){
+    const car=gltf.scene;
+    const box=new THREE.Box3().setFromObject(car);
+    const size=box.getSize(new THREE.Vector3());
+    const center=box.getCenter(new THREE.Vector3());
+    const maxSize=Math.max(size.x,size.y,size.z);
 
-  const bounds=new THREE.Box3().setFromObject(car);
-  const size=bounds.getSize(new THREE.Vector3());
-  const center=bounds.getCenter(new THREE.Vector3());
-  const maxDimension=Math.max(size.x,size.y,size.z);
+    if(!Number.isFinite(maxSize)||maxSize<=0){
+      status.textContent='Car model is invalid.';
+      return;
+    }
 
-  if(!Number.isFinite(maxDimension)||maxDimension<=0){
-   status.textContent='Car model size error.';
-   return;
+    car.scale.setScalar(4.8/maxSize);
+    car.position.set(
+      -center.x*car.scale.x,
+      -center.y*car.scale.y,
+      -center.z*car.scale.z
+    );
+
+    const b=new THREE.Box3().setFromObject(car);
+    car.position.y-=b.min.y;
+
+    car.traverse(obj=>{
+      if(obj.isMesh){
+        obj.frustumCulled=true;
+      }
+    });
+
+    carGroup.add(car);
+
+    camera.position.set(5,2.8,zoom);
+    camera.lookAt(0,0.8,0);
+    status.textContent='3D CAR LOADED — DRAG TO ROTATE';
+
+    setTimeout(()=>{status.style.display='none'},5000);
+  },
+
+  undefined,
+
+  function(error){
+    console.error(error);
+    status.style.display='block';
+    status.textContent=
+      'Car load failed. Check filename and GitHub Pages file access.';
   }
-
-  const scale=4.8/maxDimension;
-  car.scale.setScalar(scale);
-
-  car.position.set(
-   -center.x*scale,
-   -center.y*scale,
-   -center.z*scale
-  );
-
-  const scaledBounds=new THREE.Box3().setFromObject(car);
-  car.position.y-=scaledBounds.min.y;
-
-  car.traverse(function(obj){
-   if(obj.isMesh){
-    obj.castShadow=false;
-    obj.receiveShadow=false;
-   }
-  });
-
-  carGroup.add(car);
-
-  const finalBounds=new THREE.Box3().setFromObject(car);
-  const finalSize=finalBounds.getSize(new THREE.Vector3());
-
-  targetCameraY=Math.max(1.5,finalSize.y*0.8);
-  camera.position.set(5,targetCameraY,8);
-
-  status.textContent='3D car loaded! Drag to rotate.';
-
-  setTimeout(function(){
-   status.style.display='none';
-  },5000);
- },
-
- undefined,
-
- function(error){
-  console.error('GLB error:',error);
-  status.style.display='block';
-  status.textContent=
-   'Car failed to load. Check the GLB file and internet connection.';
- }
 );
 
-canvas.addEventListener('pointerdown',function(e){
- dragging=true;
- lastX=e.clientX;
- lastY=e.clientY;
-
- if(canvas.setPointerCapture){
+canvas.addEventListener('pointerdown',e=>{
+  dragging=true;
+  lastX=e.clientX;
+  lastY=e.clientY;
   canvas.setPointerCapture(e.pointerId);
- }
 });
 
-canvas.addEventListener('pointerup',function(){
- dragging=false;
+canvas.addEventListener('pointerup',()=>dragging=false);
+canvas.addEventListener('pointercancel',()=>dragging=false);
+
+canvas.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  rotation+=(e.clientX-lastX)*0.008;
+  carGroup.rotation.y=rotation;
+  camera.position.y=Math.max(1,Math.min(6,
+    camera.position.y-(e.clientY-lastY)*0.008
+  ));
+  lastX=e.clientX;
+  lastY=e.clientY;
 });
 
-canvas.addEventListener('pointercancel',function(){
- dragging=false;
-});
-
-canvas.addEventListener('pointermove',function(e){
- if(!dragging)return;
-
- targetRotation+=(e.clientX-lastX)*0.008;
-
- targetCameraY=Math.max(
-  0.8,
-  Math.min(6,targetCameraY-(e.clientY-lastY)*0.008)
- );
-
- lastX=e.clientX;
- lastY=e.clientY;
-});
-
-canvas.addEventListener('wheel',function(e){
- targetCameraZ=Math.max(
-  4,
-  Math.min(16,targetCameraZ+e.deltaY*0.008)
- );
+canvas.addEventListener('wheel',e=>{
+  zoom=Math.max(4,Math.min(16,zoom+e.deltaY*0.008));
+  camera.position.z=zoom;
 },{passive:true});
 
 function animate(){
- requestAnimationFrame(animate);
-
- carGroup.rotation.y+=
-  (targetRotation-carGroup.rotation.y)*0.08;
-
- camera.position.z+=
-  (targetCameraZ-camera.position.z)*0.08;
-
- camera.position.y+=
-  (targetCameraY-camera.position.y)*0.08;
-
- camera.lookAt(0,0.65,0);
- renderer.render(scene,camera);
+  requestAnimationFrame(animate);
+  camera.lookAt(0,0.8,0);
+  renderer.render(scene,camera);
 }
-
 animate();
 
-window.addEventListener('resize',function(){
- camera.aspect=innerWidth/innerHeight;
- camera.updateProjectionMatrix();
- renderer.setSize(innerWidth,innerHeight);
- renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
 });
+
+} catch(error) {
+  console.error(error);
+  status.textContent='3D engine error. Reload the website.';
+}
 </script>
 </body>
 </html>
