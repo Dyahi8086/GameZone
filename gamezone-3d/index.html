@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GameZone | 3D Car</title>
+<title>GameZone 3D Showcase</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -20,6 +20,7 @@ html, body {
 #stage {
   position: fixed;
   inset: 0;
+  touch-action: none;
 }
 
 header {
@@ -27,8 +28,8 @@ header {
   top: 22px;
   left: 6%;
   z-index: 2;
-  color: #25282d;
   pointer-events: none;
+  color: #25282d;
 }
 
 h1 {
@@ -38,10 +39,9 @@ h1 {
 }
 
 header p {
-  margin-top: 8px;
   font-size: 12px;
-  color: #666b70;
   letter-spacing: 2px;
+  color: #666;
 }
 
 #status {
@@ -49,13 +49,11 @@ header p {
   left: 50%;
   bottom: 20px;
   transform: translateX(-50%);
-  background: rgba(255,255,255,.8);
+  background: #ffffffd9;
+  color: #333;
   padding: 10px 15px;
   border-radius: 20px;
   font-size: 12px;
-  color: #333;
-  white-space: nowrap;
-  pointer-events: none;
 }
 </style>
 
@@ -70,15 +68,18 @@ header p {
 </head>
 
 <body>
+
 <header>
   <h1>GAMEZONE</h1>
   <p>3D CAR EXPERIENCE</p>
 </header>
 
 <div id="stage"></div>
-<div id="status">Loading 3D car...</div>
+<div id="status">Loading 3D model...</div>
 
 <script type="module">
+const status = document.getElementById("status");
+
 try {
   const THREE = await import("three");
 
@@ -89,9 +90,6 @@ try {
   const { OrbitControls } = await import(
     "three/addons/controls/OrbitControls.js"
   );
-
-  const stage = document.getElementById("stage");
-  const status = document.getElementById("status");
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xe9e8df);
@@ -109,54 +107,34 @@ try {
   renderer.setSize(innerWidth, innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.toneMappingExposure = 1.0;
 
-  stage.appendChild(renderer.domElement);
+  document.getElementById("stage").appendChild(renderer.domElement);
 
-  // Soft studio lighting
-  scene.add(new THREE.HemisphereLight(
-    0xffffff, 0xaaa9a0, 2.1
-  ));
+  // Studio lighting — does not recolor the model materials
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xb4b2a8, 2));
 
-  const mainLight = new THREE.DirectionalLight(0xffffff, 3);
-  mainLight.position.set(4, 8, 6);
-  scene.add(mainLight);
+  const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
+  keyLight.position.set(5, 8, 6);
+  scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0xffe6c9, 1.5);
+  const fillLight = new THREE.DirectionalLight(0xffffff, 1.2);
   fillLight.position.set(-5, 4, -3);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xc9e5ff, 1.2);
-  rimLight.position.set(0, 5, -6);
-  scene.add(rimLight);
-
-  // Studio floor
+  // Neutral studio floor
   const floor = new THREE.Mesh(
-    new THREE.CircleGeometry(5, 96),
+    new THREE.PlaneGeometry(200, 200),
     new THREE.MeshStandardMaterial({
-      color: 0xf5f3eb,
-      roughness: 0.82,
-      metalness: 0
-    })
-  );
-
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -0.025;
-  scene.add(floor);
-
-  // Soft circular studio platform
-  const platform = new THREE.Mesh(
-    new THREE.CylinderGeometry(4.5, 4.5, 0.06, 96),
-    new THREE.MeshStandardMaterial({
-      color: 0xd6d4cc,
+      color: 0xe9e8df,
       roughness: 0.9
     })
   );
 
-  platform.position.y = -0.07;
-  scene.add(platform);
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.y = -0.03;
+  scene.add(floor);
 
-  // Keep touch rotation and pinch zoom
   const controls = new OrbitControls(
     camera, renderer.domElement
   );
@@ -164,91 +142,88 @@ try {
   controls.enableDamping = true;
   controls.dampingFactor = 0.06;
   controls.enablePan = false;
-  controls.enableRotate = true;
   controls.enableZoom = true;
   controls.autoRotate = true;
   controls.autoRotateSpeed = 0.8;
   controls.minDistance = 2;
-  controls.maxDistance = 14;
-  controls.minPolarAngle = 0.3;
+  controls.maxDistance = 15;
+  controls.minPolarAngle = 0.25;
   controls.maxPolarAngle = Math.PI / 2.05;
 
   const loader = new GLTFLoader();
 
+  /*
+    IMPORTANT:
+    Change MODEL_FILE to the exact name of your downloaded
+    model file after uploading it beside index.html.
+  */
+  const MODEL_FILE = "./cartoon_sports_car.glb";
+
   loader.load(
-    "./cartoon_sports_car.glb",
+    MODEL_FILE,
 
     (gltf) => {
-      const car = gltf.scene;
+      const model = gltf.scene;
 
-      const box = new THREE.Box3().setFromObject(car);
+      // Preserve original materials, textures and colors.
+      // No color-changing code is applied.
+
+      const box = new THREE.Box3().setFromObject(model);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
 
       const largest = Math.max(size.x, size.y, size.z);
-      const scale = 3.5 / largest;
 
-      car.scale.setScalar(scale);
-      car.position.set(
+      if (!largest || !Number.isFinite(largest)) {
+        status.textContent = "Model dimensions could not be read.";
+        return;
+      }
+
+      const scale = 3.5 / largest;
+      model.scale.setScalar(scale);
+
+      model.position.set(
         -center.x * scale,
         -box.min.y * scale,
         -center.z * scale
       );
 
-      scene.add(car);
+      scene.add(model);
 
-      // Apply a subtle blue tint to existing materials.
-      // Original textures and details remain in place.
-      car.traverse((obj) => {
-        if (!obj.isMesh) return;
-
-        const materials = Array.isArray(obj.material)
-          ? obj.material
-          : [obj.material];
-
-        materials.forEach((material) => {
-          if (!material || !material.color) return;
-
-          material.color.multiply(
-            new THREE.Color(0xb7d5ff)
-          );
-        });
-      });
-
-      const finalBox = new THREE.Box3().setFromObject(car);
-      const finalSize = finalBox.getSize(new THREE.Vector3());
-      const finalCenter = finalBox.getCenter(new THREE.Vector3());
+      const fittedBox = new THREE.Box3().setFromObject(model);
+      const fittedSize = fittedBox.getSize(new THREE.Vector3());
+      const fittedCenter = fittedBox.getCenter(new THREE.Vector3());
 
       controls.target.set(
-        finalCenter.x,
-        finalBox.min.y + finalSize.y * 0.4,
-        finalCenter.z
+        fittedCenter.x,
+        fittedBox.min.y + fittedSize.y * 0.4,
+        fittedCenter.z
       );
 
       camera.position.set(
-        finalCenter.x + 5,
-        finalCenter.y + 2.4,
-        finalCenter.z + 6
+        fittedCenter.x + 5,
+        fittedCenter.y + 2.5,
+        fittedCenter.z + 6
       );
 
       controls.update();
       controls.saveState();
 
-      status.textContent =
-        "Drag to rotate · Pinch to zoom";
+      status.textContent = "Drag to rotate · Pinch to zoom";
     },
 
     (event) => {
       if (event.total > 0) {
         status.textContent =
-          "Loading car... " +
+          "Loading model... " +
           Math.round(event.loaded / event.total * 100) + "%";
       }
     },
 
     (error) => {
-      console.error(error);
-      status.textContent = "Car loading failed. Check connection.";
+      console.error("Model loading error:", error);
+      status.textContent =
+        "Model not found. Check the exact file name.";
     }
   );
 
@@ -268,9 +243,9 @@ try {
 
 } catch (error) {
   console.error(error);
-  document.getElementById("status").textContent =
-    "Error loading 3D scene.";
+  status.textContent = "3D viewer error: " + error.message;
 }
 </script>
+
 </body>
 </html>
