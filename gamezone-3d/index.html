@@ -6,26 +6,70 @@
 <title>THE MACHINE | GameZone</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;background:#090b10;color:white;
-  font-family:Arial,sans-serif;overflow:hidden
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #090b10;
+  color: white;
+  font-family: Arial, sans-serif;
 }
-header{position:absolute;top:20px;left:6%;z-index:2}
-h1{font-size:clamp(25px,5vw,48px);letter-spacing:5px;margin:0}
-p{color:#aaa}
-#stage{width:100vw;height:100vh}
-#status{
-  position:absolute;bottom:25px;left:6%;
-  color:#ddd;background:#151820;padding:12px 16px;
-  border-radius:8px;max-width:88%;font-size:14px
+
+header {
+  position: absolute;
+  top: 22px;
+  left: 6%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(26px, 6vw, 48px);
+  letter-spacing: 4px;
+}
+
+header p {
+  color: #aaa;
+  font-size: 15px;
+}
+
+#stage {
+  width: 100vw;
+  height: 100dvh;
+  touch-action: none;
+}
+
+#status {
+  position: absolute;
+  left: 5%;
+  bottom: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #151820e8;
+  color: white;
+  font-size: 13px;
+  max-width: 90%;
+  pointer-events: none;
+}
+
+#hint {
+  position: absolute;
+  right: 5%;
+  bottom: 22px;
+  color: #bbb;
+  font-size: 11px;
+  text-align: right;
+  pointer-events: none;
 }
 </style>
 
 <script type="importmap">
 {
   "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
   }
 }
 </script>
@@ -39,15 +83,17 @@ p{color:#aaa}
 
 <div id="stage"></div>
 <div id="status">Loading 3D car...</div>
+<div id="hint">DRAG TO ROTATE<br>PINCH TO ZOOM</div>
 
 <script type="module">
 const status = document.getElementById("status");
 
 try {
   const THREE = await import("three");
-  const { GLTFLoader } = await import(
-    "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js"
-  );
+  const { GLTFLoader } =
+    await import("three/addons/loaders/GLTFLoader.js");
+  const { OrbitControls } =
+    await import("three/addons/controls/OrbitControls.js");
 
   const stage = document.getElementById("stage");
 
@@ -57,33 +103,57 @@ try {
   const camera = new THREE.PerspectiveCamera(
     45, window.innerWidth / window.innerHeight, 0.1, 1000
   );
-  camera.position.set(5, 3, 7);
 
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
-    alpha: false
+    powerPreference: "high-performance"
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
   stage.appendChild(renderer.domElement);
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x303040, 2));
+  // Lighting
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x303040, 2.2));
 
-  const light = new THREE.DirectionalLight(0xffffff, 3);
-  light.position.set(5, 8, 6);
-  scene.add(light);
+  const keyLight = new THREE.DirectionalLight(0xffffff, 3);
+  keyLight.position.set(5, 8, 6);
+  scene.add(keyLight);
 
+  const rimLight = new THREE.DirectionalLight(0x729bff, 2);
+  rimLight.position.set(-5, 4, -6);
+  scene.add(rimLight);
+
+  // Floor
   const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(200, 200),
+    new THREE.CircleGeometry(5, 96),
     new THREE.MeshStandardMaterial({
-      color: 0x151820,
-      roughness: 0.75
+      color: 0x303138,
+      roughness: 0.65,
+      metalness: 0.15
     })
   );
+
   floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -0.02;
+  floor.position.y = -0.025;
   scene.add(floor);
+
+  // Camera controls: touch rotation and pinch zoom
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.07;
+  controls.enablePan = false;
+  controls.enableRotate = true;
+  controls.enableZoom = true;
+  controls.minDistance = 2;
+  controls.maxDistance = 14;
+  controls.minPolarAngle = 0.25;
+  controls.maxPolarAngle = Math.PI / 2.05;
+  controls.rotateSpeed = 0.8;
+  controls.zoomSpeed = 0.8;
 
   const loader = new GLTFLoader();
 
@@ -92,37 +162,49 @@ try {
 
     (gltf) => {
       const car = gltf.scene;
-      scene.add(car);
 
-      const box = new THREE.Box3().setFromObject(car);
-      const size = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
+      // Fit model inside the scene
+      const originalBox = new THREE.Box3().setFromObject(car);
+      const originalSize = originalBox.getSize(new THREE.Vector3());
+      const originalCenter = originalBox.getCenter(new THREE.Vector3());
 
-      car.position.x -= center.x;
-      car.position.z -= center.z;
-      car.position.y -= box.min.y;
+      const largest = Math.max(
+        originalSize.x, originalSize.y, originalSize.z
+      );
 
-      const maxSize = Math.max(size.x, size.y, size.z);
-      if (maxSize > 0) {
-        const scale = 4 / maxSize;
-        car.scale.setScalar(scale);
+      if (!largest || !Number.isFinite(largest)) {
+        status.textContent = "Car model size could not be detected.";
+        return;
       }
 
-      // Recenter after scaling.
-      const scaledBox = new THREE.Box3().setFromObject(car);
-      const scaledCenter = scaledBox.getCenter(new THREE.Vector3());
-      car.position.x -= scaledCenter.x;
-      car.position.z -= scaledCenter.z;
-      car.position.y -= scaledBox.min.y;
+      car.scale.setScalar(3.5 / largest);
+
+      car.position.set(
+        -originalCenter.x * (3.5 / largest),
+        -originalBox.min.y * (3.5 / largest),
+        -originalCenter.z * (3.5 / largest)
+      );
+
+      scene.add(car);
 
       const finalBox = new THREE.Box3().setFromObject(car);
       const finalSize = finalBox.getSize(new THREE.Vector3());
-      const maxDim = Math.max(finalSize.x, finalSize.y, finalSize.z);
+      const finalCenter = finalBox.getCenter(new THREE.Vector3());
 
-      camera.position.set(maxDim * 1.5, maxDim * 0.8, maxDim * 1.8);
-      camera.lookAt(0, maxDim * 0.35, 0);
+      controls.target.copy(finalCenter);
+      controls.target.y = finalBox.min.y + finalSize.y * 0.38;
 
-      status.textContent = "3D car loaded! Drag nahi, abhi car dekho.";
+      camera.position.set(
+        finalCenter.x + 5,
+        finalCenter.y + 2.5,
+        finalCenter.z + 6
+      );
+
+      controls.update();
+      controls.saveState();
+
+      status.textContent =
+        "3D car loaded! Drag to rotate • Pinch to zoom";
     },
 
     (event) => {
@@ -133,16 +215,18 @@ try {
     },
 
     (error) => {
-      console.error("Car loading error:", error);
+      console.error("GLB loading error:", error);
       status.textContent =
-        "Car load nahi hui. Internet check karo aur page refresh karo.";
+        "Car file load failed. Check filename and internet.";
     }
   );
 
   function animate() {
     requestAnimationFrame(animate);
+    controls.update();
     renderer.render(scene, camera);
   }
+
   animate();
 
   window.addEventListener("resize", () => {
@@ -153,8 +237,7 @@ try {
 
 } catch (error) {
   console.error(error);
-  status.textContent =
-    "JavaScript/CDN error: " + (error.message || "Unknown error");
+  status.textContent = "Error: " + (error.message || "Module loading failed");
 }
 </script>
 </body>
