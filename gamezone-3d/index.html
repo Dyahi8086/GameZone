@@ -7,172 +7,24 @@
     <title>GameZone - Premium Experience</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: #050505;
+            background-color: #61c0d1; /* Sketchfab wala Light Teal Background */
             font-family: 'Orbitron', sans-serif;
-            color: #ffffff;
+            color: #000000;
             overflow: hidden;
         }
 
-        /* ========================================= */
-        /* --- 1. CUTE DUCK LOADING ANIMATION --- */
-        /* ========================================= */
-        #intro-loader {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: #e5e7eb; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            /* Faster fade out */
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        
-        #intro-loader.hide {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        /* Duck Scene Setup */
-        .duck-scene {
-            position: relative;
-            width: 300px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 20px;
-        }
-
-        /* The Water Line */
-        .water-line {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background-color: #4cd4d4; 
-            border-radius: 10px;
-            z-index: 1;
-        }
-
-        /* Duck Container */
-        .duck-container {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            gap: 40px; 
-        }
-
-        /* Individual Duck Styling */
-        .duck {
-            width: 60px;
-            height: 50px;
-            position: relative;
-            animation: float 1s ease-in-out infinite; /* Faster animation */
-        }
-
-        .duck-body {
-            width: 100%;
-            height: 100%;
-            background-color: #ffd700; 
-            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
-            position: absolute;
-            bottom: 0;
-        }
-
-        .duck-head {
-            width: 35px;
-            height: 35px;
-            background-color: #ffd700;
-            border-radius: 50%;
-            position: absolute;
-            top: -10px;
-            right: 5px;
-        }
-
-        .duck-eye {
-            width: 6px;
-            height: 6px;
-            background-color: #000;
-            border-radius: 50%;
-            position: absolute;
-            top: 8px;
-            right: 10px;
-        }
-
-        .duck-beak {
-            width: 15px;
-            height: 8px;
-            background-color: #ff4500; 
-            border-radius: 0 50% 50% 0;
-            position: absolute;
-            top: 15px;
-            right: -10px;
-        }
-
-        .duck-tail {
-            width: 15px;
-            height: 20px;
-            background-color: #ffd700;
-            border-radius: 50% 0 0 50%;
-            position: absolute;
-            bottom: 10px;
-            left: -5px;
-            transform: rotate(-20deg);
-        }
-
-        .duck:nth-child(1) { animation-delay: 0s; }
-        .duck:nth-child(2) { animation-delay: 0.3s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Bubbles */
-        .bubbles {
-            position: absolute;
-            bottom: 30px;
-            left: 20px;
-            z-index: 3;
-        }
-
-        .bubble {
-            position: absolute;
-            background-color: transparent;
-            border: 2px solid #4cd4d4;
-            border-radius: 50%;
-            animation: rise 1.5s infinite ease-in;
-        }
-
-        .bubble:nth-child(1) { width: 15px; height: 15px; left: 0; animation-delay: 0s; }
-        .bubble:nth-child(2) { width: 8px; height: 8px; left: 20px; animation-delay: 0.3s; }
-        .bubble:nth-child(3) { width: 10px; height: 10px; left: 10px; animation-delay: 0.6s; }
-        .bubble:nth-child(4) { width: 5px; height: 5px; left: 30px; animation-delay: 0.9s; }
-
-        @keyframes rise {
-            0% { bottom: 30px; opacity: 1; transform: scale(1); }
-            100% { bottom: 100px; opacity: 0; transform: scale(1.5); }
-        }
-
-        /* ========================================= */
-        /* --- 2. HOME SCREEN (3D MODEL) --- */
-        /* ========================================= */
+        /* --- HOME SCREEN (3D MODEL) --- */
         #home-screen {
             position: absolute;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
             transition: opacity 0.5s ease, transform 0.5s ease;
             z-index: 10;
-            background-color: #f3f4f6;
         }
 
         #home-screen.hidden {
@@ -206,8 +58,8 @@
             font-weight: 900;
             letter-spacing: 8px;
             text-transform: uppercase;
-            color: #000;
-            text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+            color: #fff; /* White text for teal background */
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
         }
 
         .bottom-section {
@@ -223,10 +75,10 @@
             font-size: 1.2rem;
             font-weight: 900;
             letter-spacing: 3px;
-            color: #000;
+            color: #fff;
             background: transparent;
             padding: 15px 40px;
-            border: 2px solid #000;
+            border: 2px solid #fff;
             border-radius: 5px;
             cursor: pointer;
             text-transform: uppercase;
@@ -234,14 +86,27 @@
         }
 
         .enter-btn:hover, .enter-btn:active { 
-            background: #000; 
-            color: #ff69b4; 
-            box-shadow: 0 0 30px #ff69b4; 
+            background: #fff; 
+            color: #61c0d1; 
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); 
             transform: scale(1.05);
         }
 
+        /* Simple Loading Text */
+        #loading {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            z-index: 100;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
         /* ========================================= */
-        /* --- 3. PREMIUM DASHBOARD SCREEN --- */
+        /* --- DASHBOARD SCREEN --- */
         /* ========================================= */
         #dashboard-screen {
             position: absolute;
@@ -286,7 +151,6 @@
         }
         .back-btn:hover { background: #00ffff; color: #000; box-shadow: 0 0 20px #00ffff; }
 
-        /* Hero Banner */
         .hero-banner {
             position: relative;
             width: 90%;
@@ -322,7 +186,6 @@
             filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.3));
         }
 
-        /* 3D Cards Grid */
         .section-title {
             text-align: center;
             margin: 40px 0 20px;
@@ -398,7 +261,7 @@
             transform: translateZ(30px);
         }
         .game-category {
-            font-family: 'Rajdhani', sans-serif;
+            font-family: sans-serif;
             font-size: 1rem;
             color: #00ffff;
             font-weight: 700;
@@ -444,39 +307,9 @@
 </head>
 <body>
 
-    <!-- 1. DUCK LOADING ANIMATION -->
-    <div id="intro-loader">
-        <div class="duck-scene">
-            <div class="bubbles">
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-            </div>
-            <div class="water-line"></div>
-            <div class="duck-container">
-                <div class="duck">
-                    <div class="duck-tail"></div>
-                    <div class="duck-body"></div>
-                    <div class="duck-head">
-                        <div class="duck-eye"></div>
-                        <div class="duck-beak"></div>
-                    </div>
-                </div>
-                <div class="duck">
-                    <div class="duck-tail"></div>
-                    <div class="duck-body"></div>
-                    <div class="duck-head">
-                        <div class="duck-eye"></div>
-                        <div class="duck-beak"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. HOME SCREEN (3D Model) -->
+    <!-- 1. HOME SCREEN (3D Model) -->
     <div id="home-screen">
+        <div id="loading">Loading...</div>
         <div id="canvas-container"></div>
         <div class="ui-container">
             <div class="header">
@@ -488,7 +321,7 @@
         </div>
     </div>
 
-    <!-- 3. DASHBOARD SCREEN -->
+    <!-- 2. DASHBOARD SCREEN -->
     <div id="dashboard-screen">
         <div class="top-nav">
             <div class="nav-logo">GAMEZONE</div>
@@ -548,16 +381,16 @@
         import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
         import { RoomEnvironment } from 'https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
 
-        // --- UI VARIABLES ---
         const enterBtn = document.getElementById('enterBtn');
         const backBtn = document.getElementById('backBtn');
         const homeScreen = document.getElementById('home-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
-        const introLoader = document.getElementById('intro-loader');
+        const loadingEl = document.getElementById('loading');
 
         // --- 3D SETUP ---
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf3f4f6); 
+        // 3D Scene background ko bhi same color kar diya
+        scene.background = new THREE.Color(0x61c0d1); 
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -565,16 +398,17 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.3; 
+        renderer.toneMappingExposure = 1.2; 
         
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
+        // Soft Lighting for the cute model
         const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
         scene.add(ambientLight);
-        const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
+        const topLight = new THREE.DirectionalLight(0xffffff, 2.5);
         topLight.position.set(0, 20, 10);
         topLight.castShadow = true;
         scene.add(topLight);
@@ -583,4 +417,87 @@
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
-        cont
+        controls.enablePan = false; 
+        
+        controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.0;
+        controls.addEventListener('start', () => { controls.autoRotate = false; });
+
+        const loader = new GLTFLoader();
+        const modelPath = './smol_ame_in_an_upcycled_terrarium_hololiveen.glb'; 
+
+        loader.load(
+            modelPath,
+            (gltf) => {
+                loadingEl.style.display = 'none'; // Loading text hide
+                const model = gltf.scene;
+
+                model.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        if(child.material) { 
+                            child.material.toneMapped = false; 
+                            child.material.envMapIntensity = 1.5; 
+                        }
+                    }
+                });
+
+                scene.add(model);
+
+                // --- PERFECT CENTER & ZOOM LOCK ---
+                const box = new THREE.Box3().setFromObject(model);
+                const size = box.getSize(new THREE.Vector3());
+                const center = box.getCenter(new THREE.Vector3());
+
+                model.position.x = -center.x;
+                model.position.y = -center.y;
+                model.position.z = -center.z;
+
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fixedDistance = maxDim * 2.0; 
+
+                camera.position.set(fixedDistance * 0.4, fixedDistance * 0.3, fixedDistance * 0.9); 
+                camera.lookAt(0, 0, 0);
+                
+                controls.target.set(0, 0, 0);
+                controls.minDistance = fixedDistance * 1.0; 
+                controls.maxDistance = fixedDistance * 1.8;
+                controls.update();
+            },
+            undefined,
+            (error) => {
+                loadingEl.style.display = 'none';
+                alert("Model Load Failed! Check File Name.");
+            }
+        );
+
+        // --- UI LOGIC ---
+        enterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            homeScreen.classList.add('hidden');
+            setTimeout(() => { dashboardScreen.classList.add('active'); }, 300);
+        });
+
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            dashboardScreen.classList.remove('active');
+            setTimeout(() => { homeScreen.classList.remove('hidden'); }, 300);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update(); 
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
