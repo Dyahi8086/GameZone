@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>GameZone - Play & Explore</title>
+    <title>GameZone - Premium Experience</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: #f3f4f6;
+            background-color: #050505; /* Ekdum dark black */
             font-family: 'Orbitron', sans-serif;
-            color: #000000;
+            color: #ffffff;
             overflow: hidden;
         }
 
@@ -25,6 +26,7 @@
             width: 100vw; height: 100vh;
             transition: opacity 0.8s ease, transform 0.8s ease;
             z-index: 10;
+            background-color: #f3f4f6; /* Home screen is still light */
         }
 
         #home-screen.hidden {
@@ -103,20 +105,23 @@
             color: #000;
         }
 
-        /* --- GAMES DASHBOARD SCREEN --- */
+        /* ========================================= */
+        /* --- NEW PREMIUM DASHBOARD SCREEN --- */
+        /* ========================================= */
         #dashboard-screen {
             position: absolute;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: #0a0a0a;
-            color: #fff;
+            background-color: #0b0c10; /* Darker theme */
+            background-image: radial-gradient(circle at 50% 0%, #1f2330 0%, #0b0c10 70%);
             display: flex;
             flex-direction: column;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.6s ease;
             z-index: 5;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         #dashboard-screen.active {
@@ -125,152 +130,208 @@
             z-index: 20;
         }
 
-        /* 🔥 FIX: Header ko thoda padding diya aur responsive kiya */
-        .dash-header {
+        /* Animated Top Bar */
+        .top-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 15px; /* Side se padding kam ki taaki jagah bache */
-            background: rgba(10, 10, 10, 0.95); /* Thoda solid background */
-            backdrop-filter: blur(10px);
+            padding: 20px 30px;
             position: sticky;
             top: 0;
-            z-index: 30;
-            border-bottom: 2px solid rgba(255,105,180,0.4);
-            flex-wrap: wrap; /* Agar jagah kam ho toh niche aa jaye */
-            gap: 10px;
+            z-index: 50;
+            background: rgba(11, 12, 16, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .dash-header h2 {
-            font-size: clamp(1.2rem, 5vw, 1.8rem); /* Text auto adjust */
-            color: #ff69b4;
-            text-shadow: 0 0 15px rgba(255,105,180,0.6);
-            letter-spacing: 2px;
-            line-height: 1.2;
-            max-width: 65%; /* Taaki button ke saath fit ho */
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
         .back-btn {
             background: transparent;
-            color: #ff69b4;
-            border: 1px solid #ff69b4;
-            padding: 10px 15px;
-            border-radius: 5px;
+            color: #00ffff;
+            border: 1px solid #00ffff;
+            padding: 8px 20px;
+            border-radius: 4px;
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
             font-weight: bold;
             font-size: 0.8rem;
             transition: 0.3s;
-            white-space: nowrap; /* Text ek line mein rahe */
+            letter-spacing: 1px;
         }
 
-        .back-btn:hover, .back-btn:active {
-            background: #ff69b4;
+        .back-btn:hover {
+            background: #00ffff;
             color: #000;
-            box-shadow: 0 0 15px #ff69b4;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
         }
 
-        /* 🔥 FIX: Grid Layout */
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "SELECT YOUR GAME";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            color: #ff0055;
+            -webkit-text-stroke: 0;
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+            opacity: 0.8;
+        }
+
+        /* 3D Grid Layout */
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Mobile pe 2 columns */
-            gap: 15px;
-            padding: 20px 15px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            padding: 20px 40px 80px;
+            perspective: 1200px; /* 3D depth */
         }
 
-        /* Desktop ke liye grid adjust */
-        @media (min-width: 768px) {
-            .games-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                padding: 40px 30px;
-                gap: 25px;
-            }
-            .dash-header { padding: 20px 40px; }
-            .dash-header h2 { max-width: 100%; }
-        }
-
+        /* 3D Game Card */
         .game-card {
-            background: #1a1a1a;
-            border-radius: 10px;
-            overflow: hidden;
             position: relative;
+            height: 380px;
+            border-radius: 15px;
+            background: #15171e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid #333;
-            aspect-ratio: 16/9;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+            transform-style: preserve-3d;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Hover Effects (Tilt) */
+        .game-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(-5deg) scale(1.02);
+            box-shadow: -10px 15px 40px rgba(255, 0, 85, 0.2);
+            border-color: rgba(255, 0, 85, 0.5);
+        }
+
+        /* Image Container inside Card */
+        .card-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease;
+        }
+        
+        .game-card:hover .card-img {
+            transform: scale(1.1); /* Image Zoom */
+        }
+
+        /* Gradient Overlay */
+        .card-overlay {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 60%;
+            background: linear-gradient(to top, #0b0c10 10%, rgba(11,12,16,0.8) 50%, transparent);
+            z-index: 2;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            padding: 20px;
         }
 
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255,105,180,0.3);
-            border-color: #ff69b4;
+        /* Card Text */
+        .game-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            transform: translateZ(30px); /* 3D Pop out */
         }
 
-        .game-bg {
+        .game-category {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            color: #00ffff;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transform: translateZ(20px);
+        }
+
+        /* Play Button on Hover */
+        .play-action {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, #222, #444);
-            z-index: 1;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: #ff0055;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            opacity: 0;
             transition: 0.3s;
+            z-index: 10;
+            box-shadow: 0 0 20px #ff0055;
+            pointer-events: none;
+        }
+
+        .game-card:hover .play-action {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Card Badge (Top Right) */
+        .card-badge {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 4px;
+            z-index: 3;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .top-nav { padding: 15px; }
+            .nav-logo { font-size: 1.2rem; }
+            .section-title { font-size: 1.5rem; }
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+                gap: 15px;
+                padding: 10px 15px 50px;
+            }
+            .game-card { height: 220px; border-radius: 10px; }
+            .game-title { font-size: 1rem; }
+            .game-category { font-size: 0.8rem; }
+            .card-overlay { padding: 10px; }
+            .card-badge { display: none; } /* Hide badge on small screens */
         }
         
-        .game-card:hover .game-bg {
-            transform: scale(1.1); /* Zoom effect on hover */
-        }
-
-        .game-bg.c1 { background: linear-gradient(45deg, #3a1c71, #d76d77, #ffaf7b); }
-        .game-bg.c2 { background: linear-gradient(45deg, #0f2027, #203a43, #2c5364); }
-        .game-bg.c3 { background: linear-gradient(45deg, #4b134f, #c94b4b); }
-        .game-bg.c4 { background: linear-gradient(45deg, #000428, #004e92); }
-
-        .game-info {
-            position: relative;
-            z-index: 2;
-            padding: 15px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-        }
-
-        .game-info h3 {
-            font-size: 1rem;
-            margin-bottom: 3px;
-            color: #fff;
-            text-shadow: 1px 1px 3px #000;
-        }
-
-        .game-info p {
-            font-size: 0.7rem;
-            color: #ff69b4;
-            font-family: sans-serif;
-            font-weight: bold;
-        }
-
-        .play-tag {
-            position: absolute;
-            top: 10px; right: 10px;
-            background: #ff69b4;
-            color: #000;
-            padding: 4px 8px;
-            font-size: 0.6rem;
-            font-weight: bold;
-            border-radius: 3px;
-            z-index: 2;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: 0.3s;
-        }
-
-        .game-card:hover .play-tag {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #ff69b4; border-radius: 4px; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0c10; }
+        ::-webkit-scrollbar-thumb { background: #ff0055; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -291,73 +352,83 @@
         </div>
     </div>
 
-    <!-- 2. DASHBOARD SCREEN (Games Grid) -->
+    <!-- 2. PREMIUM DASHBOARD SCREEN -->
     <div id="dashboard-screen">
-        <div class="dash-header">
-            <h2>SELECT YOUR GAME</h2>
-            <button class="back-btn" id="backBtn">← Back</button>
+        <!-- Top Nav Bar -->
+        <div class="top-nav">
+            <div class="nav-logo">GAMEZONE</div>
+            <button class="back-btn" id="backBtn">← RETURN TO 3D</button>
         </div>
 
+        <!-- Section Title with Neon Stroke -->
+        <h2 class="section-title">SELECT YOUR GAME</h2>
+
+        <!-- Games Grid -->
         <div class="games-grid">
-            <!-- Game Card 1 -->
-            <div class="game-card">
-                <div class="game-bg c1"></div>
-                <div class="play-tag">PLAY</div>
-                <div class="game-info">
-                    <h3>Cyber Racer</h3>
-                    <p>Racing · 3D</p>
-                </div>
-            </div>
-
-            <!-- Game Card 2 -->
-            <div class="game-card">
-                <div class="game-bg c2"></div>
-                <div class="play-tag">PLAY</div>
-                <div class="game-info">
-                    <h3>Neon Shooter</h3>
-                    <p>Action · FPS</p>
-                </div>
-            </div>
-
-            <!-- Game Card 3 -->
-            <div class="game-card">
-                <div class="game-bg c3"></div>
-                <div class="play-tag">PLAY</div>
-                <div class="game-info">
-                    <h3>Puzzle Matrix</h3>
-                    <p>Brain · Logic</p>
-                </div>
-            </div>
-
-            <!-- Game Card 4 -->
-            <div class="game-card">
-                <div class="game-bg c4"></div>
-                <div class="play-tag">PLAY</div>
-                <div class="game-info">
-                    <h3>Space Explorer</h3>
-                    <p>Adventure · 3D</p>
-                </div>
-            </div>
             
-            <!-- Game Card 5 -->
+            <!-- Card 1 -->
             <div class="game-card">
-                <div class="game-bg c1"></div>
-                <div class="play-tag">PLAY</div>
-                <div class="game-info">
-                    <h3>Ludo King</h3>
-                    <p>Board · Classic</p>
+                <div class="card-badge">NEW</div>
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="play-action">PLAY NOW</div>
+                <div class="card-overlay">
+                    <div class="game-title">Cyber Racer</div>
+                    <div class="game-category">Racing · 3D</div>
                 </div>
             </div>
-            
-            <!-- Game Card 6 -->
+
+            <!-- Card 2 -->
             <div class="game-card">
-                <div class="game-bg c2"></div>
-                <div class="play-tag">PLAY</div>
-                <div class="game-info">
-                    <h3>Subway Surf</h3>
-                    <p>Runner · 3D</p>
+                <div class="card-badge">TRENDING</div>
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="play-action">PLAY NOW</div>
+                <div class="card-overlay">
+                    <div class="game-title">Neon Shooter</div>
+                    <div class="game-category">Action · FPS</div>
                 </div>
             </div>
+
+            <!-- Card 3 -->
+            <div class="game-card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="play-action">PLAY NOW</div>
+                <div class="card-overlay">
+                    <div class="game-title">Puzzle Matrix</div>
+                    <div class="game-category">Brain · Logic</div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="game-card">
+                <div class="card-badge">HOT</div>
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="play-action">PLAY NOW</div>
+                <div class="card-overlay">
+                    <div class="game-title">Space Explorer</div>
+                    <div class="game-category">Adventure · 3D</div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="game-card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="play-action">PLAY NOW</div>
+                <div class="card-overlay">
+                    <div class="game-title">Ludo King</div>
+                    <div class="game-category">Board · Classic</div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="game-card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop');"></div>
+                <div class="play-action">PLAY NOW</div>
+                <div class="card-overlay">
+                    <div class="game-title">Subway Surf</div>
+                    <div class="game-category">Runner · 3D</div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -373,7 +444,7 @@
 
     <script type="module">
         import * as THREE from 'three';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
         import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
         import { RoomEnvironment } from 'https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
 
@@ -495,15 +566,4 @@
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
-</body>
-</html>
+   
