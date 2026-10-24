@@ -17,7 +17,6 @@
             box-sizing: border-box;
         }
 
-        /* Showroom wala Light Grey Background */
         body {
             background-color: #e5e7eb; 
             font-family: 'Orbitron', sans-serif;
@@ -54,7 +53,6 @@
             margin-top: 20px;
         }
 
-        /* Text Black aur Neon Glow */
         .header h1 {
             font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 900;
@@ -116,7 +114,6 @@
             box-shadow: 0 0 20px #00ffff;
         }
 
-        /* Simple Loading Text */
         #loading {
             position: absolute;
             top: 50%;
@@ -165,7 +162,6 @@
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
         const scene = new THREE.Scene();
-        // Background scene ko light grey kar diya
         scene.background = new THREE.Color(0xe5e7eb); 
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -181,11 +177,10 @@
         
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // Environment Map (Black car ko chamkane ke liye)
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // --- HEAVY LIGHTS (Taaki black car dikhe) ---
+        // LIGHTS
         const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
         scene.add(ambientLight);
 
@@ -236,28 +231,33 @@
 
                 scene.add(model);
 
-                // --- PERFECT FIT CAMERA ---
+                // --- PERFECT FIT FIX ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
-                // Car ko center karo
                 model.position.x = -center.x;
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
-                // Camera ko car ke size ke hisaab se set karo
+                // Car ka sabse bada dimension
                 const maxDim = Math.max(size.x, size.y, size.z);
                 
-                // Fixed distance (Screen me perfect fit aayegi)
-                camera.position.set(maxDim * 1.8, maxDim * 0.7, maxDim * 1.8); 
+                // Mobile screen ke hisaab se smart calculation
+                // Agar screen choti hai, toh camera aur door jayega
+                const fitHeightDistance = maxDim / (2 * Math.atan(Math.PI * camera.fov / 360));
+                const fitWidthDistance = fitHeightDistance / camera.aspect;
+                const distance = Math.max(fitHeightDistance, fitWidthDistance) * 1.5;
+
+                // Camera ko sahi angle pe set karo
+                camera.position.set(distance * 0.7, distance * 0.4, distance * 0.7); 
                 camera.lookAt(0, 0, 0);
                 
                 controls.target.set(0, 0, 0);
                 
-                // Zoom lock (User car ke andar na jaye)
-                controls.minDistance = maxDim * 1.2; 
-                controls.maxDistance = maxDim * 3.5;
+                // Zoom Limits
+                controls.minDistance = distance * 0.8; 
+                controls.maxDistance = distance * 2.5;
                 controls.update();
 
                 // Shadow Floor
@@ -272,7 +272,7 @@
             undefined,
             (error) => {
                 loadingEl.style.display = 'none';
-                alert("Model Load Failed! Check File Name.");
+                alert("Model Load Failed!");
             }
         );
 
