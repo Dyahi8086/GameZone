@@ -2,31 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>GameZone | Blue Machine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GameZone | 3D Car</title>
 
 <style>
 * { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: #080b12;
-  color: white;
   font-family: Arial, sans-serif;
+  background: #e9e8df;
 }
 
 #stage {
   position: fixed;
   inset: 0;
-  z-index: 0;
 }
 
 header {
   position: absolute;
+  top: 22px;
+  left: 6%;
   z-index: 2;
-  top: 18px;
-  left: 5%;
+  color: #25282d;
   pointer-events: none;
 }
 
@@ -37,65 +38,24 @@ h1 {
 }
 
 header p {
-  color: #aebed8;
-  font-size: 13px;
-}
-
-#panel {
-  position: absolute;
-  z-index: 3;
-  bottom: 18px;
-  left: 4%;
-  width: 92%;
-  padding: 12px;
-  border: 1px solid #314563;
-  border-radius: 16px;
-  background: rgba(9, 16, 29, .92);
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666b70;
+  letter-spacing: 2px;
 }
 
 #status {
-  color: #9bcaff;
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,.8);
+  padding: 10px 15px;
+  border-radius: 20px;
   font-size: 12px;
-  margin-bottom: 10px;
-}
-
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-button {
-  padding: 12px 4px;
-  border: 1px solid #35527c;
-  border-radius: 10px;
-  background: #17243a;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-button:active {
-  background: #176bd5;
-}
-
-button.active {
-  background: #0758c8;
-  border-color: #7abaff;
-}
-
-#hint {
-  margin-top: 9px;
-  color: #9da9bd;
-  font-size: 11px;
-  text-align: center;
-}
-
-canvas {
-  display: block;
-  touch-action: none;
+  color: #333;
+  white-space: nowrap;
+  pointer-events: none;
 }
 </style>
 
@@ -110,34 +70,15 @@ canvas {
 </head>
 
 <body>
-
-<div id="stage"></div>
-
 <header>
   <h1>GAMEZONE</h1>
-  <p>BLUE MACHINE · 3D CAR EXPERIENCE</p>
+  <p>3D CAR EXPERIENCE</p>
 </header>
 
-<div id="panel">
-  <div id="status">Loading 3D car...</div>
-
-  <div class="buttons">
-    <button id="blue">🔵 BLUE CAR</button>
-    <button id="light" class="active">💡 LIGHTING ON</button>
-    <button id="auto">🔄 AUTO ROTATE: ON</button>
-    <button id="reset">🎯 RESET VIEW</button>
-    <button id="zoomIn">＋ ZOOM IN</button>
-    <button id="zoomOut">－ ZOOM OUT</button>
-  </div>
-
-  <div id="hint">
-    DRAG TO ROTATE · PINCH TO ZOOM · EXPLORE YOUR CAR
-  </div>
-</div>
+<div id="stage"></div>
+<div id="status">Loading 3D car...</div>
 
 <script type="module">
-const status = document.getElementById("status");
-
 try {
   const THREE = await import("three");
 
@@ -150,15 +91,13 @@ try {
   );
 
   const stage = document.getElementById("stage");
+  const status = document.getElementById("status");
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x080b12);
+  scene.background = new THREE.Color(0xe9e8df);
 
   const camera = new THREE.PerspectiveCamera(
-    42,
-    innerWidth / innerHeight,
-    0.1,
-    1000
+    40, innerWidth / innerHeight, 0.1, 1000
   );
 
   const renderer = new THREE.WebGLRenderer({
@@ -170,43 +109,54 @@ try {
   renderer.setSize(innerWidth, innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMappingExposure = 1.15;
 
   stage.appendChild(renderer.domElement);
 
-  // Premium lighting
-  const ambient = new THREE.HemisphereLight(
-    0xffffff, 0x273956, 2.0
-  );
-  scene.add(ambient);
+  // Soft studio lighting
+  scene.add(new THREE.HemisphereLight(
+    0xffffff, 0xaaa9a0, 2.1
+  ));
 
-  const keyLight = new THREE.DirectionalLight(0xffffff, 3);
-  keyLight.position.set(5, 8, 6);
-  scene.add(keyLight);
+  const mainLight = new THREE.DirectionalLight(0xffffff, 3);
+  mainLight.position.set(4, 8, 6);
+  scene.add(mainLight);
 
-  const blueLight = new THREE.PointLight(0x1684ff, 35, 18);
-  blueLight.position.set(-4, 3, -3);
-  scene.add(blueLight);
+  const fillLight = new THREE.DirectionalLight(0xffe6c9, 1.5);
+  fillLight.position.set(-5, 4, -3);
+  scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0x287dff, 2.5);
-  rimLight.position.set(-5, 4, -6);
+  const rimLight = new THREE.DirectionalLight(0xc9e5ff, 1.2);
+  rimLight.position.set(0, 5, -6);
   scene.add(rimLight);
 
-  // Display floor
+  // Studio floor
   const floor = new THREE.Mesh(
     new THREE.CircleGeometry(5, 96),
     new THREE.MeshStandardMaterial({
-      color: 0x202b3c,
-      roughness: 0.35,
-      metalness: 0.25
+      color: 0xf5f3eb,
+      roughness: 0.82,
+      metalness: 0
     })
   );
 
   floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -0.03;
+  floor.position.y = -0.025;
   scene.add(floor);
 
-  // Camera controls
+  // Soft circular studio platform
+  const platform = new THREE.Mesh(
+    new THREE.CylinderGeometry(4.5, 4.5, 0.06, 96),
+    new THREE.MeshStandardMaterial({
+      color: 0xd6d4cc,
+      roughness: 0.9
+    })
+  );
+
+  platform.position.y = -0.07;
+  scene.add(platform);
+
+  // Keep touch rotation and pinch zoom
   const controls = new OrbitControls(
     camera, renderer.domElement
   );
@@ -214,43 +164,31 @@ try {
   controls.enableDamping = true;
   controls.dampingFactor = 0.06;
   controls.enablePan = false;
+  controls.enableRotate = true;
   controls.enableZoom = true;
   controls.autoRotate = true;
-  controls.autoRotateSpeed = 1.2;
+  controls.autoRotateSpeed = 0.8;
   controls.minDistance = 2;
   controls.maxDistance = 14;
-  controls.minPolarAngle = 0.25;
+  controls.minPolarAngle = 0.3;
   controls.maxPolarAngle = Math.PI / 2.05;
 
-  let car = null;
-  let originalMaterials = [];
-  let blueMode = false;
-  let lightingOn = true;
-  let autoOn = true;
-
-  // Load existing car model
   const loader = new GLTFLoader();
 
   loader.load(
     "./cartoon_sports_car.glb",
 
     (gltf) => {
-      car = gltf.scene;
+      const car = gltf.scene;
 
       const box = new THREE.Box3().setFromObject(car);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
 
       const largest = Math.max(size.x, size.y, size.z);
-
-      if (!largest || !Number.isFinite(largest)) {
-        status.textContent = "Could not determine car size.";
-        return;
-      }
-
       const scale = 3.5 / largest;
-      car.scale.setScalar(scale);
 
+      car.scale.setScalar(scale);
       car.position.set(
         -center.x * scale,
         -box.min.y * scale,
@@ -259,7 +197,8 @@ try {
 
       scene.add(car);
 
-      // Save original material colors for restoring
+      // Apply a subtle blue tint to existing materials.
+      // Original textures and details remain in place.
       car.traverse((obj) => {
         if (!obj.isMesh) return;
 
@@ -267,13 +206,12 @@ try {
           ? obj.material
           : [obj.material];
 
-        materials.forEach((mat) => {
-          if (!mat || !mat.color) return;
+        materials.forEach((material) => {
+          if (!material || !material.color) return;
 
-          originalMaterials.push({
-            material: mat,
-            color: mat.color.clone()
-          });
+          material.color.multiply(
+            new THREE.Color(0xb7d5ff)
+          );
         });
       });
 
@@ -289,7 +227,7 @@ try {
 
       camera.position.set(
         finalCenter.x + 5,
-        finalCenter.y + 2.5,
+        finalCenter.y + 2.4,
         finalCenter.z + 6
       );
 
@@ -297,118 +235,22 @@ try {
       controls.saveState();
 
       status.textContent =
-        "3D car loaded! Blue paint and controls ready.";
-
-      // Start with blue tint
-      setBlue(true);
+        "Drag to rotate · Pinch to zoom";
     },
 
     (event) => {
       if (event.total > 0) {
-        const percent = Math.round(
-          event.loaded / event.total * 100
-        );
-        status.textContent = "Loading car... " + percent + "%";
+        status.textContent =
+          "Loading car... " +
+          Math.round(event.loaded / event.total * 100) + "%";
       }
     },
 
     (error) => {
       console.error(error);
-      status.textContent =
-        "Car loading failed. Check the GLB filename.";
+      status.textContent = "Car loading failed. Check connection.";
     }
   );
-
-  // Blue color effect
-  function setBlue(enabled) {
-    if (!car) {
-      status.textContent = "Wait for the car to load.";
-      return;
-    }
-
-    blueMode = enabled;
-
-    originalMaterials.forEach((entry) => {
-      if (enabled) {
-        entry.material.color.set(0x1685ff);
-      } else {
-        entry.material.color.copy(entry.color);
-      }
-    });
-
-    document.getElementById("blue").classList.toggle(
-      "active", enabled
-    );
-
-    status.textContent = enabled
-      ? "Blue color enabled!"
-      : "Original model colors restored.";
-  }
-
-  document.getElementById("blue").onclick = () => {
-    setBlue(!blueMode);
-  };
-
-  // Lighting toggle
-  document.getElementById("light").onclick = () => {
-    lightingOn = !lightingOn;
-
-    ambient.intensity = lightingOn ? 2.0 : 0.45;
-    keyLight.intensity = lightingOn ? 3 : 0.6;
-    blueLight.intensity = lightingOn ? 35 : 0;
-    rimLight.intensity = lightingOn ? 2.5 : 0;
-
-    const btn = document.getElementById("light");
-    btn.textContent = lightingOn
-      ? "💡 LIGHTING ON"
-      : "💡 LIGHTING OFF";
-
-    btn.classList.toggle("active", lightingOn);
-
-    status.textContent = lightingOn
-      ? "Premium lighting enabled!"
-      : "Lighting reduced.";
-  };
-
-  // Auto rotation toggle
-  document.getElementById("auto").onclick = () => {
-    autoOn = !autoOn;
-    controls.autoRotate = autoOn;
-
-    const btn = document.getElementById("auto");
-    btn.textContent = autoOn
-      ? "🔄 AUTO ROTATE: ON"
-      : "🔄 AUTO ROTATE: OFF";
-
-    btn.classList.toggle("active", autoOn);
-    status.textContent = autoOn
-      ? "Auto rotation enabled!"
-      : "Auto rotation paused.";
-  };
-
-  // Reset camera
-  document.getElementById("reset").onclick = () => {
-    controls.reset();
-    status.textContent = "Camera view reset!";
-  };
-
-  // Zoom controls
-  document.getElementById("zoomIn").onclick = () => {
-    controls.dollyIn(1.25);
-    controls.update();
-  };
-
-  document.getElementById("zoomOut").onclick = () => {
-    controls.dollyOut(1.25);
-    controls.update();
-  };
-
-  // Responsive layout
-  window.addEventListener("resize", () => {
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-  });
 
   function animate() {
     requestAnimationFrame(animate);
@@ -418,10 +260,16 @@ try {
 
   animate();
 
+  window.addEventListener("resize", () => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  });
+
 } catch (error) {
   console.error(error);
-  status.textContent =
-    "Error: " + (error.message || "Could not start 3D scene.");
+  document.getElementById("status").textContent =
+    "Error loading 3D scene.";
 }
 </script>
 </body>
