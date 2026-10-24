@@ -197,12 +197,16 @@
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
+        
+        // 🔥 ZOOM FIX: Zoom ko limit kar diya hai
         controls.enableZoom = true; 
-        controls.enablePan = false; 
+        controls.enablePan = false; // Page move nahi hoga
+        
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
             TWO: THREE.TOUCH.DOLLY_PAN
         };
+        
         controls.autoRotate = true;
         controls.autoRotateSpeed = 1.0;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
@@ -231,31 +235,30 @@
 
                 scene.add(model);
 
-                // --- MANUAL FIX FOR PERFECT SIZE ---
+                // --- PERFECT FIT & ZOOM LOCK ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
-                // Car ko center mein laao
+                // Car center
                 model.position.x = -center.x;
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
-                // Car ka size (Max dimension)
                 const maxDim = Math.max(size.x, size.y, size.z);
                 
-                // 🔥 FIXED NUMBERS: Ye mobile ke liye perfect hain
-                // Car ke size ka 4 guna door, aur camera thoda upar
+                // Initial camera position
                 const camDistance = maxDim * 4.0; 
-
                 camera.position.set(camDistance * 0.7, maxDim * 0.8, camDistance); 
                 camera.lookAt(0, 0, 0);
                 
                 controls.target.set(0, 0, 0);
                 
-                // Zoom limits
-                controls.minDistance = maxDim * 2.0; 
-                controls.maxDistance = maxDim * 8.0;
+                // 🔥 ZOOM LIMITS (Sirf thoda sa zoom in/out hoga)
+                // Isse car kabhi background mein nahi jayegi
+                controls.minDistance = maxDim * 3.0; // Paas aane ki limit
+                controls.maxDistance = maxDim * 5.0; // Door jaane ki limit
+                
                 controls.update();
 
                 // Floor Shadow
