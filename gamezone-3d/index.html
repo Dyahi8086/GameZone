@@ -3,151 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#08090b">
 <title>GAMENOVA — The Reveal</title>
 <style>
-:root{--ice:#e9f2f5;--muted:#a5adb3;--accent:#d8b78b}
+:root{--cyan:#7df7ff;--ink:#05070d;--muted:#a8b2c4}
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;background:#08090b;color:var(--ice);font-family:Arial,Helvetica,sans-serif;overflow:hidden}
-body{min-height:100svh}
+html,body{margin:0;width:100%;min-height:100%;background:var(--ink);color:#f5f7fb;font-family:Arial,Helvetica,sans-serif}
+body{overflow:hidden}
 #scene{position:fixed;inset:0;width:100%;height:100%;display:block}
-.vignette{position:fixed;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.65),transparent 36%,transparent 65%,rgba(0,0,0,.45)),linear-gradient(0deg,rgba(0,0,0,.76),transparent 38%,rgba(0,0,0,.24));}
-.grain{position:fixed;inset:0;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
-header{position:fixed;z-index:5;top:0;left:0;right:0;padding:26px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff1b}
-.brand{font-size:17px;font-weight:900;letter-spacing:.22em}.brand span{font-weight:400;color:var(--accent)}
-.nav{display:flex;gap:28px;align-items:center;font-size:9px;letter-spacing:.2em;color:#d2d5d6}
-.nav span{opacity:.72}
-.sound{border:1px solid #ffffff55;padding:10px 13px;background:#11131888;color:white;font-size:9px;letter-spacing:.15em}
-.copy{position:fixed;z-index:4;left:clamp(22px,8vw,120px);top:27%;width:min(390px,80vw);pointer-events:none}
-.kicker{font-size:9px;letter-spacing:.34em;color:var(--accent);margin-bottom:18px}
-h1{font-size:clamp(43px,8vw,104px);line-height:.87;letter-spacing:-.065em;font-weight:500;margin:0;text-transform:uppercase}
-h1 em{font-style:normal;display:block;font-weight:800}
-.rule{width:48px;height:1px;background:var(--accent);margin:25px 0 17px}
-.desc{font-size:11px;line-height:1.9;letter-spacing:.12em;color:#c3c8cb;max-width:260px}
-.actions{position:fixed;z-index:6;left:clamp(22px,8vw,120px);bottom:10%;display:flex;align-items:center;gap:18px}
-.enter{pointer-events:auto;background:#e7e9e8;color:#101214;border:0;padding:17px 22px;font-size:10px;font-weight:800;letter-spacing:.2em;cursor:pointer;transition:transform .25s,background .25s}
-.enter:active{transform:scale(.96)}
-.enter b{font-size:16px;margin-left:18px;font-weight:400}
-.draghint{font-size:8px;letter-spacing:.16em;color:#c1c5c8;line-height:1.8}
-.bottom{position:fixed;z-index:4;left:clamp(22px,5vw,72px);right:clamp(22px,5vw,72px);bottom:25px;display:flex;justify-content:space-between;align-items:end;color:#a5aaad;font-size:8px;letter-spacing:.19em}
-.counter{display:flex;align-items:center;gap:12px}.counter strong{font-size:12px;color:white;font-weight:500}.line{width:70px;height:1px;background:#ffffff55}
-.corner{position:fixed;right:clamp(20px,5vw,72px);top:28%;z-index:3;writing-mode:vertical-rl;font-size:8px;letter-spacing:.28em;color:#c5c8c9;opacity:.8}
-#notice{position:fixed;z-index:10;inset:0;display:none;align-items:center;justify-content:center;background:#050609eF;text-align:center;padding:25px}
-#notice .box{max-width:420px}#notice h2{font-size:clamp(30px,7vw,60px);margin:0 0 14px;letter-spacing:-.04em}#notice p{color:#b8c0c5;font-size:12px;line-height:1.8}#notice button{margin-top:18px}
-@media(max-width:650px){
- header{padding:20px 20px}.nav{gap:10px}.nav span:nth-child(2),.nav span:nth-child(3){display:none}
- .copy{top:22%;left:22px;width:80vw}h1{font-size:clamp(48px,13vw,75px)}
- .desc{max-width:230px}.actions{left:22px;bottom:12%;align-items:flex-start;flex-direction:column;gap:12px}
- .bottom{bottom:18px}.corner{top:auto;bottom:29%;right:18px}
-}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.shade{position:fixed;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(2,4,10,.92),rgba(2,4,10,.42) 52%,rgba(2,4,10,.22)),linear-gradient(0deg,rgba(2,4,10,.9),transparent 45%,rgba(2,4,10,.35)}
+.top{position:fixed;z-index:2;top:0;left:0;right:0;padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;letter-spacing:.18em;font-size:11px}
+.logo{font-weight:900;letter-spacing:.22em}.logo b{color:var(--cyan);font-size:20px;margin-right:9px}.status{color:var(--cyan);font-size:10px}
+.hero{position:fixed;z-index:2;left:7vw;top:27%;max-width:720px;pointer-events:none}
+.kicker{font-size:10px;letter-spacing:.34em;color:#b7c6d9;text-transform:uppercase}
+h1{font-size:clamp(42px,8vw,100px);line-height:.88;letter-spacing:-.055em;margin:20px 0 18px;text-transform:uppercase}
+h1 span{display:block;color:transparent;-webkit-text-stroke:1px var(--cyan)}
+.sub{color:#b9c2d1;font-size:clamp(12px,1.5vw,16px);letter-spacing:.04em;max-width:390px;line-height:1.6}
+.bottom{position:fixed;z-index:3;left:7vw;right:7vw;bottom:7vh;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+button{pointer-events:auto;border:1px solid var(--cyan);background:rgba(7,18,27,.65);color:white;padding:18px 24px;font-weight:700;font-size:11px;letter-spacing:.2em;cursor:pointer;min-width:210px;transition:.25s}
+button:hover,button:focus{background:var(--cyan);color:#061016;box-shadow:0 0 28px #7df7ff55}
+.hint{font-size:9px;letter-spacing:.22em;color:#aeb8c8}
+.foot{position:fixed;z-index:2;bottom:22px;right:5vw;font-size:9px;letter-spacing:.22em;color:#93a0b2}
+#world{position:fixed;inset:0;z-index:5;display:none;overflow:auto;background:radial-gradient(ellipse at 50% 20%,#152d48 0,#070b16 45%,#03050a 100%);padding:7vh 7vw 6vh}
+.worldtop{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.worldtop button{min-width:auto;padding:12px 18px}
+.worldtitle{font-size:clamp(42px,8vw,86px);letter-spacing:-.06em;margin:10vh 0 12px}
+.worldtitle span{color:var(--cyan)}
+.worldsub{color:#aab6c8;letter-spacing:.08em;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:42px;max-width:1100px}
+.card{min-height:180px;border:1px solid #26394d;background:linear-gradient(145deg,#142238bb,#050914dd);padding:22px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:inset 0 0 35px #7df7ff08}
+.card .num{color:var(--cyan);font-size:10px;letter-spacing:.2em}
+.card h2{font-size:21px;margin:16px 0 7px}
+.card p{color:#9ba9bc;font-size:12px;line-height:1.5;margin:0}
+.card button{min-width:0;width:100%;margin-top:20px;padding:13px}
+#notice{position:fixed;z-index:10;bottom:18px;left:50%;transform:translateX(-50%);background:#101b29;border:1px solid #304458;padding:10px 14px;font-size:11px;color:#dce7f5;display:none}
+@media(max-width:650px){.top{padding:18px 6vw}.hero{top:25%;left:6vw;right:5vw}h1{font-size:clamp(42px,12vw,70px)}.sub{max-width:300px}.bottom{left:6vw;right:6vw;bottom:8vh;gap:14px}.hint{max-width:220px;line-height:1.8}.foot{left:6vw;right:auto;bottom:18px;font-size:8px}.grid{grid-template-columns:1fr}.card{min-height:145px}#world{padding:5vh 6vw}.worldtitle{margin-top:7vh}}
 </style>
 </head>
 <body>
-<canvas id="scene" aria-label="Interactive 3D concept car in a dark studio"></canvas>
-<div class="vignette"></div><div class="grain"></div>
-<header><div class="brand">GAME<span>NOVA</span></div><div class="nav"><span>THE REVEAL</span><span>01 / CONCEPT</span><span>SCROLL / DRAG TO EXPLORE</span><button class="sound" id="soundBtn">SOUND OFF</button></div></header>
-<main class="copy"><div class="kicker">A NEW WORLD IS LOADING</div><h1>BEYOND<br><em>THE DRIVE.</em></h1><div class="rule"></div><div class="desc">A world built for those who never play it safe. Your next level begins with a single entry.</div></main>
-<div class="corner">GAMENOVA • FUTURE IS YOURS</div>
-<div class="actions"><button class="enter" id="enterBtn">ENTER GAMENOVA <b>↗</b></button><div class="draghint">DRAG TO ORBIT<br>MOVE YOUR PHONE / SWIPE</div></div>
-<div class="bottom"><div class="counter"><strong>01</strong><div class="line"></div><span>THE REVEAL</span></div><span>DESIGNED FOR THE NEXT GENERATION</span><span>EST. 2026</span></div>
-<div id="notice"><div class="box"><div class="kicker">WELCOME TO THE NEXT LEVEL</div><h2>THE WORLD<br>IS YOURS.</h2><p>This is the GameNova entry experience. The gaming-world page is the next stage—keep this page as your cinematic opening.</p><button class="enter" id="closeNotice">BACK TO THE CAR <b>↗</b></button></div></div>
+<canvas id="scene" aria-label="Cinematic 3D concept sports car"></canvas>
+<div class="shade" id="shade"></div>
+<header class="top"><div class="logo"><b>G</b> GAMENOVA</div><div class="status">● WORLD ONLINE &nbsp; / &nbsp; SFX OFF</div></header>
+<section class="hero" id="hero">
+  <div class="kicker">NEXT-GEN ARCADE EXPERIENCE</div>
+  <h1>YOUR WORLD.<span>YOUR RULES.</span></h1>
+  <div class="sub">A new universe is waiting. Step into the garage, meet your machine, then enter the world of games.</div>
+</section>
+<div class="bottom" id="bottom"><button id="enter">ENTER GAMENOVA ↗</button><div class="hint">↔ &nbsp; DRAG TO LOOK AROUND &nbsp; / &nbsp; SCROLL TO EXPLORE</div></div>
+<div class="foot" id="foot">01 &nbsp; THE GARAGE &nbsp; — &nbsp; CONCEPT CAR // 001</div>
+<section id="world">
+  <div class="worldtop"><div class="logo"><b>G</b> GAMENOVA <span style="color:var(--cyan)">/ WORLD</span></div><button id="back">← BACK TO GARAGE</button></div>
+  <div class="kicker" style="margin-top:7vh">PLAYER ONE — YOUR NEXT LEVEL STARTS HERE</div>
+  <h1 class="worldtitle">CHOOSE YOUR <span>WORLD.</span></h1>
+  <p class="worldsub">THE PORTAL IS OPEN. PICK A GAME ZONE.</p>
+  <div class="grid">
+    <article class="card"><div><div class="num">ZONE 01 / SPEED</div><h2>RACING GRID</h2><p>High-speed runs and precision driving.</p></div><button data-game="Racing Grid">COMING SOON</button></article>
+    <article class="card"><div><div class="num">ZONE 02 / COMBAT</div><h2>ROBOT ARENA</h2><p>Enter a futuristic machine battleground.</p></div><button data-game="Robot Arena">COMING SOON</button></article>
+    <article class="card"><div><div class="num">ZONE 03 / ARCADE</div><h2>PIXEL ARCADE</h2><p>Quick-play browser arcade adventures.</p></div><button data-game="Pixel Arcade">COMING SOON</button></article>
+  </div>
+</section>
+<div id="notice"></div>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
-
 const canvas=document.querySelector('#scene');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
-renderer.setSize(innerWidth,innerHeight);
-renderer.shadowMap.enabled=true;
-renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-renderer.outputColorSpace=THREE.SRGBColorSpace;
-renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.18;
-
-const scene=new THREE.Scene();scene.background=new THREE.Color('#08090b');scene.fog=new THREE.Fog('#08090b',13,31);
-const camera=new THREE.PerspectiveCamera(34,innerWidth/innerHeight,.1,100);
-camera.position.set(7.8,4.1,10.8);
-const ambient=new THREE.HemisphereLight(0xdbe7ff,0x141416,2.0);scene.add(ambient);
-function area(color,intensity,pos){const l=new THREE.DirectionalLight(color,intensity);l.position.set(...pos);l.castShadow=true;scene.add(l);return l}
-area(0xf4f5f7,4,[1,8,3]);area(0x9dbbff,3,[-7,4,-3]);area(0xffc58a,2,[5,3,-7]);
-const floorMat=new THREE.MeshStandardMaterial({color:'#161719',metalness:.62,roughness:.28});
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(100,100),floorMat);floor.rotation.x=-Math.PI/2;floor.position.y=-.04;floor.receiveShadow=true;scene.add(floor);
-const grid=new THREE.GridHelper(60,60,0x303235,0x202225);grid.position.y=-.025;grid.material.transparent=true;grid.material.opacity=.22;scene.add(grid);
-// Studio light bars
-function bar(x,y,z,len,rot,color=0xf1f4f5){const m=new THREE.Mesh(new THREE.BoxGeometry(len,.025,.055),new THREE.MeshBasicMaterial({color}));m.position.set(x,y,z);m.rotation.z=rot;scene.add(m)}
-bar(-1,6,-1,7,-.3);bar(3,6,-2,5,.42);bar(-4,4,0,4,.8,0xcbd8e9);
-// A sculpted concept muscle car built from smooth meshes
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.35;
+const scene=new THREE.Scene();scene.background=new THREE.Color('#05070d');scene.fog=new THREE.Fog('#05070d',13,34);
+const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.1,100);camera.position.set(7,4.0,9);camera.lookAt(0,.8,0);
+scene.add(new THREE.HemisphereLight(0x9ebee9,0x10131b,2.1));
+function area(color,intensity,pos){const l=new THREE.DirectionalLight(color,intensity);l.position.set(...pos);l.castShadow=true;scene.add(l)}
+area(0xe8f4ff,4,[1,8,5]);area(0x42eaff,3,[-7,3,1]);area(0xffd5b0,2,[4,4,-7]);
+const floorMat=new THREE.MeshStandardMaterial({color:0x10151d,metalness:.75,roughness:.27});
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(200,200),floorMat);floor.rotation.x=-Math.PI/2;floor.position.y=-.04;floor.receiveShadow=true;scene.add(floor);
+const grid=new THREE.GridHelper(80,80,0x16404c,0x172331);grid.position.y=-.025;scene.add(grid);
+function strip(x,y,z,sx,sy,sz,color){const m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),new THREE.MeshBasicMaterial({color}));m.position.set(x,y,z);scene.add(m)}
+// Overhead studio light bars
+strip(-4,6,-2,5,.045,.12,0xddeeff);strip(3,6,0,4,.045,.12,0xddeeff);strip(0,5,4,6,.035,.08,0x77efff);
 const car=new THREE.Group();scene.add(car);
-const paint=new THREE.MeshPhysicalMaterial({color:'#292d32',metalness:.88,roughness:.19,clearcoat:1,clearcoatRoughness:.12});
-const dark=new THREE.MeshStandardMaterial({color:'#07090c',metalness:.45,roughness:.28});
-const glass=new THREE.MeshPhysicalMaterial({color:'#101b22',metalness:.7,roughness:.1,clearcoat:1,transparent:true,opacity:.91});
-const chrome=new THREE.MeshStandardMaterial({color:'#aab3ba',metalness:.9,roughness:.16});
-const red=new THREE.MeshBasicMaterial({color:'#ff342e'});
-const white=new THREE.MeshBasicMaterial({color:'#d9f4ff'});
-function mesh(geo,mat,pos,scale,group=car){const m=new THREE.Mesh(geo,mat);m.position.set(...pos);if(scale)m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;group.add(m);return m}
-function box(mat,pos,size,group=car){return mesh(new THREE.BoxGeometry(...size),mat,pos,null,group)}
-// low, long body; front points toward -Z
-mesh(new THREE.BoxGeometry(2.05,.38,4.55),paint,[0,.72,0],[1,1,1]);
-mesh(new THREE.BoxGeometry(2.16,.23,2.5),paint,[0,.58,-.28]);
-mesh(new THREE.BoxGeometry(1.88,.20,1.25),paint,[0,.83,1.48]);
-mesh(new THREE.BoxGeometry(1.92,.18,1.2),paint,[0,.82,-1.62]);
-// Hood sculpting and trunk
-mesh(new THREE.BoxGeometry(1.72,.12,1.32),paint,[0,.92,-1.32]);
-mesh(new THREE.BoxGeometry(1.68,.1,.8),paint,[0,.91,1.55]);
-// Cabin
-const cabin=mesh(new THREE.BoxGeometry(1.48,.57,1.85),glass,[0,1.12,.03]);cabin.rotation.x=-.02;
-mesh(new THREE.BoxGeometry(1.58,.12,1.98),paint,[0,1.42,.03]);
-mesh(new THREE.BoxGeometry(1.53,.07,.16),chrome,[0,1.46,.03]);
-// side windows, doors, side skirts
-for(const s of [-1,1]){
- mesh(new THREE.BoxGeometry(.035,.35,1.55),chrome,[s*.99,1.08,.02]);
- mesh(new THREE.BoxGeometry(.1,.12,2.9),dark,[s*1.01,.47,.02]);
- mesh(new THREE.BoxGeometry(.035,.025,.22),chrome,[s*1.045,.88,.28]);
- // mirrors
- mesh(new THREE.BoxGeometry(.19,.1,.22),paint,[s*1.05,1.13,-.65]);
- // wheel and rim
- for(const z of [-1.43,1.42]){
-  const tire=mesh(new THREE.CylinderGeometry(.43,.43,.23,32),dark,[s*1.03,.47,z]);tire.rotation.z=Math.PI/2;
-  const rim=mesh(new THREE.CylinderGeometry(.27,.27,.245,12),chrome,[s*1.04,.47,z]);rim.rotation.z=Math.PI/2;
-  const hub=mesh(new THREE.CylinderGeometry(.10,.10,.255,16),dark,[s*1.05,.47,z]);hub.rotation.z=Math.PI/2;
-  for(let i=0;i<5;i++){let a=i*Math.PI*2/5;const spoke=mesh(new THREE.BoxGeometry(.035,.22,.03),chrome,[s*1.055,.47+Math.sin(a)*.12,z+Math.cos(a)*.12]);spoke.rotation.x=a;}
- }
+const bodyMat=new THREE.MeshPhysicalMaterial({color:0x293b4d,metalness:.92,roughness:.2,clearcoat:1,clearcoatRoughness:.12});
+const darkMat=new THREE.MeshStandardMaterial({color:0x080c12,metalness:.4,roughness:.24});
+const glassMat=new THREE.MeshPhysicalMaterial({color:0x07121d,metalness:.65,roughness:.12,clearcoat:1,transparent:true,opacity:.96});
+const chrome=new THREE.MeshStandardMaterial({color:0xaac9d8,metalness:.95,roughness:.16});
+const lightMat=new THREE.MeshBasicMaterial({color:0xbafaff});
+function box(parent,geo,mat,pos,rot){const m=new THREE.Mesh(geo,mat);m.position.set(...pos);if(rot)m.rotation.set(...rot);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
+box(car,new THREE.BoxGeometry(4.35,.48,1.72),bodyMat,[0,.72,0]);
+box(car,new THREE.BoxGeometry(3.7,.23,1.62),bodyMat,[.04,.48,0]);
+box(car,new THREE.BoxGeometry(2.35,.58,1.4),bodyMat,[-.18,1.08,0],[0,0,-.02]);
+box(car,new THREE.BoxGeometry(1.65,.49,1.29),glassMat,[-.17,1.4,0],[0,0,-.06]);
+box(car,new THREE.BoxGeometry(.10,.38,1.34),bodyMat,[.72,1.38,0],[0,0,.22]);
+box(car,new THREE.BoxGeometry(.75,.08,1.75),bodyMat,[2.05,.68,0]);
+box(car,new THREE.BoxGeometry(.12,.10,1.78),chrome,[2.17,.66,0]);
+box(car,new THREE.BoxGeometry(.10,.14,1.38),lightMat,[-2.17,.78,0]);
+box(car,new THREE.BoxGeometry(.08,.11,1.38),new THREE.MeshBasicMaterial({color:0xff334f}),[2.17,.79,0]);
+for(const x of [-1.42,1.42])for(const z of [-.91,.91]){
+ const tire= new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.27,32),darkMat);tire.rotation.x=Math.PI/2;tire.position.set(x,.45,z);tire.castShadow=true;car.add(tire);
+ const rim=new THREE.Mesh(new THREE.CylinderGeometry(.24,.24,.285,24),chrome);rim.rotation.x=Math.PI/2;rim.position.set(x,.45,z);car.add(rim);
+ const hub=new THREE.Mesh(new THREE.CylinderGeometry(.09,.09,.30,20),darkMat);hub.rotation.x=Math.PI/2;hub.position.set(x,.45,z);car.add(hub);
 }
-// Front grille, headlights and rear lights
-mesh(new THREE.BoxGeometry(1.1,.17,.035),dark,[0,.64,-2.29]);
-mesh(new THREE.BoxGeometry(.43,.075,.04),white,[-.67,.81,-2.30]);mesh(new THREE.BoxGeometry(.43,.075,.04),white,[.67,.81,-2.30]);
-mesh(new THREE.BoxGeometry(.46,.09,.04),red,[-.67,.81,2.29]);mesh(new THREE.BoxGeometry(.46,.09,.04),red,[.67,.81,2.29]);
-mesh(new THREE.BoxGeometry(1.35,.045,.1),dark,[0,.47,-2.27]);
-mesh(new THREE.BoxGeometry(1.55,.06,.24),paint,[0,.94,1.95]);
-// subtle draped cover: folded cloth-like panels around roof/rear, removed on reveal
-const clothMat=new THREE.MeshStandardMaterial({color:'#b8b8b3',roughness:.88,metalness:.03,side:THREE.DoubleSide});
-const cloth=new THREE.Group();scene.add(cloth);
-const clothGeo=new THREE.PlaneGeometry(2.35,4.85,32,48);
-const p=clothGeo.attributes.position;
-for(let i=0;i<p.count;i++){let x=p.getX(i),y=p.getY(i);p.setZ(i,Math.sin(x*5+y*2)*.075+Math.cos(y*4+x*2)*.035);if(y< -1.1)p.setZ(i,p.getZ(i)+.18)}
-clothGeo.computeVertexNormals();
-const sheet=new THREE.Mesh(clothGeo,clothMat);sheet.rotation.x=-Math.PI/2;sheet.position.set(0,1.95,.05);sheet.castShadow=true;cloth.add(sheet);
-const edge=new THREE.Mesh(new THREE.PlaneGeometry(2.35,.7,20,12),clothMat);edge.rotation.x=-Math.PI/2;edge.rotation.z=.1;edge.position.set(.1,1.25,2.15);cloth.add(edge);
-cloth.visible=true;
-
-const target=new THREE.Vector3(0,.8,0);
-let down=false,lastX=0,lastY=0,theta=.62,phi=1.22,radius=13.2,auto=true,reveal=0;
-function updateCamera(){phi=Math.max(.55,Math.min(1.45,phi));camera.position.set(target.x+radius*Math.sin(phi)*Math.sin(theta),target.y+radius*Math.cos(phi),target.z+radius*Math.sin(phi)*Math.cos(theta));camera.lookAt(target)}
-updateCamera();
-canvas.addEventListener('pointerdown',e=>{down=true;lastX=e.clientX;lastY=e.clientY;auto=false;canvas.setPointerCapture(e.pointerId)});
-canvas.addEventListener('pointermove',e=>{if(!down)return;theta-=(e.clientX-lastX)*.008;phi+=(e.clientY-lastY)*.005;lastX=e.clientX;lastY=e.clientY;updateCamera()});
-canvas.addEventListener('pointerup',()=>down=false);canvas.addEventListener('pointercancel',()=>down=false);
-canvas.addEventListener('wheel',e=>{radius=Math.max(8,Math.min(17,radius+e.deltaY*.008));updateCamera()},{passive:true});
-let t0=performance.now();
-function animate(now){requestAnimationFrame(animate);const t=(now-t0)/1000;if(auto&&!down){theta=.62+Math.sin(t*.16)*.18;updateCamera()}car.position.y=Math.sin(t*.7)*.018;
-if(reveal>0){reveal=Math.min(1,reveal+.012);cloth.position.set(.15*reveal, -1.2*reveal, .8*reveal);cloth.rotation.z=-.12*reveal;if(reveal>=1)cloth.visible=false}
-renderer.render(scene,camera)}
-requestAnimationFrame(animate);
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7))});
-document.querySelector('#enterBtn').addEventListener('click',()=>{reveal=0;cloth.visible=true;document.querySelector('#notice').style.display='flex';});
-document.querySelector('#closeNotice').addEventListener('click',()=>{document.querySelector('#notice').style.display='none';});
-document.querySelector('#soundBtn').addEventListener('click',e=>{e.currentTarget.textContent=e.currentTarget.textContent==='SOUND OFF'?'SOUND ON':'SOUND OFF';});
+const glow=new THREE.PointLight(0x39dfff,22,8);glow.position.set(-2,.55,0);car.add(glow);
+car.position.set(.5,0,.4);
+let pointerDown=false,lastX=0,spin=0,scroll=0;
+canvas.addEventListener('pointerdown',e=>{pointerDown=true;lastX=e.clientX;canvas.setPointerCapture?.(e.pointerId)});
+canvas.addEventListener('pointerup',()=>pointerDown=false);
+canvas.addEventListener('pointercancel',()=>pointerDown=false);
+canvas.addEventListener('pointermove',e=>{if(!pointerDown)return;spin+=(e.clientX-lastX)*.008;lastX=e.clientX});
+addEventListener('wheel',e=>{scroll=Math.max(-1.2,Math.min(1.2,scroll+e.deltaY*.001));},{passive:true});
+function animate(t){requestAnimationFrame(animate);const time=t*.001;car.rotation.y=spin+Math.sin(time*.18)*.06;car.position.y=.02+Math.sin(time*1.4)*.025;camera.position.x=7+scroll*2;camera.position.z=9-scroll*1.4;camera.lookAt(0,.78,0);renderer.render(scene,camera)}
+animate(0);
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+const world=document.querySelector('#world');
+document.querySelector('#enter').addEventListener('click',()=>{world.style.display='block';document.querySelector('#hero').style.display='none';document.querySelector('#bottom').style.display='none';document.querySelector('#foot').style.display='none';document.querySelector('.top').style.display='none';document.querySelector('#shade').style.display='none';canvas.style.display='none'});
+document.querySelector('#back').addEventListener('click',()=>{world.style.display='none';document.querySelector('#hero').style.display='';document.querySelector('#bottom').style.display='';document.querySelector('#foot').style.display='';document.querySelector('.top').style.display='';document.querySelector('#shade').style.display='';canvas.style.display='block'});
+document.querySelectorAll('[data-game]').forEach(b=>b.addEventListener('click',()=>{const n=document.querySelector('#notice');n.textContent=b.dataset.game+' — game will be added in the next build.';n.style.display='block';setTimeout(()=>n.style.display='none',2600)}));
 </script>
 </body>
 </html>
