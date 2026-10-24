@@ -231,31 +231,31 @@
 
                 scene.add(model);
 
-                // --- FOOLPROOF CAMERA FIX ---
+                // --- MANUAL FIX FOR PERFECT SIZE ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
-                // Car ko exact center mein shift karo
+                // Car ko center mein laao
                 model.position.x = -center.x;
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
-                // Car ka sabse bada size nikaalo (length ya width)
+                // Car ka size (Max dimension)
                 const maxDim = Math.max(size.x, size.y, size.z);
                 
-                // 🔥 MAGIC NUMBER: 3.0 (Ye mobile screen ke liye perfect hai)
-                const cameraDistance = maxDim * 3.0;
+                // 🔥 FIXED NUMBERS: Ye mobile ke liye perfect hain
+                // Car ke size ka 4 guna door, aur camera thoda upar
+                const camDistance = maxDim * 4.0; 
 
-                // Camera ko set karo (Thoda upar aur side se)
-                camera.position.set(cameraDistance * 0.5, cameraDistance * 0.3, cameraDistance * 0.8); 
+                camera.position.set(camDistance * 0.7, maxDim * 0.8, camDistance); 
                 camera.lookAt(0, 0, 0);
                 
                 controls.target.set(0, 0, 0);
                 
-                // Zoom Limits (Taaki user car ke andar na ghuse)
-                controls.minDistance = cameraDistance * 0.6; 
-                controls.maxDistance = cameraDistance * 2.0;
+                // Zoom limits
+                controls.minDistance = maxDim * 2.0; 
+                controls.maxDistance = maxDim * 8.0;
                 controls.update();
 
                 // Floor Shadow
