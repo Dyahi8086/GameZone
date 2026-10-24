@@ -231,36 +231,34 @@
 
                 scene.add(model);
 
-                // --- PERFECT FIT FIX ---
+                // --- FOOLPROOF CAMERA FIX ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
+                // Car ko exact center mein shift karo
                 model.position.x = -center.x;
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
-                // Car ka sabse bada dimension
+                // Car ka sabse bada size nikaalo (length ya width)
                 const maxDim = Math.max(size.x, size.y, size.z);
                 
-                // Mobile screen ke hisaab se smart calculation
-                // Agar screen choti hai, toh camera aur door jayega
-                const fitHeightDistance = maxDim / (2 * Math.atan(Math.PI * camera.fov / 360));
-                const fitWidthDistance = fitHeightDistance / camera.aspect;
-                const distance = Math.max(fitHeightDistance, fitWidthDistance) * 1.5;
+                // 🔥 MAGIC NUMBER: 3.0 (Ye mobile screen ke liye perfect hai)
+                const cameraDistance = maxDim * 3.0;
 
-                // Camera ko sahi angle pe set karo
-                camera.position.set(distance * 0.7, distance * 0.4, distance * 0.7); 
+                // Camera ko set karo (Thoda upar aur side se)
+                camera.position.set(cameraDistance * 0.5, cameraDistance * 0.3, cameraDistance * 0.8); 
                 camera.lookAt(0, 0, 0);
                 
                 controls.target.set(0, 0, 0);
                 
-                // Zoom Limits
-                controls.minDistance = distance * 0.8; 
-                controls.maxDistance = distance * 2.5;
+                // Zoom Limits (Taaki user car ke andar na ghuse)
+                controls.minDistance = cameraDistance * 0.6; 
+                controls.maxDistance = cameraDistance * 2.0;
                 controls.update();
 
-                // Shadow Floor
+                // Floor Shadow
                 const planeGeometry = new THREE.PlaneGeometry(100, 100);
                 const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.3 }); 
                 const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
