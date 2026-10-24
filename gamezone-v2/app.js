@@ -63,4 +63,54 @@ hub(){const l=S.last&&gm(S.last),sh=S.scores.length&&S.scores[S.scores.length-1]
  <div class="featrow"><div class="feat"><div class="fimg">${art('feat')}</div><div class="fx"><div class="sub"><s></s>Open now · built-in game</div><h3>Snake Challenge</h3><div class="fb"><u style="width:${Math.min(100,S.best/2)}%"></u></div><div class="sub fl"><span>${S.best} best</span><span>target 200</span></div><div class="tags"><i>GAME</i><i>SOLO</i><i>FREE</i><i>ARCADE</i></div><div class="host"><span class="hx"><b>${ic('gamepad')}</b></span>Hosted by <b>GameZone</b></div></div></div>
  <div class="feat fnx"><div class="fimg">${art('nx')}</div><div class="fx"><div class="sub"><s></s>Next milestone</div><h3>Level ${lvl()+1}</h3><div class="fb"><u style="width:${r}%"></u></div></div></div></div>
  <div class="mh"><div><h2>Personal Matches Hub</h2><p class="sub">Your recent runs and launches</p></div></div><div class="mg">${[0,1,2,3].map(i=>mcard(S.log[i],i)).join('')}</div>
- <div class="mh"><div><h2>Game Library</h2><p class="sub">${lib.length} shown · tap to open</p></div></div><div class="mg" id="lib">${lib.map(g=>`<a href="#
+ <div class="mh"><div><h2>Game Library</h2><p class="sub">${lib.length} shown · tap to open</p></div></div><div class="mg" id="lib">${lib.map(g=>`<a href="#" data-p="${g.id}" class="mc"><div class="mt"><span class="mi" style="--k:#a233ff">${ic(g.e)}</span><div><b>${esc(g.n)}</b><small>${g.c} · ${g.u==='local'?'Built-in':'Opens externally'}</small></div><div class="tl">PLAYED<b>${S.plays[g.id]||0}×</b></div></div></a>`).join('')}</div>${l?`<p style="margin-top:20px"><a class="join" href="#" data-p="${l.id}" data-cont="1">▶ Continue: ${esc(l.n)}</a></p>`:''}</div></div>`},
+tournament(){const b=S.best,st=[[1,'Play','first run'],[50,'Score 50','Registration'],[100,'Score 100','Check-in'],[200,'Score 200','Finals']],nx=st.findIndex(s=>s[0]===1?tot()<1:b<s[0]);
+ const R=[['General rules','2 MIN READ','Snake is a classic: steer, eat, avoid walls and yourself.'],['Scoring','1 MIN READ','Each food = 1 point and 1 XP. A finished run adds its score to your total XP.'],['Saved progress','2 MIN READ','Pause or leave and Continue resumes your run. Everything is stored in this browser only.'],['Levels & XP','2 MIN READ','Every game launch gives 10 XP. 100 XP is one level.'],['Controls','1 MIN READ','Arrow keys, swipe on the board, or the on-screen pad on phones.']];
+ return `<div class="tour"><div class="col">${SHIELD}
+ <h1>Snake Marathon<br>GameZone members</h1><div class="pb"><u style="width:${Math.min(100,b/2)}%"></u></div><p class="sub">Best score ${b} / 200</p><a class="join" href="#" data-p="snake">+ Join now</a>
+ <h4>About the challenge</h4><p class="g">A personal challenge: reach 200 in Snake. Your progress is private to this device, there is no ranking against other players.</p><div class="tags"><i>GAME</i><i>SOLO</i><i>FREE</i><i>WEB</i></div><a class="dis" href="#hub">More games<br>in the library →</a></div>
+ <div class="col"><div class="stg">${st.map((s,i)=>`<div class="st ${i===nx?'on':''}"><span class="ring" style="--v:${i<nx||nx<0?100:i===nx?Math.min(99,b/s[0]*100|0):0}"></span><div><b>${s[1]}</b>${s[2]}</div></div>`).join('')}</div>
+ <div class="tiles"><div class="tile pk"><span class="ti">${ic("gamepad")}</span><b>SOLO</b><small>Format of game</small></div><div class="tile"><span class="ti">${ic("monitor")}</span><b>BROWSER</b><small>Platform played</small></div><div class="tile"><span class="ti">${ic("repeat")}</span><b>${S.scores.length}</b><small>Runs played</small></div><div class="tile"><span class="ti">${ic("trophy")}</span><b>${b}</b><small>Best score</small></div></div>
+ <div class="rl" id="rl">${R.map((r,i)=>`<button class="${i===3?'on':''}" data-rule="${i}">${r[0]}<small>${r[1]}</small></button>`).join('')}</div></div>
+ <div class="info"><h5>Information</h5><p id="ri">${R[3][2]}</p><h5>Quick rules</h5><ul><li>Walls and your own tail end the run.</li><li>Pause any time; Continue resumes.</li><li>Scores are saved locally only.</li></ul><h5>Other rules</h5><p class="g">GameZone shows no fake players or rankings. Cross-device saving would need a secure backend with sign-in.</p><p style="margin-top:12px">For more games visit the <a href="#hub">library</a>.</p></div></div><script type="application/json" id="rd">${esc(JSON.stringify(R.map(r=>r[2])))}</script>`},
+profile(){const tabs=[['ov','Overview'],['hist','Match history'],['tr','Tournaments'],['ach','Achievements']],t=S.tab||'ach',un=A.filter(a=>a[2]()).length,d=new Date(S.since).toLocaleDateString();
+ let body='';if(t==='ach'){const arr=A.map((a,i)=>({a,i,o:a[2]()}));if(S.sort==='r')arr.sort((x,y)=>y.o-x.o);
+ body=`<div class="rad"><button data-sort="r" class="${S.sort==='r'?'on':''}"><i></i>Recent</button><button data-sort="l" class="${S.sort!=='r'?'on':''}"><i></i>Latest</button></div><div class="ag">${arr.map(x=>`<div><div class="ab s${x.i%4} ${x.o?'':'lock'}" style="--k:${COL[x.i%6]}">${x.o?ic(x.a[0])+(x.a[3]?'<small>'+x.a[3]+'</small>':''):ic('lock')}</div><div class="al">${x.a[1]}</div></div>`).join('')}</div>`}
+ else if(t==='hist')body=`<div class="list">${S.log.length?S.log.map(l=>`<div><span>${ic(gm(l.id).e)} ${esc(gm(l.id).n)}</span><span>${l.s!=null?'Score '+l.s:'Launched'} · ${new Date(l.t).toLocaleString()}</span></div>`).join(''):'<p class="sub">No runs yet.</p>'}</div>`;
+ else if(t==='tr')body=`<div class="list"><div><span>${ic("snake")} Snake Challenge</span><span>${S.best} / 200</span></div></div>`;
+ else body=`<div class="list"><div><span>Total XP</span><span>${S.xp}</span></div><div><span>Level</span><span>${lvl()}</span></div><div><span>Plays</span><span>${tot()}</span></div><div><span>Best Snake score</span><span>${S.best}</span></div><div><span>Achievements</span><span>${un}/${A.length}</span></div></div>`;
+ return `<div class="prof"><div class="col"><div class="ph"><span class="big">${av()}</span><div><h1>${esc(S.name)}</h1><div class="soc"><span>Lv ${lvl()}</span><span>${S.xp} XP</span><span>${tot()} plays</span></div></div></div><a class="add" href="#" id="ren">✎ Change nickname</a>
+ <div class="pf">Learn more about me</div><p class="sub">Level ${lvl()} player with ${S.xp} XP. All stats here are measured on this device.</p>
+ <div class="pm"><span>${ic("pin")} This device</span><span>${ic("gamepad")} ${Object.keys(S.plays).length} games</span><span>${ic("clock")} ${d}</span></div><div class="bgs">${badgesRow()}</div>
+ <div class="pf" style="margin-top:28px">My saved data</div><div class="pid">Best Snake score <b>${S.best}</b></div><div class="pid l">Last: ${S.last?esc(gm(S.last).n):'none yet'} <b>▣</b></div><a class="reset" href="#" id="reset">Reset my local progress</a></div>
+ <div class="col"><div class="pt">${tabs.map(x=>`<button data-tab="${x[0]}" class="${x[0]===t?'on':''}">${x[1]}</button>`).join('')}</div>${body}</div></div>`}};
+const presOn=()=>S.pres===undefined?innerWidth>=1000:S.pres;
+function route(){const r=(location.hash||'#hub').slice(1),k=V[r]?r:'hub';document.body.className=presOn()?'pres':'';document.body.dataset.r=k;$('#view').innerHTML=V[k]();document.querySelectorAll('.side a[data-r]').forEach(a=>a.classList.toggle('on',a.dataset.r===k));
+ document.querySelectorAll('select[data-f]').forEach(s=>s.value=flt[s.dataset.f]);head()}
+function rename(){const n=prompt('Nickname (max 14 characters)',S.name);if(n&&n.trim()){S.name=n.trim().slice(0,14).toUpperCase();save();route()}}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-pres],[data-p],[data-go],[data-tab],[data-sort],[data-rule],#reset,#ren,#rename');if(!t)return;e.preventDefault();
+ if(t.dataset.pres!==undefined){S.pres=!presOn();save();route()}else if(t.dataset.p){if(t.dataset.cont&&gm(t.dataset.p).u==='local'&&S.saved)openSnake(true);else play(t.dataset.p)}
+ else if(t.dataset.go){if(t.dataset.t)S.tab=t.dataset.t;location.hash='#'+t.dataset.go;route()}
+ else if(t.dataset.tab){S.tab=t.dataset.tab;route()}else if(t.dataset.sort){S.sort=t.dataset.sort;route()}
+ else if(t.dataset.rule){const R=JSON.parse($('#rd').textContent.replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>'));document.querySelectorAll('#rl button').forEach(b=>b.classList.toggle('on',b===t));$('#ri').textContent=R[t.dataset.rule]}
+ else if(t.id==='reset'){if(confirm('Delete all local GameZone progress?')){localStorage.removeItem(K);location.reload()}}else rename()});
+document.addEventListener('change',e=>{const s=e.target.closest('select[data-f]');if(s){flt[s.dataset.f]=s.value;route()}});
+addEventListener('hashchange',route);
+/* Snake */
+let sn,dir,food,sc,tm,run=false;const cv=$('#cv'),x=cv.getContext('2d'),N=15,Z=20;
+function spawn(){do food={x:Math.random()*N|0,y:Math.random()*N|0};while(sn.some(p=>p.x===food.x&&p.y===food.y))}
+function openSnake(cont){$('#modal').hidden=false;if(cont&&S.saved){({sn,dir,food,sc}=S.saved)}else{sn=[{x:7,y:7},{x:6,y:7}];dir='R';sc=0;spawn()}S.saved=null;run=true;draw();clearInterval(tm);tm=setInterval(step,130);$('#pause').textContent='Pause'}
+function step(){if(!run)return;const h={...sn[0]};if(dir==='U')h.y--;if(dir==='D')h.y++;if(dir==='L')h.x--;if(dir==='R')h.x++;
+ if(h.x<0||h.y<0||h.x>=N||h.y>=N||sn.some(p=>p.x===h.x&&p.y===h.y))return over();
+ sn.unshift(h);if(h.x===food.x&&h.y===food.y){sc++;spawn()}else sn.pop();draw()}
+function draw(){x.fillStyle='#0b0b0d';x.fillRect(0,0,300,300);x.fillStyle='#ff1f8e';x.fillRect(food.x*Z+2,food.y*Z+2,16,16);x.fillStyle='#c6ff1f';sn.forEach(p=>x.fillRect(p.x*Z+1,p.y*Z+1,18,18));$('#sc').textContent=sc}
+function over(){clearInterval(tm);run=false;S.scores.push(sc);S.log.unshift({id:'snake',t:Date.now(),s:sc});S.log=S.log.slice(0,20);S.xp+=sc;S.best=Math.max(S.best,sc);S.day.b=Math.max(S.day.b,sc);S.saved=null;save();$('#modal').hidden=true;alert('Game over! Score: '+sc);route()}
+function leave(){if(!$('#modal').hidden&&run){S.saved={sn,dir,food,sc};save()}clearInterval(tm);run=false;$('#modal').hidden=true;route()}
+$('#close').onclick=leave;$('#pause').onclick=()=>{run=!run;$('#pause').textContent=run?'Pause':'Resume'};
+const opp={U:'D',D:'U',L:'R',R:'L'},turn=d=>{if(d!==opp[dir])dir=d};
+document.querySelectorAll('.pad [data-d]').forEach(b=>b.onclick=()=>turn(b.dataset.d));
+addEventListener('keydown',e=>{const m={ArrowUp:'U',ArrowDown:'D',ArrowLeft:'L',ArrowRight:'R'}[e.key];if(m&&!$('#modal').hidden){e.preventDefault();turn(m)}});
+let tx,ty;cv.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY});
+cv.addEventListener('touchend',e=>{const a=e.changedTouches[0].clientX-tx,b=e.changedTouches[0].clientY-ty;if(Math.max(Math.abs(a),Math.abs(b))>20)turn(Math.abs(a)>Math.abs(b)?(a>0?'R':'L'):(b>0?'D':'U'))});
+addEventListener('pagehide',()=>{if(run)S.saved={sn,dir,food,sc};save()});
+route();
