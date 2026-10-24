@@ -13,7 +13,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: #050505; /* Ekdum dark black */
+            background-color: #050505;
             font-family: 'Orbitron', sans-serif;
             color: #ffffff;
             overflow: hidden;
@@ -24,9 +24,9 @@
             position: absolute;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease;
             z-index: 10;
-            background-color: #f3f4f6; /* Home screen is still light */
+            background-color: #f3f4f6; /* Light Background for 3D */
         }
 
         #home-screen.hidden {
@@ -95,14 +95,23 @@
             transform: scale(1.05);
         }
 
+        /* Loading Text Fix */
         #loading {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
             z-index: 100;
             color: #000;
+            text-align: center;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
 
         /* ========================================= */
@@ -112,13 +121,13 @@
             position: absolute;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background-color: #0b0c10; /* Darker theme */
+            background-color: #0b0c10; 
             background-image: radial-gradient(circle at 50% 0%, #1f2330 0%, #0b0c10 70%);
             display: flex;
             flex-direction: column;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.5s ease;
             z-index: 5;
             overflow-y: auto;
             overflow-x: hidden;
@@ -164,9 +173,10 @@
             font-size: 0.8rem;
             transition: 0.3s;
             letter-spacing: 1px;
+            pointer-events: auto; /* Button clickable rahe */
         }
 
-        .back-btn:hover {
+        .back-btn:hover, .back-btn:active {
             background: #00ffff;
             color: #000;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
@@ -201,7 +211,7 @@
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 30px;
             padding: 20px 40px 80px;
-            perspective: 1200px; /* 3D depth */
+            perspective: 1200px; 
         }
 
         /* 3D Game Card */
@@ -218,14 +228,12 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* Hover Effects (Tilt) */
-        .game-card:hover {
+        .game-card:hover, .game-card:active {
             transform: translateY(-10px) rotateX(5deg) rotateY(-5deg) scale(1.02);
             box-shadow: -10px 15px 40px rgba(255, 0, 85, 0.2);
             border-color: rgba(255, 0, 85, 0.5);
         }
 
-        /* Image Container inside Card */
         .card-img {
             position: absolute;
             top: 0; left: 0;
@@ -236,10 +244,9 @@
         }
         
         .game-card:hover .card-img {
-            transform: scale(1.1); /* Image Zoom */
+            transform: scale(1.1);
         }
 
-        /* Gradient Overlay */
         .card-overlay {
             position: absolute;
             bottom: 0; left: 0;
@@ -252,7 +259,6 @@
             padding: 20px;
         }
 
-        /* Card Text */
         .game-title {
             font-size: 1.6rem;
             font-weight: 900;
@@ -260,7 +266,7 @@
             color: #fff;
             text-transform: uppercase;
             text-shadow: 0 0 10px rgba(0,0,0,0.8);
-            transform: translateZ(30px); /* 3D Pop out */
+            transform: translateZ(30px);
         }
 
         .game-category {
@@ -272,7 +278,6 @@
             transform: translateZ(20px);
         }
 
-        /* Play Button on Hover */
         .play-action {
             position: absolute;
             top: 50%; left: 50%;
@@ -291,12 +296,11 @@
             pointer-events: none;
         }
 
-        .game-card:hover .play-action {
+        .game-card:hover .play-action, .game-card:active .play-action {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
 
-        /* Card Badge (Top Right) */
         .card-badge {
             position: absolute;
             top: 15px; right: 15px;
@@ -311,13 +315,12 @@
             backdrop-filter: blur(5px);
         }
 
-        /* Mobile Adjustments */
         @media (max-width: 600px) {
             .top-nav { padding: 15px; }
             .nav-logo { font-size: 1.2rem; }
             .section-title { font-size: 1.5rem; }
             .games-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
                 padding: 10px 15px 50px;
             }
@@ -325,10 +328,9 @@
             .game-title { font-size: 1rem; }
             .game-category { font-size: 0.8rem; }
             .card-overlay { padding: 10px; }
-            .card-badge { display: none; } /* Hide badge on small screens */
+            .card-badge { display: none; }
         }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0b0c10; }
         ::-webkit-scrollbar-thumb { background: #ff0055; border-radius: 4px; }
@@ -347,25 +349,22 @@
                 <h1>GameZone</h1>
             </div>
             <div class="bottom-section">
-                <button class="enter-btn" id="enterBtn">Enter GameZone</button>
+                <!-- Added type="button" -->
+                <button type="button" class="enter-btn" id="enterBtn">Enter GameZone</button>
             </div>
         </div>
     </div>
 
     <!-- 2. PREMIUM DASHBOARD SCREEN -->
     <div id="dashboard-screen">
-        <!-- Top Nav Bar -->
         <div class="top-nav">
             <div class="nav-logo">GAMEZONE</div>
-            <button class="back-btn" id="backBtn">← RETURN TO 3D</button>
+            <button type="button" class="back-btn" id="backBtn">← RETURN TO 3D</button>
         </div>
 
-        <!-- Section Title with Neon Stroke -->
         <h2 class="section-title">SELECT YOUR GAME</h2>
 
-        <!-- Games Grid -->
         <div class="games-grid">
-            
             <!-- Card 1 -->
             <div class="game-card">
                 <div class="card-badge">NEW</div>
@@ -408,27 +407,6 @@
                     <div class="game-category">Adventure · 3D</div>
                 </div>
             </div>
-
-            <!-- Card 5 -->
-            <div class="game-card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=600&auto=format&fit=crop');"></div>
-                <div class="play-action">PLAY NOW</div>
-                <div class="card-overlay">
-                    <div class="game-title">Ludo King</div>
-                    <div class="game-category">Board · Classic</div>
-                </div>
-            </div>
-
-            <!-- Card 6 -->
-            <div class="game-card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop');"></div>
-                <div class="play-action">PLAY NOW</div>
-                <div class="card-overlay">
-                    <div class="game-title">Subway Surf</div>
-                    <div class="game-category">Runner · 3D</div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -454,14 +432,18 @@
         const homeScreen = document.getElementById('home-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
 
-        enterBtn.addEventListener('click', () => {
+        // Button click handler
+        enterBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Default behavior roko
             homeScreen.classList.add('hidden');
             setTimeout(() => {
                 dashboardScreen.classList.add('active');
             }, 300);
         });
 
-        backBtn.addEventListener('click', () => {
+        // Back button handler
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             dashboardScreen.classList.remove('active');
             setTimeout(() => {
                 homeScreen.classList.remove('hidden');
@@ -547,14 +529,6 @@
                 controls.minDistance = fixedDistance * 1.0; 
                 controls.maxDistance = fixedDistance * 1.8;
                 controls.update();
-
-                const planeGeometry = new THREE.PlaneGeometry(100, 100);
-                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.15 }); 
-                const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
-                shadowPlane.rotation.x = -Math.PI / 2;
-                shadowPlane.position.y = -size.y / 2 - 0.05; 
-                shadowPlane.receiveShadow = true;
-                scene.add(shadowPlane);
             },
             undefined,
             (error) => {
@@ -566,4 +540,15 @@
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
-   
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
