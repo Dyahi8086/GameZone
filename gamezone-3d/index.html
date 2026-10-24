@@ -11,11 +11,11 @@
             box-sizing: border-box;
         }
 
-        /* Background ko Dark Studio Grey kar diya hai */
+        /* Light Grey Studio Background */
         body {
-            background-color: #1a1a1a; /* Professional Dark Grey */
+            background-color: #d1d5db; /* Light Grey */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #ffffff;
+            color: #111827;
         }
 
         #canvas-container {
@@ -23,8 +23,8 @@
             width: 100vw;
             height: 100vh; 
             overflow: hidden;
-            /* Ek subtle gradient taaki car ke peeche depth aaye */
-            background: radial-gradient(circle at center, #2a2a2a 0%, #0a0a0a 100%);
+            /* Showroom jaisa light gradient */
+            background: radial-gradient(circle at center, #f3f4f6 0%, #9ca3af 100%);
         }
 
         .ui-container {
@@ -47,21 +47,21 @@
             margin-top: 10px;
         }
 
-        /* Text ka glow thoda aur sharp kiya hai taaki grey bg par pop kare */
+        /* Text ko Dark kar diya taaki light bg par dikhe */
         .header h1 {
             font-size: 2.8rem;
             font-weight: 900;
             letter-spacing: 5px;
-            color: #ffffff;
+            color: #000000;
             text-transform: uppercase;
             margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 1), 0 0 20px rgba(0, 255, 255, 0.8);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
         }
 
         .header p {
             font-size: 0.9rem;
-            font-weight: 600;
-            color: #cccccc;
+            font-weight: 700;
+            color: #374151;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
@@ -69,13 +69,14 @@
         .hint {
             font-size: 0.85rem;
             font-weight: 600;
-            color: #ffffff;
-            background: rgba(0, 0, 0, 0.6); /* Dark hint box */
+            color: #000000;
+            background: rgba(255, 255, 255, 0.7);
             padding: 10px 20px;
             border-radius: 30px;
             backdrop-filter: blur(8px);
             margin-bottom: 20px;
-            border: 1px solid rgba(0, 255, 255, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         #loading, #error {
@@ -93,18 +94,16 @@
         }
 
         #loading {
-            background: rgba(10, 10, 10, 0.9);
-            color: #00ffff;
-            border: 1px solid #00ffff;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            border: 1px solid #000000;
         }
 
         #error {
-            background: #2a0000;
-            color: #ff5555;
-            border: 2px solid #ff0000;
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 2px solid #b91c1c;
             display: none;
-            white-space: pre-wrap;
-            word-break: break-word;
         }
 
         canvas {
@@ -147,44 +146,45 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         const scene = new THREE.Scene();
-        // Scene ka background transparent (null) rakha hai taaki CSS ka gradient dikhe
-        scene.background = null; 
+        scene.background = null; // CSS gradient dikhega
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // alpha: true zaroori hai
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.5; 
+        renderer.toneMappingExposure = 1.8; // Exposure aur badhaya
         
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // --- LIGHTS (Black Car ko chamkane ke liye) ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.5); // Overall brightness
+        // --- LIGHTS (Black Car ko chamkane ke liye Heavy Lighting) ---
+        // 1. Ambient Light (Base brightness)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 3.0);
         scene.add(ambientLight);
 
-        // Front Light (Car ke bonnet par shine)
-        const keyLight = new THREE.DirectionalLight(0xffffff, 4.0);
-        keyLight.position.set(5, 10, 7);
-        scene.add(keyLight);
-
-        // Top Light (Roof aur window par shine)
-        const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
-        topLight.position.set(0, 15, 0);
+        // 2. Studio Softboxes (Car ke upar se chamak ke liye)
+        const topLight = new THREE.DirectionalLight(0xffffff, 5.0);
+        topLight.position.set(0, 20, 0);
         scene.add(topLight);
 
-        // Left Cyan Neon (Side profile highlight)
-        const cyanLight = new THREE.PointLight(0x00ffff, 150, 30);
-        cyanLight.position.set(-8, 4, 5);
+        const frontLight = new THREE.DirectionalLight(0xffffff, 4.0);
+        frontLight.position.set(10, 10, 10);
+        scene.add(frontLight);
+
+        const backLight = new THREE.DirectionalLight(0xffffff, 4.0);
+        backLight.position.set(-10, 10, -10);
+        scene.add(backLight);
+
+        // 3. Neon Lights (Cyberpunk vibe ke liye)
+        const cyanLight = new THREE.PointLight(0x00ffff, 200, 50);
+        cyanLight.position.set(-8, 5, 5);
         scene.add(cyanLight);
 
-        // Right Magenta Neon (Side profile highlight)
-        const magentaLight = new THREE.PointLight(0xff00ff, 150, 30);
-        magentaLight.position.set(8, 4, -5);
+        const magentaLight = new THREE.PointLight(0xff00ff, 200, 50);
+        magentaLight.position.set(8, 5, -5);
         scene.add(magentaLight);
-
 
         // --- CONTROLS ---
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -192,6 +192,8 @@
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
         controls.enablePan = false; 
+        controls.minDistance = 2; // Zoom limit
+        controls.maxDistance = 15;
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
             TWO: THREE.TOUCH.DOLLY_PAN
@@ -200,7 +202,6 @@
         controls.autoRotate = true;
         controls.autoRotateSpeed = 1.0;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
-
 
         // --- LOAD MODEL ---
         const loader = new GLTFLoader();
@@ -217,16 +218,16 @@
                 model.traverse((child) => {
                     if (child.isMesh) {
                         if(child.material) { 
+                            // Original colors ko preserve karte hue brightness badhayi
                             child.material.toneMapped = false; 
-                            // Agar car ka material bahut zyada dark hai, toh environment reflection ke liye
-                            child.material.envMapIntensity = 1.5;
+                            child.material.envMapIntensity = 2.0; 
                         }
                     }
                 });
 
                 scene.add(model);
 
-                // Auto Center
+                // Auto Center & Fit
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
@@ -239,8 +240,8 @@
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
                 
-                cameraZ *= 1.5; // Padding
-                camera.position.set(0, maxDim * 0.3, cameraZ); 
+                cameraZ *= 1.4; // Thoda paas laya hai taaki car badi dikhe
+                camera.position.set(0, maxDim * 0.2, cameraZ); 
                 camera.lookAt(0, 0, 0);
 
                 controls.target.set(0, 0, 0);
@@ -256,11 +257,10 @@
                 console.error('Error:', error);
                 loadingEl.style.display = 'none';
                 errorEl.style.display = 'block';
-                errorEl.innerHTML = `⚠️ <b>Model Load Failed!</b><br>File ka naam check karo.`;
+                errorEl.innerHTML = `⚠️ <b>Model Load Failed!</b><br>Check file path.`;
             }
         );
 
-        // --- ANIMATION ---
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
