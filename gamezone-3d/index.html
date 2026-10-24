@@ -2,22 +2,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Website - 3D Model</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GameZone - 3D Experience</title>
     <style>
-        body {
+        * {
             margin: 0;
-            overflow: hidden;
-            background-color: #0a0a0a; /* Dark background for gaming vibe */
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            overflow: hidden;
+            background-color: #e5e7eb; /* Clean light-grey studio background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1f2937;
+            touch-action: none; /* Prevents browser default touch scrolling/zooming */
+        }
+
+        /* UI Overlay */
+        .ui-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through to 3D canvas */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #111827;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #6b7280;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #6b7280;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            margin-bottom: 20px;
+        }
+
+        /* Loading & Error Messages */
+        #loading, #error {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 20;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        #loading {
+            background: rgba(255, 255, 255, 0.9);
+            color: #111827;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #error {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #f87171;
+            display: none;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
         canvas {
             display: block;
+            width: 100%;
+            height: 100%;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- 3D Model yahan render hoga -->
+    <!-- UI Elements -->
+    <div class="ui-container">
+        <div class="header">
+            <h1>GameZone</h1>
+            <p>3D Experience</p>
+        </div>
+        <div class="hint">
+            Drag to rotate · Pinch to zoom
+        </div>
+    </div>
+
+    <!-- Status Messages -->
+    <div id="loading">Loading 3D Model...</div>
+    <div id="error"></div>
+
+    <!-- Three.js via Import Map (Best for GitHub Pages) -->
     <script type="importmap">
         {
             "imports": {
@@ -32,99 +138,178 @@
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // 1. Scene Setup
+        // --- 1. Scene Setup ---
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0a0a0a); // Dark background
+        scene.background = new THREE.Color(0xe5e7eb); // Light grey studio background
 
-        // 2. Camera Setup
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 1.5, 4); // Model ke saamne position
+        // --- 2. Camera Setup ---
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        // Initial position (will be adjusted after model loads)
+        camera.position.set(0, 1, 5);
 
-        // 3. Renderer Setup
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        // --- 3. Renderer Setup ---
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.shadowMap.enabled = true; // Shadows enable
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap pixel ratio for mobile performance
+        renderer.shadowMap.enabled = true; 
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.outputColorSpace = THREE.SRGBColorSpace; // Ensures original colors look correct
         document.body.appendChild(renderer.domElement);
 
-        // 4. Lighting (Model ko roshni dikhane ke liye)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); // Base light
+        // --- 4. Lighting (Soft Studio Setup) ---
+        // Ambient light for overall base brightness
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
         scene.add(ambientLight);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-        directionalLight.position.set(5, 5, 5);
-        directionalLight.castShadow = true;
-        scene.add(directionalLight);
+        // Key Light (Main directional light)
+        const keyLight = new THREE.DirectionalLight(0xffffff, 2);
+        keyLight.position.set(5, 10, 7);
+        keyLight.castShadow = true;
+        keyLight.shadow.mapSize.width = 1024;
+        keyLight.shadow.mapSize.height = 1024;
+        keyLight.shadow.bias = -0.0001;
+        scene.add(keyLight);
 
-        // Thoda neon/gaming effect ke liye blue light
-        const pointLight = new THREE.PointLight(0x00ffff, 5, 10);
-        pointLight.position.set(-3, 2, 3);
-        scene.add(pointLight);
+        // Fill Light (Softens shadows)
+        const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        fillLight.position.set(-5, 5, -5);
+        scene.add(fillLight);
 
-        // 5. Controls (User mouse se ghumaa sake)
+        // Rim Light (Adds edge highlight)
+        const rimLight = new THREE.DirectionalLight(0xffffff, 1);
+        rimLight.position.set(0, 5, -10);
+        scene.add(rimLight);
+
+        // --- 5. Controls (OrbitControls) ---
         const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
+        controls.enableDamping = true; // Smooth movement
         controls.dampingFactor = 0.05;
-        controls.autoRotate = true; // Model khud ghumega
-        controls.autoRotateSpeed = 1.0;
-        controls.enableZoom = false; // Zoom band (optional)
-
-        // 6. Model Loading
-        const loader = new GLTFLoader();
         
-        // Yahan tumhari file ka naam hai, agar folder mein hai to path likho
-        loader.load(
-            'character_jepll.glb', 
-            (gltf) => {
-                const model = gltf.scene;
-                
-                // Model ka size adjust karna (agar bahut bada/chhota ho)
-                model.scale.set(1, 1, 1); 
-                
-                // Model ki position adjust karna (ground pe laane ke liye)
-                model.position.y = 0;
+        // Touch & Mouse Configurations
+        controls.enableZoom = true;
+        controls.enablePan = false; // Disable panning to keep model centered
+        controls.touches = {
+            ONE: THREE.TOUCH.ROTATE,   // One finger = rotate
+            TWO: THREE.TOUCH.DOLLY_PAN // Two fingers = zoom (pinch)
+        };
+        
+        controls.autoRotate = true; // Slow auto-rotation
+        controls.autoRotateSpeed = 1.0;
+        
+        // Stop auto-rotate when user interacts
+        controls.addEventListener('start', () => {
+            controls.autoRotate = false;
+        });
 
-                // Agar model ke andar animation hai to play karo
+        // --- 6. Model Loading ---
+        const loader = new GLTFLoader();
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('error');
+
+        // Path is relative to the HTML file
+        const modelPath = './character_fight.glb';
+
+        loader.load(
+            modelPath,
+            (gltf) => {
+                // Hide loading message
+                loadingEl.style.display = 'none';
+                
+                const model = gltf.scene;
+
+                // Enable shadows for all meshes (preserves original materials)
+                model.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        
+                        // Ensure materials use correct color space (fixes washed out colors)
+                        if (child.material) {
+                            if (Array.isArray(child.material)) {
+                                child.material.forEach(mat => { mat.needsUpdate = true; });
+                            } else {
+                                child.material.needsUpdate = true;
+                            }
+                        }
+                    }
+                });
+
+                scene.add(model);
+
+                // --- 7. Auto-Center and Frame the Model ---
+                // Calculate the bounding box of the loaded model
+                const box = new THREE.Box3().setFromObject(model);
+                const size = box.getSize(new THREE.Vector3());
+                const center = box.getCenter(new THREE.Vector3());
+
+                // Reposition model so its center is at (0,0,0)
+                model.position.x += (model.position.x - center.x);
+                model.position.y += (model.position.y - center.y);
+                model.position.z += (model.position.z - center.z);
+
+                // Calculate the maximum dimension to fit the model in camera view
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fov = camera.fov * (Math.PI / 180);
+                let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+
+                // Add padding (multiply by 1.5) so the model doesn't touch the edges
+                cameraZ *= 1.5;
+
+                // Update camera position based on model size
+                camera.position.set(0, 0, cameraZ);
+                camera.lookAt(0, 0, 0);
+
+                // Update controls target to the center
+                controls.target.set(0, 0, 0);
+                controls.update();
+
+                // Play animation if the GLB has any
                 if (gltf.animations && gltf.animations.length > 0) {
                     const mixer = new THREE.AnimationMixer(model);
                     const action = mixer.clipAction(gltf.animations[0]);
                     action.play();
-                    
-                    // Animation update loop
+
                     const clock = new THREE.Clock();
-                    function animateAnimation() {
-                        requestAnimationFrame(animateAnimation);
+                    function animateMixer() {
+                        requestAnimationFrame(animateMixer);
                         const delta = clock.getDelta();
                         mixer.update(delta);
                     }
-                    animateAnimation();
+                    animateMixer();
                 }
-
-                scene.add(model);
             },
             (xhr) => {
-                // Loading progress (console mein dikhega)
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                // Progress updates
+                if (xhr.total > 0) {
+                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                    loadingEl.textContent = `Loading 3D Model... ${percent}%`;
+                }
             },
             (error) => {
-                console.error('Model load karne mein error aaya:', error);
+                // Error Handling
+                console.error('Error loading GLB model:', error);
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+                errorEl.textContent = `Failed to load model.\n\nError: ${error.message || 'Unknown error'}\n\nPlease check if "${modelPath}" exists in the same folder as index.html.`;
             }
         );
 
-        // 7. Animation Loop
+        // --- 8. Animation Loop ---
         function animate() {
             requestAnimationFrame(animate);
-            controls.update();
+            controls.update(); // Required for damping and auto-rotate
             renderer.render(scene, camera);
         }
         animate();
 
-        // 8. Resize Handling (Window size change pe adjust)
+        // --- 9. Window Resize Handling ---
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         });
+
     </script>
 </body>
 </html>
