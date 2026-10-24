@@ -14,9 +14,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: #e5e7eb; 
+            background-color: #222222; /* Dark Studio Background */
             font-family: 'Orbitron', sans-serif;
-            color: #000000;
+            color: #ffffff;
             overflow: hidden;
         }
 
@@ -46,7 +46,7 @@
             font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 900;
             letter-spacing: 8px;
-            color: #000000;
+            color: #ffffff;
             text-transform: uppercase;
             margin-bottom: 10px;
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
@@ -55,7 +55,7 @@
         .header p {
             font-size: clamp(0.7rem, 3vw, 1rem);
             font-weight: 700;
-            color: #444444;
+            color: #00ffff;
             letter-spacing: 4px;
             text-transform: uppercase;
         }
@@ -71,12 +71,12 @@
         .hint {
             font-size: 0.8rem;
             font-weight: 700;
-            color: #000000;
-            background: rgba(255, 255, 255, 0.8);
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.6);
             padding: 10px 25px;
             border-radius: 30px;
             backdrop-filter: blur(5px);
-            border: 1px solid #000000;
+            border: 1px solid #00ffff;
             letter-spacing: 2px;
             pointer-events: auto;
         }
@@ -87,10 +87,10 @@
             font-size: 1.2rem;
             font-weight: 900;
             letter-spacing: 3px;
-            color: #000000;
+            color: #00ffff;
             background: transparent;
             padding: 15px 40px;
-            border: 2px solid #000000;
+            border: 2px solid #00ffff;
             border-radius: 5px;
             cursor: pointer;
             text-transform: uppercase;
@@ -98,8 +98,8 @@
         }
 
         .enter-btn:hover, .enter-btn:active {
-            background: #000000;
-            color: #00ffff;
+            background: #00ffff;
+            color: #000000;
             box-shadow: 0 0 20px #00ffff;
         }
 
@@ -109,7 +109,7 @@
             transform: translate(-50%, -50%);
             font-size: 1.2rem;
             font-weight: 700;
-            color: #000;
+            color: #00ffff;
             z-index: 100;
         }
     </style>
@@ -150,7 +150,8 @@
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xe5e7eb); 
+        // Dark Studio Background
+        scene.background = new THREE.Color(0x222222); 
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         
@@ -169,15 +170,15 @@
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
         // LIGHTS
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.5); 
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); 
         scene.add(ambientLight);
 
-        const topLight = new THREE.DirectionalLight(0xffffff, 4.0);
+        const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
         topLight.position.set(0, 20, 0);
         topLight.castShadow = true;
         scene.add(topLight);
 
-        const sideLight = new THREE.DirectionalLight(0xffffff, 3.0);
+        const sideLight = new THREE.DirectionalLight(0xffffff, 2.0);
         sideLight.position.set(10, 10, 10);
         scene.add(sideLight);
 
@@ -186,7 +187,7 @@
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
-        controls.enablePan = false; // Page/camera move nahi hoga
+        controls.enablePan = false; 
         
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
@@ -219,42 +220,39 @@
                     }
                 });
 
-                // --- 100% CENTER FIX ---
+                // --- 100% FIXED POSITION ---
+                // Car ko ekdum center mein shift karo
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
-                // Car ko 0,0,0 par center karo
                 model.position.x = -center.x;
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
-                // Car ko ek group mein daal do
-                const carGroup = new THREE.Group();
-                carGroup.add(model);
-                scene.add(carGroup);
+                scene.add(model);
 
-                // --- PERFECT FIXED CAMERA DISTANCE ---
+                // --- PERFECT CAMERA DISTANCE (HARDCODED) ---
                 const maxDim = Math.max(size.x, size.y, size.z);
-                // Camera distance: Car ke size ka 3 guna (Mobile aur desktop dono ke liye perfect)
-                const camDist = maxDim * 3.0;
+                
+                // 🔥 FIXED DISTANCE: Camera car ke size ka 2.5 guna door
+                const fixedDistance = maxDim * 2.5;
 
-                // Camera position lock
-                camera.position.set(camDist * 0.6, camDist * 0.3, camDist * 0.8); 
+                camera.position.set(fixedDistance * 0.5, fixedDistance * 0.3, fixedDistance * 0.9); 
                 camera.lookAt(0, 0, 0);
                 
                 // Target hamesha center
                 controls.target.set(0, 0, 0);
                 
-                // 🔥 ZOOM LOCK: Sirf thoda sa zoom hoga, car kabhi na bhagegi
-                controls.minDistance = camDist * 0.9; 
-                controls.maxDistance = camDist * 1.2;
+                // 🔥 ZOOM LOCK: Car kabhi background nahi jayegi
+                controls.minDistance = fixedDistance * 1.0; // Zoom in limit
+                controls.maxDistance = fixedDistance * 1.5; // Zoom out limit
                 
                 controls.update();
 
                 // Floor Shadow
                 const planeGeometry = new THREE.PlaneGeometry(100, 100);
-                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.3 }); 
+                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.4 }); 
                 const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
                 shadowPlane.rotation.x = -Math.PI / 2;
                 shadowPlane.position.y = -size.y / 2 - 0.05; 
