@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>GameZone - Red Cyberpunk</title>
+    <title>GameZone - Cyberpunk Showroom</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
         }
 
         body {
-            background-color: #050000; 
+            background-color: #111111; /* Dark Studio Grey */
             font-family: 'Orbitron', sans-serif;
             color: #ffffff;
             overflow: hidden;
@@ -31,6 +31,8 @@
             width: 100vw;
             height: 100vh; 
             z-index: 1;
+            /* Ekdum subtle gradient taaki 3D scene real lage */
+            background: radial-gradient(circle at center, #2a2a2a 0%, #050505 100%);
         }
 
         .ui-container {
@@ -53,6 +55,7 @@
             margin-top: 20px;
         }
 
+        /* Text wapas Cyan/White kar diya taaki studio background pe premium lage */
         .header h1 {
             font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 900;
@@ -60,13 +63,13 @@
             color: #ffffff;
             text-transform: uppercase;
             margin-bottom: 10px;
-            text-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000, 0 0 50px #ff0000;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
         }
 
         .header p {
             font-size: clamp(0.7rem, 3vw, 1rem);
             font-weight: 700;
-            color: #ff4444;
+            color: #00ffff;
             letter-spacing: 4px;
             text-transform: uppercase;
         }
@@ -83,11 +86,12 @@
             font-size: 0.8rem;
             font-weight: 700;
             color: #e5e7eb;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.6);
             padding: 10px 25px;
             border-radius: 30px;
-            border: 1px solid #ff0000;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
             letter-spacing: 2px;
             pointer-events: auto;
         }
@@ -98,21 +102,21 @@
             font-size: 1.2rem;
             font-weight: 900;
             letter-spacing: 3px;
-            color: #ff3333;
+            color: #00ffff;
             background: transparent;
             padding: 15px 40px;
-            border: 2px solid #ff3333;
+            border: 2px solid #00ffff;
             border-radius: 5px;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(255, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.2);
         }
 
         .enter-btn:hover, .enter-btn:active {
-            background: #ff0000;
+            background: #00ffff;
             color: #000;
-            box-shadow: 0 0 40px #ff0000, inset 0 0 20px #ffffff;
+            box-shadow: 0 0 40px #00ffff;
             transform: scale(1.05);
         }
 
@@ -122,7 +126,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000;
+            background: #111;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -134,27 +138,27 @@
         .loader-text {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #ff3333;
+            color: #00ffff;
             letter-spacing: 3px;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px #ff0000;
+            text-shadow: 0 0 10px #00ffff;
         }
 
         .progress-bar-container {
             width: 80%;
             max-width: 400px;
             height: 8px;
-            background: rgba(255, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid rgba(255, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
         }
 
         .progress-bar {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #880000, #ff0000);
-            box-shadow: 0 0 15px #ff0000;
+            background: linear-gradient(90deg, #00ffff, #0088ff);
+            box-shadow: 0 0 15px #00ffff;
             transition: width 0.2s ease;
         }
     </style>
@@ -162,7 +166,7 @@
 <body>
 
     <div id="loading-screen">
-        <div class="loader-text">LOADING RED PROTOCOL...</div>
+        <div class="loader-text">LOADING SHOWROOM...</div>
         <div class="progress-bar-container">
             <div class="progress-bar" id="progress-bar"></div>
         </div>
@@ -171,7 +175,7 @@
     <div class="ui-container">
         <div class="header">
             <h1>GameZone</h1>
-            <p style="color: #ff4444;">Red Cyberpunk</p>
+            <p>Cyberpunk Experience</p>
         </div>
         
         <div class="bottom-section">
@@ -200,11 +204,15 @@
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x000000); 
+        // Scene ka background transparent rakha hai taaki CSS ka gradient dikhe
+        scene.background = null; 
+        
+        // Fog se depth aati hai
+        scene.fog = new THREE.FogExp2(0x111111, 0.03);
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
@@ -215,27 +223,33 @@
         
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
+        // Studio Environment (Isse black car par white lines/chamak aati hai)
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // LIGHTS
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); 
+        // --- STUDIO LIGHTING (Photo jaisa look) ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); 
         scene.add(ambientLight);
 
-        const topLight = new THREE.DirectionalLight(0xffffff, 2.0);
+        // Top Light (Car ke roof aur bonnet par shine ke liye)
+        const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
         topLight.position.set(0, 20, 0);
         topLight.castShadow = true;
+        topLight.shadow.mapSize.width = 1024;
+        topLight.shadow.mapSize.height = 1024;
         scene.add(topLight);
 
-        const redLight1 = new THREE.PointLight(0xff0000, 300, 50);
-        redLight1.position.set(-10, 5, 5);
-        scene.add(redLight1);
+        // Side Lights (Car ke shape ko highlight karne ke liye)
+        const sideLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
+        sideLight1.position.set(-10, 10, 5);
+        scene.add(sideLight1);
 
-        const redLight2 = new THREE.PointLight(0xff0000, 300, 50);
-        redLight2.position.set(10, 5, -5);
-        scene.add(redLight2);
+        const sideLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
+        sideLight2.position.set(10, 10, -5);
+        scene.add(sideLight2);
 
-        // CONTROLS
+
+        // --- CONTROLS ---
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
@@ -246,10 +260,10 @@
             TWO: THREE.TOUCH.DOLLY_PAN
         };
         controls.autoRotate = true;
-        controls.autoRotateSpeed = 1.0;
+        controls.autoRotateSpeed = 0.8;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
 
-        // LOAD MODEL
+        // --- LOAD MODEL ---
         const loader = new GLTFLoader();
         const progressBar = document.getElementById('progress-bar');
         const loadingScreen = document.getElementById('loading-screen');
@@ -263,20 +277,21 @@
 
                 const model = gltf.scene;
 
+                // HD Textures & Shadows enable
                 model.traverse((child) => {
                     if (child.isMesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
                         if(child.material) { 
                             child.material.toneMapped = false; 
-                            child.material.envMapIntensity = 2.0; 
+                            child.material.envMapIntensity = 2.5; // Reflection badhaya
                         }
                     }
                 });
 
                 scene.add(model);
 
-                // CENTER THE CAR
+                // --- CENTER & FIT CAR ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
@@ -285,39 +300,25 @@
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
-                // 🔥 CAMERA FIX (Zoom Out & Fit perfectly)
+                // Perfect Showroom Camera Angle
                 const maxDim = Math.max(size.x, size.y, size.z);
-                const fov = camera.fov * (Math.PI / 180);
-                let distance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-                
-                // Camera ko aur door kiya (2.5x) taaki car mobile screen mein poori aaye
-                distance *= 2.5; 
-
-                // Camera ko thoda upar aur side se set kiya
-                camera.position.set(distance * 0.8, distance * 0.4, distance * 0.8);
+                camera.position.set(maxDim * 1.8, maxDim * 0.6, maxDim * 1.8); 
                 camera.lookAt(0, 0, 0);
                 
                 controls.target.set(0, 0, 0);
-                
-                // Zoom limits taaki car screen se bahar na jaye
-                controls.minDistance = maxDim * 0.8; 
-                controls.maxDistance = maxDim * 4.0;
-
+                controls.minDistance = maxDim * 1.5; 
+                controls.maxDistance = maxDim * 3.5;
                 controls.update();
 
-                // 🔥 FLOOR FIX (Niche ka Red effect)
-                const glowGeo = new THREE.PlaneGeometry(maxDim * 4, maxDim * 4);
-                const glowMat = new THREE.MeshBasicMaterial({ 
-                    color: 0x330000, 
-                    transparent: true, 
-                    opacity: 0.6,
-                    blending: THREE.AdditiveBlending 
-                });
-                const glowFloor = new THREE.Mesh(glowGeo, glowMat);
-                glowFloor.rotation.x = -Math.PI / 2;
-                // Floor ko car ke bilkul niche set kiya
-                glowFloor.position.y = -size.y / 2 - 0.1; 
-                scene.add(glowFloor);
+                // --- INVISIBLE FLOOR FOR SHADOW ---
+                // Photo jaisa shadow niche daalne ke liye
+                const planeGeometry = new THREE.PlaneGeometry(maxDim * 10, maxDim * 10);
+                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.5 }); 
+                const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+                shadowPlane.rotation.x = -Math.PI / 2;
+                shadowPlane.position.y = -size.y / 2 - 0.05; 
+                shadowPlane.receiveShadow = true;
+                scene.add(shadowPlane);
             },
             (xhr) => {
                 if (xhr.total > 0) {
