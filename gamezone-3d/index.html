@@ -162,7 +162,7 @@
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
         const scene = new THREE.Scene();
-        // Ekdum Solid Light Grey Background
+        // Background ekdum solid light grey
         scene.background = new THREE.Color(0xe5e7eb); 
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -181,34 +181,29 @@
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // --- BOHOT TEZ LIGHTS (Black car chamkane ke liye) ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.5); 
+        // LIGHTS
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
         scene.add(ambientLight);
 
-        const topLight = new THREE.DirectionalLight(0xffffff, 5.0);
+        const topLight = new THREE.DirectionalLight(0xffffff, 4.0);
         topLight.position.set(0, 20, 0);
         topLight.castShadow = true;
         scene.add(topLight);
 
-        const frontLight = new THREE.DirectionalLight(0xffffff, 4.0);
-        frontLight.position.set(0, 10, 20);
-        scene.add(frontLight);
+        const sideLight = new THREE.DirectionalLight(0xffffff, 3.0);
+        sideLight.position.set(10, 10, 10);
+        scene.add(sideLight);
 
-        // CONTROLS (Ekdum locked)
+        // CONTROLS
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
-        
-        // 🔥 YAHAN PAN AUR ROTATE LOCK HAI
         controls.enablePan = false; 
-        controls.rotateSpeed = 0.8; // Smooth rotate
-        
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
             TWO: THREE.TOUCH.DOLLY_PAN
         };
-        
         controls.autoRotate = true;
         controls.autoRotateSpeed = 1.0;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
@@ -235,36 +230,40 @@
                     }
                 });
 
-                // 🔥 THE MAGIC FIX: CAR KO GROUP MEIN DAALA 🔥
-                // Isse car kabhi bhi screen se bahar nahi jayegi
-                const carGroup = new THREE.Group();
-                carGroup.add(model);
-                scene.add(carGroup);
-
-                // Car ko group ke andar exact center karo
+                // 🔥 BULLDOZER FIX: Ek invisible group banaya jisme car ko pack kiya
+                const carContainer = new THREE.Group();
+                
+                // Car ke bounding box se center nikaalo
                 const box = new THREE.Box3().setFromObject(model);
-                const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
                 
+                // Car ko uske center ke hisaab se shift karo (taaki wo group ke center mein aaye)
                 model.position.set(-center.x, -center.y, -center.z);
+                
+                // Car ko group mein daalo
+                carContainer.add(model);
+                
+                // Group ko scene mein add karo
+                scene.add(carContainer);
 
-                // Ab camera ko set karo
+                // Ab camera ko set karo (Group ke center par)
+                const size = box.getSize(new THREE.Vector3());
                 const maxDim = Math.max(size.x, size.y, size.z);
                 
-                // Fixed camera distance (Perfect fit)
-                const cameraDistance = maxDim * 3.0;
-                camera.position.set(cameraDistance * 0.6, cameraDistance * 0.3, cameraDistance * 0.8); 
+                // PERFECT DISTANCE (Mobile ke liye tested)
+                const camDistance = maxDim * 3.5; 
+                camera.position.set(camDistance * 0.5, camDistance * 0.3, camDistance * 0.8); 
                 camera.lookAt(0, 0, 0);
                 
-                // Controls ka target hamesha center (0,0,0) rahega
+                // 🔥 HAMESHA KE LIYE CENTER LOCK 🔥
                 controls.target.set(0, 0, 0);
                 
-                // Zoom limits (Bilkul tight)
+                // Zoom limits (Tight)
                 controls.minDistance = maxDim * 2.0; 
-                controls.maxDistance = maxDim * 4.5;
+                controls.maxDistance = maxDim * 5.0;
                 controls.update();
 
-                // Floor Shadow (Car ke niche)
+                // Floor Shadow
                 const planeGeometry = new THREE.PlaneGeometry(100, 100);
                 const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.3 }); 
                 const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
