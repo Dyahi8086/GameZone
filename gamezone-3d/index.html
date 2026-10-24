@@ -11,12 +11,12 @@
             box-sizing: border-box;
         }
 
-        /* Body color aur 3D canvas color ek same kar diya hai */
+        /* Ekdum Black Background */
         body {
             overflow: hidden;
-            background-color: #f3f4f6; /* Soft studio off-white/grey */
+            background-color: #000000; /* Pitch Black */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #1f2937;
+            color: #ffffff;
             touch-action: none;
         }
 
@@ -41,19 +41,21 @@
             margin-top: 10px;
         }
 
+        /* Text white kar diya black bg ke liye */
         .header h1 {
             font-size: 2.5rem;
             font-weight: 800;
             letter-spacing: 4px;
-            color: #111827;
+            color: #ffffff; /* White */
             text-transform: uppercase;
             margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2); /* Thoda glow */
         }
 
         .header p {
             font-size: 1rem;
             font-weight: 500;
-            color: #6b7280;
+            color: #9ca3af; /* Light grey subtitle */
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -61,13 +63,13 @@
         .hint {
             font-size: 0.85rem;
             font-weight: 600;
-            color: #4b5563;
-            background: rgba(255, 255, 255, 0.8);
+            color: #d1d5db;
+            background: rgba(30, 30, 30, 0.8); /* Dark hint box */
             padding: 8px 16px;
             border-radius: 20px;
             backdrop-filter: blur(5px);
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         /* Loading & Error Messages */
@@ -83,24 +85,23 @@
             z-index: 20;
             text-align: center;
             max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         #loading {
-            background: rgba(255, 255, 255, 0.9);
-            color: #111827;
+            background: rgba(20, 20, 20, 0.9);
+            color: #ffffff;
+            border: 1px solid #333;
         }
 
         #error {
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #f87171;
+            background: rgba(50, 10, 10, 0.9);
+            color: #f87171;
+            border: 1px solid #b91c1c;
             display: none;
             white-space: pre-wrap;
             word-break: break-word;
         }
 
-        /* Canvas ko absolute kar diya taaki pura screen cover kare */
         canvas {
             display: block;
             position: absolute;
@@ -146,42 +147,47 @@
 
         // --- 1. Scene Setup ---
         const scene = new THREE.Scene();
-        // Yahan background color body color (#f3f4f6) se match kar diya hai
-        scene.background = new THREE.Color(0xf3f4f6); 
+        // Scene background bhi ekdum black kar diya
+        scene.background = new THREE.Color(0x000000); 
 
         // --- 2. Camera Setup ---
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 1, 5);
 
-        // --- 3. Renderer Setup (Performance Optimized) ---
+        // --- 3. Renderer Setup ---
         const renderer = new THREE.WebGLRenderer({ 
             antialias: true, 
             alpha: false,
-            powerPreference: "high-performance" // Mobile par GPU use karega fast load ke liye
+            powerPreference: "high-performance" 
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        // Mobile pe pixel ratio 1.5 tak limit kiya hai taaki lag na kare
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); 
         renderer.shadowMap.enabled = true; 
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         document.body.appendChild(renderer.domElement);
 
-        // --- 4. Lighting ---
+        // --- 4. Lighting (Black bg par model chamkane ke liye bright lights) ---
         const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
         scene.add(ambientLight);
 
-        const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
+        // Main light
+        const keyLight = new THREE.DirectionalLight(0xffffff, 3);
         keyLight.position.set(5, 10, 7);
         keyLight.castShadow = true;
-        // Shadow map size kam kiya taaki load fast ho
         keyLight.shadow.mapSize.width = 1024;
         keyLight.shadow.mapSize.height = 1024;
         scene.add(keyLight);
 
-        const fillLight = new THREE.DirectionalLight(0xffffff, 1);
+        // Fill light (side se)
+        const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
         fillLight.position.set(-5, 5, -5);
         scene.add(fillLight);
+
+        // Peeche se ek light taaki edges clear dikhein
+        const backLight = new THREE.DirectionalLight(0xffffff, 1);
+        backLight.position.set(0, 5, -10);
+        scene.add(backLight);
 
         // --- 5. Controls ---
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -237,7 +243,6 @@
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
                 
-                // Padding thodi kam ki hai (1.3) taaki model screen par thoda bada aur clear dikhe
                 cameraZ *= 1.3; 
 
                 camera.position.set(0, 0, cameraZ);
@@ -261,7 +266,6 @@
                 }
             },
             (xhr) => {
-                // Progress bar (Agar file badi hai to % dikhega)
                 if (xhr.total > 0) {
                     const percent = Math.round((xhr.loaded / xhr.total) * 100);
                     loadingEl.textContent = `Loading... ${percent}%`;
