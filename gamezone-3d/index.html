@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>GameZone</title>
+    <title>GameZone - Play & Explore</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
@@ -12,16 +12,31 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background-color: #f3f4f6; /* Soft Pastel Grey Background */
+            background-color: #f3f4f6;
             font-family: 'Orbitron', sans-serif;
             color: #000000;
             overflow: hidden;
         }
 
+        /* --- 3D HOME SCREEN --- */
+        #home-screen {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            z-index: 10;
+        }
+
+        #home-screen.hidden {
+            opacity: 0;
+            transform: scale(1.05); /* Smooth zoom out effect */
+            pointer-events: none;
+        }
+
         #canvas-container {
             position: absolute;
             top: 0; left: 0;
-            width: 100vw; height: 100vh; 
+            width: 100%; height: 100%; 
             z-index: 1;
         }
 
@@ -38,16 +53,13 @@
             z-index: 10;
         }
 
-        .header { text-align: center; margin-top: 20px; }
-        
         .header h1 {
             font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 900;
             letter-spacing: 8px;
             text-transform: uppercase;
-            margin-bottom: 10px;
             color: #000;
-            text-shadow: 0 0 15px rgba(255, 105, 180, 0.8); /* Pink Glow */
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
         }
 
         .bottom-section {
@@ -71,12 +83,14 @@
             cursor: pointer;
             text-transform: uppercase;
             transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .enter-btn:hover, .enter-btn:active { 
             background: #000; 
-            color: #ff69b4; /* Pink hover */
-            box-shadow: 0 0 20px #ff69b4; 
+            color: #ff69b4; 
+            box-shadow: 0 0 30px #ff69b4; 
+            transform: scale(1.05);
         }
 
         #loading {
@@ -88,23 +102,220 @@
             z-index: 100;
             color: #000;
         }
+
+        /* --- GAMES DASHBOARD SCREEN --- */
+        #dashboard-screen {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+            z-index: 5;
+            overflow-y: auto;
+        }
+
+        #dashboard-screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 20;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            border-bottom: 1px solid rgba(255,105,180,0.3);
+        }
+
+        .dash-header h2 {
+            font-size: 1.5rem;
+            color: #ff69b4;
+            text-shadow: 0 0 10px rgba(255,105,180,0.5);
+            letter-spacing: 2px;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px 30px;
+        }
+
+        .game-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #333;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,105,180,0.2);
+            border-color: #ff69b4;
+        }
+
+        /* Fake Image Background for Cards */
+        .game-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #222, #444);
+            z-index: 1;
+        }
+
+        .game-bg.c1 { background: linear-gradient(45deg, #3a1c71, #d76d77, #ffaf7b); }
+        .game-bg.c2 { background: linear-gradient(45deg, #0f2027, #203a43, #2c5364); }
+        .game-bg.c3 { background: linear-gradient(45deg, #4b134f, #c94b4b); }
+        .game-bg.c4 { background: linear-gradient(45deg, #000428, #004e92); }
+
+        .game-info {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+
+        .game-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .game-info p {
+            font-size: 0.8rem;
+            color: #aaa;
+            font-family: sans-serif;
+        }
+
+        .play-tag {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: #ff69b4;
+            color: #000;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 3px;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: 0.3s;
+        }
+
+        .game-card:hover .play-tag {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #ff69b4; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="loading">Loading Experience...</div>
+    <!-- 1. HOME SCREEN (3D Model) -->
+    <div id="home-screen">
+        <div id="loading">Loading Experience...</div>
+        
+        <div id="canvas-container"></div>
 
-    <div class="ui-container">
-        <div class="header">
-            <h1>GameZone</h1>
-        </div>
-        <div class="bottom-section">
-            <button class="enter-btn" id="enterBtn">Enter GameZone</button>
+        <div class="ui-container">
+            <div class="header">
+                <h1>GameZone</h1>
+            </div>
+            <div class="bottom-section">
+                <button class="enter-btn" id="enterBtn">Enter GameZone</button>
+            </div>
         </div>
     </div>
 
-    <div id="canvas-container"></div>
+    <!-- 2. DASHBOARD SCREEN (Games Grid) -->
+    <div id="dashboard-screen">
+        <div class="dash-header">
+            <h2>SELECT YOUR GAME</h2>
+            <button class="back-btn" id="backBtn">← Back to 3D</button>
+        </div>
 
+        <div class="games-grid">
+            <!-- Game Card 1 -->
+            <div class="game-card">
+                <div class="game-bg c1"></div>
+                <div class="play-tag">PLAY NOW</div>
+                <div class="game-info">
+                    <h3>Cyber Racer</h3>
+                    <p>Racing · 3D</p>
+                </div>
+            </div>
+
+            <!-- Game Card 2 -->
+            <div class="game-card">
+                <div class="game-bg c2"></div>
+                <div class="play-tag">PLAY NOW</div>
+                <div class="game-info">
+                    <h3>Neon Shooter</h3>
+                    <p>Action · FPS</p>
+                </div>
+            </div>
+
+            <!-- Game Card 3 -->
+            <div class="game-card">
+                <div class="game-bg c3"></div>
+                <div class="play-tag">PLAY NOW</div>
+                <div class="game-info">
+                    <h3>Puzzle Matrix</h3>
+                    <p>Brain · Logic</p>
+                </div>
+            </div>
+
+            <!-- Game Card 4 -->
+            <div class="game-card">
+                <div class="game-bg c4"></div>
+                <div class="play-tag">PLAY NOW</div>
+                <div class="game-info">
+                    <h3>Space Explorer</h3>
+                    <p>Adventure · 3D</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D SCRIPTS -->
     <script type="importmap">
         {
             "imports": {
@@ -120,6 +331,32 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
+        // --- UI LOGIC (Button Click handling) ---
+        const enterBtn = document.getElementById('enterBtn');
+        const backBtn = document.getElementById('backBtn');
+        const homeScreen = document.getElementById('home-screen');
+        const dashboardScreen = document.getElementById('dashboard-screen');
+
+        enterBtn.addEventListener('click', () => {
+            // 3D Home ko hide karo
+            homeScreen.classList.add('hidden');
+            // Games dashboard ko dikhao (Thoda delay taaki animation smooth lage)
+            setTimeout(() => {
+                dashboardScreen.classList.add('active');
+            }, 300);
+        });
+
+        backBtn.addEventListener('click', () => {
+            // Games dashboard ko hide karo
+            dashboardScreen.classList.remove('active');
+            // Wapas 3D Home pe jao
+            setTimeout(() => {
+                homeScreen.classList.remove('hidden');
+            }, 300);
+        });
+
+
+        // --- 3D SETUP ---
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xf3f4f6); 
 
@@ -132,43 +369,30 @@
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.3; 
         renderer.shadowMap.enabled = true; 
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // LIGHTS
         const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
         scene.add(ambientLight);
-
         const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
         topLight.position.set(0, 20, 10);
         topLight.castShadow = true;
         scene.add(topLight);
 
-        const fillLight = new THREE.DirectionalLight(0xffffff, 2.0);
-        fillLight.position.set(10, 10, 10);
-        scene.add(fillLight);
-
-        // CONTROLS
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
         controls.enablePan = false; 
         
-        controls.touches = {
-            ONE: THREE.TOUCH.ROTATE,
-            TWO: THREE.TOUCH.DOLLY_PAN
-        };
-        
+        controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
         controls.autoRotate = true;
         controls.autoRotateSpeed = 1.0;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
 
-        // LOAD MODEL
         const loader = new GLTFLoader();
         const loadingEl = document.getElementById('loading');
         const modelPath = './smol_ame_in_an_upcycled_terrarium_hololiveen.glb'; 
@@ -192,7 +416,6 @@
 
                 scene.add(model);
 
-                // --- 100% FIXED CENTER & ZOOM ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
@@ -208,13 +431,10 @@
                 camera.lookAt(0, 0, 0);
                 
                 controls.target.set(0, 0, 0);
-                
                 controls.minDistance = fixedDistance * 1.0; 
                 controls.maxDistance = fixedDistance * 1.8;
-                
                 controls.update();
 
-                // Floor Shadow
                 const planeGeometry = new THREE.PlaneGeometry(100, 100);
                 const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.15 }); 
                 const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -227,13 +447,8 @@
             (error) => {
                 loadingEl.style.display = 'none';
                 alert("Model Load Failed! Check File Name in GitHub.");
-                console.error(error);
             }
         );
-
-        document.getElementById('enterBtn').addEventListener('click', () => {
-            alert("Welcome to GameZone!");
-        });
 
         function animate() {
             requestAnimationFrame(animate);
