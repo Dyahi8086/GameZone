@@ -20,13 +20,13 @@
         }
 
         /* ========================================= */
-        /* --- 1. STYLISH ANIME INTRO ANIMATION --- */
+        /* --- 1. CUTE DUCK LOADING ANIMATION --- */
         /* ========================================= */
         #intro-loader {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: #000;
+            background: #e5e7eb; /* Light grey background matching the duck image */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,69 +39,133 @@
             visibility: hidden;
         }
 
-        .anime-text {
-            font-size: clamp(2rem, 10vw, 4rem);
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: 10px;
+        /* Duck Scene Setup */
+        .duck-scene {
             position: relative;
-            text-transform: uppercase;
-            /* Neon Glitch Effect */
-            animation: glitch 1.5s infinite alternate, pulse-glow 1s infinite alternate;
+            width: 300px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 20px;
         }
 
-        .anime-text::before, .anime-text::after {
-            content: attr(data-text);
+        /* The Water Line */
+        .water-line {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #000;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background-color: #4cd4d4; /* Cyan water color */
+            border-radius: 10px;
+            z-index: 1;
         }
 
-        .anime-text::before {
-            left: 2px;
-            text-shadow: -2px 0 #ff0055;
-            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        /* Duck Container */
+        .duck-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 40px; /* Space between ducks */
         }
 
-        .anime-text::after {
-            left: -2px;
-            text-shadow: 2px 0 #00ffff;
-            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        /* Individual Duck Styling */
+        .duck {
+            width: 60px;
+            height: 50px;
+            position: relative;
+            animation: float 2s ease-in-out infinite;
         }
 
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+        /* Duck Body */
+        .duck-body {
+            width: 100%;
+            height: 100%;
+            background-color: #ffd700; /* Yellow */
+            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+            position: absolute;
+            bottom: 0;
         }
 
-        @keyframes pulse-glow {
-            from { text-shadow: 0 0 10px #fff, 0 0 20px #ff0055, 0 0 30px #ff0055; }
-            to { text-shadow: 0 0 20px #fff, 0 0 40px #00ffff, 0 0 60px #00ffff; }
+        /* Duck Head */
+        .duck-head {
+            width: 35px;
+            height: 35px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            right: 5px;
         }
 
-        @keyframes glitch-anim-1 {
-            0% { clip-path: inset(20% 0 80% 0); }
-            20% { clip-path: inset(60% 0 10% 0); }
-            40% { clip-path: inset(40% 0 50% 0); }
-            60% { clip-path: inset(80% 0 5% 0); }
-            80% { clip-path: inset(10% 0 70% 0); }
-            100% { clip-path: inset(30% 0 50% 0); }
+        /* Duck Eye */
+        .duck-eye {
+            width: 6px;
+            height: 6px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            right: 10px;
         }
 
-        @keyframes glitch-anim-2 {
-            0% { clip-path: inset(10% 0 60% 0); }
-            20% { clip-path: inset(30% 0 20% 0); }
-            40% { clip-path: inset(70% 0 10% 0); }
-            60% { clip-path: inset(20% 0 50% 0); }
-            80% { clip-path: inset(50% 0 30% 0); }
-            100% { clip-path: inset(40% 0 40% 0); }
+        /* Duck Beak */
+        .duck-beak {
+            width: 15px;
+            height: 8px;
+            background-color: #ff4500; /* Orange/Red */
+            border-radius: 0 50% 50% 0;
+            position: absolute;
+            top: 15px;
+            right: -10px;
+        }
+
+        /* Duck Tail */
+        .duck-tail {
+            width: 15px;
+            height: 20px;
+            background-color: #ffd700;
+            border-radius: 50% 0 0 50%;
+            position: absolute;
+            bottom: 10px;
+            left: -5px;
+            transform: rotate(-20deg);
+        }
+
+        /* Animation for floating ducks */
+        .duck:nth-child(1) { animation-delay: 0s; }
+        .duck:nth-child(2) { animation-delay: 0.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Bubbles */
+        .bubbles {
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            z-index: 3;
+        }
+
+        .bubble {
+            position: absolute;
+            background-color: transparent;
+            border: 2px solid #4cd4d4;
+            border-radius: 50%;
+            animation: rise 2s infinite ease-in;
+        }
+
+        .bubble:nth-child(1) { width: 15px; height: 15px; left: 0; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 8px; height: 8px; left: 20px; animation-delay: 0.5s; }
+        .bubble:nth-child(3) { width: 10px; height: 10px; left: 10px; animation-delay: 1s; }
+        .bubble:nth-child(4) { width: 5px; height: 5px; left: 30px; animation-delay: 1.5s; }
+
+        @keyframes rise {
+            0% { bottom: 30px; opacity: 1; transform: scale(1); }
+            100% { bottom: 100px; opacity: 0; transform: scale(1.5); }
         }
 
         /* ========================================= */
@@ -385,14 +449,46 @@
 </head>
 <body>
 
-    <!-- 1. ANIME INTRO LOADER -->
+    <!-- 1. DUCK LOADING ANIMATION -->
     <div id="intro-loader">
-        <div class="anime-text" data-text="GAMEZONE">GAMEZONE</div>
+        <div class="duck-scene">
+            <!-- Bubbles -->
+            <div class="bubbles">
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+                <div class="bubble"></div>
+            </div>
+            
+            <!-- Water Line -->
+            <div class="water-line"></div>
+            
+            <!-- Ducks -->
+            <div class="duck-container">
+                <!-- Duck 1 -->
+                <div class="duck">
+                    <div class="duck-tail"></div>
+                    <div class="duck-body"></div>
+                    <div class="duck-head">
+                        <div class="duck-eye"></div>
+                        <div class="duck-beak"></div>
+                    </div>
+                </div>
+                <!-- Duck 2 -->
+                <div class="duck">
+                    <div class="duck-tail"></div>
+                    <div class="duck-body"></div>
+                    <div class="duck-head">
+                        <div class="duck-eye"></div>
+                        <div class="duck-beak"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 2. HOME SCREEN (3D Model) -->
     <div id="home-screen">
-        <div id="loading" style="display:none;">Loading...</div> <!-- Hidden, intro loader handles it -->
         <div id="canvas-container"></div>
         <div class="ui-container">
             <div class="header">
@@ -464,9 +560,9 @@
         import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
         import { RoomEnvironment } from 'https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
 
-        // --- 1. INTRO ANIMATION LOGIC ---
+        // --- 1. DUCK INTRO ANIMATION LOGIC ---
         window.addEventListener('load', () => {
-            // 2.5 second baad intro loader gayab ho jayega
+            // 2.5 second baad ducks gayab ho jayenge
             setTimeout(() => {
                 document.getElementById('intro-loader').classList.add('hide');
             }, 2500); 
@@ -490,65 +586,9 @@
             setTimeout(() => { homeScreen.classList.remove('hidden'); }, 300);
         });
 
-        // --- 3. 3D SETUP (STRICT ZOOM LOCK) ---
+        // --- 3. 3D SETUP ---
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xf3f4f6); 
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
-        renderer.outputColorSpace = THREE.SRGBColorSpace; 
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.3; 
-        
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-        const pmremGenerator = new THREE.PMREMGenerator(renderer);
-        scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
-        scene.add(ambientLight);
-        const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
-        topLight.position.set(0, 20, 10);
-        topLight.castShadow = true;
-        scene.add(topLight);
-
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true; 
-        controls.dampingFactor = 0.05;
-        controls.enableZoom = true; 
-        controls.enablePan = false; 
-        
-        controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = 1.0;
-        controls.addEventListener('start', () => { controls.autoRotate = false; });
-
-        const loader = new GLTFLoader();
-        const modelPath = './smol_ame_in_an_upcycled_terrarium_hololiveen.glb'; 
-
-        loader.load(
-            modelPath,
-            (gltf) => {
-                const model = gltf.scene;
-
-                model.traverse((child) => {
-                    if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        if(child.material) { 
-                            child.material.toneMapped = false; 
-                            child.material.envMapIntensity = 1.5; 
-                        }
-                    }
-                });
-
-                scene.add(model);
-
-                // 🔥 3D MODEL PERFECT CENTER & ZOOM LOCK 🔥
-                const box = new THREE.Box3().setFromObject(model);
-                const size = box.getSize(new THREE.Vector3());
-                const center = box.getCenter(new THREE.Vector3());
-
- 
+        const
