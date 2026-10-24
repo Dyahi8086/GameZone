@@ -11,9 +11,9 @@
             box-sizing: border-box;
         }
 
-        /* Background ekdum perfect Dark Grey Studio */
+        /* Dark Grey Studio Background */
         body {
-            background-color: #1a1a1a;
+            background-color: #1f2229; /* Ekdum professional dark grey */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffffff;
         }
@@ -23,7 +23,6 @@
             width: 100vw;
             height: 100vh; 
             overflow: hidden;
-            background: radial-gradient(circle at center, #333333 0%, #000000 100%);
         }
 
         .ui-container {
@@ -143,40 +142,38 @@
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
         const scene = new THREE.Scene();
-        // Background transparent rakha hai taaki CSS gradient dikhe
-        scene.background = null; 
+        // Solid background color set kiya taaki mobile pe black na ho
+        scene.background = new THREE.Color(0x1f2229); 
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2; // Normal exposure
+        renderer.toneMappingExposure = 1.2; 
         
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // --- MAGIC TRICK: ENVIRONMENT MAP (Black car ko chamkane ke liye) ---
-        // Ye ek invisible studio create karta hai jisse car ke upar real reflection aata hai
+        // --- ENVIRONMENT MAP (Studio reflections for black car) ---
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // --- LIGHTS (Extra brightness ke liye) ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+        // --- LIGHTS ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
         scene.add(ambientLight);
 
-        const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
+        const keyLight = new THREE.DirectionalLight(0xffffff, 3.0);
         keyLight.position.set(5, 10, 7);
         scene.add(keyLight);
 
-        // Neon Lights
-        const cyanLight = new THREE.PointLight(0x00ffff, 100, 30);
-        cyanLight.position.set(-5, 3, 5);
+        const cyanLight = new THREE.PointLight(0x00ffff, 150, 40);
+        cyanLight.position.set(-10, 5, 5);
         scene.add(cyanLight);
 
-        const magentaLight = new THREE.PointLight(0xff00ff, 100, 30);
-        magentaLight.position.set(5, 3, -5);
+        const magentaLight = new THREE.PointLight(0xff00ff, 150, 40);
+        magentaLight.position.set(10, 5, -5);
         scene.add(magentaLight);
 
         // --- CONTROLS ---
@@ -185,15 +182,15 @@
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
         controls.enablePan = false; 
-        controls.minDistance = 5; // Bahut zyada zoom in hone se rokega
-        controls.maxDistance = 20;
+        controls.minDistance = 3; 
+        controls.maxDistance = 25;
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
             TWO: THREE.TOUCH.DOLLY_PAN
         };
         
         controls.autoRotate = true;
-        controls.autoRotateSpeed = 1.0;
+        controls.autoRotateSpeed = 1.5;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
 
         // --- LOAD MODEL ---
@@ -212,31 +209,36 @@
                     if (child.isMesh) {
                         if(child.material) { 
                             child.material.toneMapped = false; 
-                            child.material.envMapIntensity = 1.5; // Reflection power
+                            child.material.envMapIntensity = 1.5; 
                         }
                     }
                 });
 
                 scene.add(model);
 
-                // --- AUTO CENTER & CAMERA FIX ---
+                // --- PERFECT CENTER & CAMERA FIX ---
+                // Car ka bounding box nikal rahe hain
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
+                // Car ko exact center mein laao
                 model.position.x = -center.x;
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
-                // Car ka size calculate karke camera ko set karna
+                // Car ka sabse bada dimension (length/width/height)
                 const maxDim = Math.max(size.x, size.y, size.z);
+                
+                // Car ko screen ke andar fit karne ka formula
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
                 
-                // 🔥 YAHAN FIX KIYA HAI: Camera ko door kiya (1.8) taaki poori car dikhe
-                cameraZ *= 1.8; 
+                // 🔥 FIX: Camera ko door kiya (2.2) taaki car aadhi screen se bahar na jaye
+                cameraZ *= 2.2; 
 
-                camera.position.set(0, maxDim * 0.4, cameraZ); // Thoda upar se
+                // Camera ko ek perfect angle se set karo (aage aur thoda upar se)
+                camera.position.set(cameraZ * 0.6, maxDim * 0.5, cameraZ * 0.8); 
                 camera.lookAt(0, 0, 0);
 
                 controls.target.set(0, 0, 0);
