@@ -11,7 +11,6 @@
             box-sizing: border-box;
         }
 
-        /* Ekdum Black Background */
         body {
             overflow: hidden;
             background-color: #000000; /* Pitch Black */
@@ -41,35 +40,41 @@
             margin-top: 10px;
         }
 
-        /* Text white kar diya black bg ke liye */
+        /* GAMEZONE Text with Neon Glow */
         .header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: 4px;
-            color: #ffffff; /* White */
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: #ffffff;
             text-transform: uppercase;
             margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2); /* Thoda glow */
+            /* Blue/Cyan Neon Glow */
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 
+                         0 0 20px rgba(0, 255, 255, 0.6), 
+                         0 0 40px rgba(0, 255, 255, 0.4);
         }
 
         .header p {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #9ca3af; /* Light grey subtitle */
-            letter-spacing: 2px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #a0a0a0;
+            letter-spacing: 3px;
             text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
         }
 
         .hint {
             font-size: 0.85rem;
             font-weight: 600;
-            color: #d1d5db;
-            background: rgba(30, 30, 30, 0.8); /* Dark hint box */
-            padding: 8px 16px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
+            color: #e5e7eb;
+            background: rgba(20, 20, 20, 0.7);
+            padding: 10px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
             margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3); /* Neon border */
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+            letter-spacing: 1px;
         }
 
         /* Loading & Error Messages */
@@ -88,9 +93,10 @@
         }
 
         #loading {
-            background: rgba(20, 20, 20, 0.9);
-            color: #ffffff;
-            border: 1px solid #333;
+            background: rgba(10, 10, 10, 0.9);
+            color: #00ffff; /* Neon Cyan text */
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
 
         #error {
@@ -115,7 +121,6 @@
 </head>
 <body>
 
-    <!-- UI Elements -->
     <div class="ui-container">
         <div class="header">
             <h1>GameZone</h1>
@@ -126,11 +131,9 @@
         </div>
     </div>
 
-    <!-- Status Messages -->
-    <div id="loading">Loading...</div>
+    <div id="loading">Loading Experience...</div>
     <div id="error"></div>
 
-    <!-- Three.js Import Map -->
     <script type="importmap">
         {
             "imports": {
@@ -145,51 +148,54 @@
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // --- 1. Scene Setup ---
+        // 1. Scene Setup
         const scene = new THREE.Scene();
-        // Scene background bhi ekdum black kar diya
         scene.background = new THREE.Color(0x000000); 
+        // Halka sa fog taaki door ka background aur dark lage (Depth create karne ke liye)
+        scene.fog = new THREE.FogExp2(0x000000, 0.05); 
 
-        // --- 2. Camera Setup ---
+        // 2. Camera Setup
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 1, 5);
 
-        // --- 3. Renderer Setup ---
+        // 3. Renderer Setup
         const renderer = new THREE.WebGLRenderer({ 
             antialias: true, 
             alpha: false,
             powerPreference: "high-performance" 
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); 
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Thoda sharp render
         renderer.shadowMap.enabled = true; 
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         document.body.appendChild(renderer.domElement);
 
-        // --- 4. Lighting (Black bg par model chamkane ke liye bright lights) ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+        // 4. Cyberpunk/Neon Lighting Setup
+        // Base ambient light (Original colors ko sahi dikhane ke liye)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
         scene.add(ambientLight);
 
-        // Main light
-        const keyLight = new THREE.DirectionalLight(0xffffff, 3);
+        // Main Front Light
+        const keyLight = new THREE.DirectionalLight(0xffffff, 2);
         keyLight.position.set(5, 10, 7);
         keyLight.castShadow = true;
         keyLight.shadow.mapSize.width = 1024;
         keyLight.shadow.mapSize.height = 1024;
+        keyLight.shadow.bias = -0.0005;
         scene.add(keyLight);
 
-        // Fill light (side se)
-        const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        fillLight.position.set(-5, 5, -5);
-        scene.add(fillLight);
+        // NEON CYAN LIGHT (Left Side)
+        const cyanLight = new THREE.PointLight(0x00ffff, 30, 20);
+        cyanLight.position.set(-4, 2, 3);
+        scene.add(cyanLight);
 
-        // Peeche se ek light taaki edges clear dikhein
-        const backLight = new THREE.DirectionalLight(0xffffff, 1);
-        backLight.position.set(0, 5, -10);
-        scene.add(backLight);
+        // NEON MAGENTA/PINK LIGHT (Right Side)
+        const magentaLight = new THREE.PointLight(0xff00ff, 30, 20);
+        magentaLight.position.set(4, 1, -2);
+        scene.add(magentaLight);
 
-        // --- 5. Controls ---
+        // 5. Controls
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
@@ -200,13 +206,14 @@
             TWO: THREE.TOUCH.DOLLY_PAN
         };
         controls.autoRotate = true;
-        controls.autoRotateSpeed = 1.5;
+        // Slow cinematic rotation
+        controls.autoRotateSpeed = 1.0; 
         
         controls.addEventListener('start', () => {
             controls.autoRotate = false;
         });
 
-        // --- 6. Model Loading ---
+        // 6. Model Loading
         const loader = new GLTFLoader();
         const loadingEl = document.getElementById('loading');
         const errorEl = document.getElementById('error');
@@ -220,17 +227,17 @@
                 
                 const model = gltf.scene;
 
+                // Sabhi meshes par shadow enable karna (Original materials untouched)
                 model.traverse((child) => {
                     if (child.isMesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
-                        // Materials untouched - Original look preserved
                     }
                 });
 
                 scene.add(model);
 
-                // --- 7. Auto-Center and Frame ---
+                // 7. Auto-Center and Frame
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
@@ -243,7 +250,8 @@
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
                 
-                cameraZ *= 1.3; 
+                // Model ko screen par bada dikhane ke liye padding 1.1 ki hai
+                cameraZ *= 1.1; 
 
                 camera.position.set(0, 0, cameraZ);
                 camera.lookAt(0, 0, 0);
@@ -251,7 +259,7 @@
                 controls.target.set(0, 0, 0);
                 controls.update();
 
-                // Animations
+                // Animations if any
                 if (gltf.animations && gltf.animations.length > 0) {
                     const mixer = new THREE.AnimationMixer(model);
                     const action = mixer.clipAction(gltf.animations[0]);
@@ -279,7 +287,7 @@
             }
         );
 
-        // --- 8. Animation Loop ---
+        // 8. Animation Loop
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
@@ -287,7 +295,7 @@
         }
         animate();
 
-        // --- 9. Resize ---
+        // 9. Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
