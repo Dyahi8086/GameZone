@@ -13,13 +13,12 @@
 
         body {
             overflow: hidden;
-            background-color: #000000; /* Pitch Black */
+            background-color: #000000;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffffff;
             touch-action: none;
         }
 
-        /* UI Overlay */
         .ui-container {
             position: absolute;
             top: 0;
@@ -40,7 +39,6 @@
             margin-top: 10px;
         }
 
-        /* GAMEZONE Text with Neon Glow */
         .header h1 {
             font-size: 2.8rem;
             font-weight: 900;
@@ -48,7 +46,6 @@
             color: #ffffff;
             text-transform: uppercase;
             margin-bottom: 5px;
-            /* Blue/Cyan Neon Glow */
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 
                          0 0 20px rgba(0, 255, 255, 0.6), 
                          0 0 40px rgba(0, 255, 255, 0.4);
@@ -72,12 +69,11 @@
             border-radius: 30px;
             backdrop-filter: blur(8px);
             margin-bottom: 20px;
-            border: 1px solid rgba(0, 255, 255, 0.3); /* Neon border */
+            border: 1px solid rgba(0, 255, 255, 0.3);
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
             letter-spacing: 1px;
         }
 
-        /* Loading & Error Messages */
         #loading, #error {
             position: absolute;
             top: 50%;
@@ -94,7 +90,7 @@
 
         #loading {
             background: rgba(10, 10, 10, 0.9);
-            color: #00ffff; /* Neon Cyan text */
+            color: #00ffff;
             border: 1px solid #00ffff;
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
@@ -148,54 +144,54 @@
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // 1. Scene Setup
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x000000); 
-        // Halka sa fog taaki door ka background aur dark lage (Depth create karne ke liye)
-        scene.fog = new THREE.FogExp2(0x000000, 0.05); 
 
-        // 2. Camera Setup
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 1, 5);
 
-        // 3. Renderer Setup
         const renderer = new THREE.WebGLRenderer({ 
             antialias: true, 
             alpha: false,
             powerPreference: "high-performance" 
         });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Thoda sharp render
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         renderer.shadowMap.enabled = true; 
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
+        // EXPOSURE BADHAYA HAI TAAKI MODEL BRIGHT DIKHE
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2; 
+        
         document.body.appendChild(renderer.domElement);
 
-        // 4. Cyberpunk/Neon Lighting Setup
-        // Base ambient light (Original colors ko sahi dikhane ke liye)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+        // Lighting
+        // Ambient light badha di hai taaki original colors pop ho
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
         scene.add(ambientLight);
 
-        // Main Front Light
-        const keyLight = new THREE.DirectionalLight(0xffffff, 2);
+        const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
         keyLight.position.set(5, 10, 7);
         keyLight.castShadow = true;
         keyLight.shadow.mapSize.width = 1024;
         keyLight.shadow.mapSize.height = 1024;
-        keyLight.shadow.bias = -0.0005;
         scene.add(keyLight);
 
-        // NEON CYAN LIGHT (Left Side)
-        const cyanLight = new THREE.PointLight(0x00ffff, 30, 20);
+        // Side lights
+        const leftLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        leftLight.position.set(-5, 5, 5);
+        scene.add(leftLight);
+
+        // Neon lights thodi aur bright kar di hain
+        const cyanLight = new THREE.PointLight(0x00ffff, 50, 20);
         cyanLight.position.set(-4, 2, 3);
         scene.add(cyanLight);
 
-        // NEON MAGENTA/PINK LIGHT (Right Side)
-        const magentaLight = new THREE.PointLight(0xff00ff, 30, 20);
+        const magentaLight = new THREE.PointLight(0xff00ff, 50, 20);
         magentaLight.position.set(4, 1, -2);
         scene.add(magentaLight);
 
-        // 5. Controls
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
@@ -206,14 +202,12 @@
             TWO: THREE.TOUCH.DOLLY_PAN
         };
         controls.autoRotate = true;
-        // Slow cinematic rotation
         controls.autoRotateSpeed = 1.0; 
         
         controls.addEventListener('start', () => {
             controls.autoRotate = false;
         });
 
-        // 6. Model Loading
         const loader = new GLTFLoader();
         const loadingEl = document.getElementById('loading');
         const errorEl = document.getElementById('error');
@@ -227,17 +221,19 @@
                 
                 const model = gltf.scene;
 
-                // Sabhi meshes par shadow enable karna (Original materials untouched)
                 model.traverse((child) => {
                     if (child.isMesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
+                        // Agar model bahut dark hai, toh material ko thoda bright kar sakte hain (Optional)
+                        if(child.material) {
+                            child.material.toneMapped = false; // Isse colors aur bright dikhenge
+                        }
                     }
                 });
 
                 scene.add(model);
 
-                // 7. Auto-Center and Frame
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
@@ -250,7 +246,6 @@
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
                 
-                // Model ko screen par bada dikhane ke liye padding 1.1 ki hai
                 cameraZ *= 1.1; 
 
                 camera.position.set(0, 0, cameraZ);
@@ -259,7 +254,6 @@
                 controls.target.set(0, 0, 0);
                 controls.update();
 
-                // Animations if any
                 if (gltf.animations && gltf.animations.length > 0) {
                     const mixer = new THREE.AnimationMixer(model);
                     const action = mixer.clipAction(gltf.animations[0]);
@@ -287,7 +281,6 @@
             }
         );
 
-        // 8. Animation Loop
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
@@ -295,7 +288,6 @@
         }
         animate();
 
-        // 9. Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
