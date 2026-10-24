@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GameZone - 3D Experience</title>
+    <title>GameZone - Cyberpunk Car</title>
     <style>
         * {
             margin: 0;
@@ -11,14 +11,23 @@
             box-sizing: border-box;
         }
 
+        /* Page scroll enable kar diya hai */
         body {
-            overflow: hidden;
             background-color: #000000;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffffff;
-            touch-action: none;
+            /* touch-action: none;  <- Ise hata diya taaki page scroll ho sake */
         }
 
+        /* 3D Canvas Section */
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh; /* Car poori screen par dikhegi */
+            overflow: hidden;
+        }
+
+        /* UI Overlay */
         .ui-container {
             position: absolute;
             top: 0;
@@ -39,6 +48,7 @@
             margin-top: 10px;
         }
 
+        /* GAMEZONE Text */
         .header h1 {
             font-size: 2.8rem;
             font-weight: 900;
@@ -74,6 +84,7 @@
             letter-spacing: 1px;
         }
 
+        /* Loading & Error */
         #loading, #error {
             position: absolute;
             top: 50%;
@@ -106,29 +117,47 @@
 
         canvas {
             display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             outline: none;
+        }
+
+        /* Niche scroll karne ke liye thoda space (Testing ke liye) */
+        .next-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            color: #555;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
 
-    <div class="ui-container">
-        <div class="header">
-            <h1>GameZone</h1>
-            <p>3D Experience</p>
+    <!-- Car Section -->
+    <div id="canvas-container">
+        <div class="ui-container">
+            <div class="header">
+                <h1>GameZone</h1>
+                <p>Cyberpunk Experience</p>
+            </div>
+            <div class="hint">
+                Drag to rotate · Scroll/Pinch to zoom
+            </div>
         </div>
-        <div class="hint">
-            Drag to rotate · Pinch to zoom
-        </div>
+
+        <div id="loading">Loading Car...</div>
+        <div id="error"></div>
     </div>
 
-    <div id="loading">Loading Experience...</div>
-    <div id="error"></div>
+    <!-- Niche ka page (Testing ke liye ki scroll chal raha hai) -->
+    <div class="next-section">
+        ↓ Scroll Down for Games ↓
+    </div>
 
     <script type="importmap">
         {
@@ -144,121 +173,117 @@
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+        // 1. Scene Setup
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x000000); 
 
+        // 2. Camera Setup
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 1, 5);
 
-        const renderer = new THREE.WebGLRenderer({ 
-            antialias: true, 
-            alpha: false,
-            powerPreference: "high-performance" 
-        });
+        // 3. Renderer Setup
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
-        renderer.shadowMap.enabled = true; 
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
-        // EXPOSURE BADHAYA HAI TAAKI MODEL BRIGHT DIKHE
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.2; 
         
-        document.body.appendChild(renderer.domElement);
+        // Canvas ko container ke andar daala
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // Lighting
-        // Ambient light badha di hai taaki original colors pop ho
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
+        // 4. Lighting (Cyberpunk Vibe)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
         scene.add(ambientLight);
 
         const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
         keyLight.position.set(5, 10, 7);
-        keyLight.castShadow = true;
-        keyLight.shadow.mapSize.width = 1024;
-        keyLight.shadow.mapSize.height = 1024;
         scene.add(keyLight);
 
-        // Side lights
-        const leftLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        leftLight.position.set(-5, 5, 5);
-        scene.add(leftLight);
-
-        // Neon lights thodi aur bright kar di hain
-        const cyanLight = new THREE.PointLight(0x00ffff, 50, 20);
-        cyanLight.position.set(-4, 2, 3);
+        // Neon Lights (Car ke colors ko pop karne ke liye)
+        const cyanLight = new THREE.PointLight(0x00ffff, 60, 25);
+        cyanLight.position.set(-5, 2, 5);
         scene.add(cyanLight);
 
-        const magentaLight = new THREE.PointLight(0xff00ff, 50, 20);
-        magentaLight.position.set(4, 1, -2);
+        const magentaLight = new THREE.PointLight(0xff00ff, 60, 25);
+        magentaLight.position.set(5, 2, -5);
         scene.add(magentaLight);
 
+        // 5. Controls (Zoom aur Rotate fix)
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
-        controls.enableZoom = true;
-        controls.enablePan = false; 
+        controls.enableZoom = true; 
+        controls.enablePan = false; // Car ko screen se bahar jaane se rokega
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
             TWO: THREE.TOUCH.DOLLY_PAN
         };
+        
+        // Auto rotate car ke liye (shuru mein)
         controls.autoRotate = true;
-        controls.autoRotateSpeed = 1.0; 
+        controls.autoRotateSpeed = 1.5;
         
         controls.addEventListener('start', () => {
-            controls.autoRotate = false;
+            controls.autoRotate = false; // Jab user touch kare toh ghoomna band
         });
 
+        // 6. Model Loading (CYBERPUNK CAR)
         const loader = new GLTFLoader();
         const loadingEl = document.getElementById('loading');
         const errorEl = document.getElementById('error');
-
-        const modelPath = './character_fight.glb';
+        
+        // TUMHARI NAYI CAR FILE KA NAAM YAHAN HAI
+        const modelPath = './cyberpunk_car.glb'; 
 
         loader.load(
             modelPath,
             (gltf) => {
                 loadingEl.style.display = 'none';
-                
                 const model = gltf.scene;
 
                 model.traverse((child) => {
                     if (child.isMesh) {
                         child.castShadow = true;
                         child.receiveShadow = true;
-                        // Agar model bahut dark hai, toh material ko thoda bright kar sakte hain (Optional)
+                        // Original colors ko preserve karne ke liye
                         if(child.material) {
-                            child.material.toneMapped = false; // Isse colors aur bright dikhenge
+                            child.material.toneMapped = false; 
                         }
                     }
                 });
 
                 scene.add(model);
 
+                // --- AUTO CENTER & FIT (Car ke hisaab se) ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
+                // Car ko center mein laao
                 model.position.x += (model.position.x - center.x);
                 model.position.y += (model.position.y - center.y);
                 model.position.z += (model.position.z - center.z);
 
+                // Car ka size calculate karke camera ko set karo
                 const maxDim = Math.max(size.x, size.y, size.z);
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
                 
-                cameraZ *= 1.1; 
+                // Car lambi hoti hai, isliye padding thodi badha di (1.4) taaki poori fit ho
+                cameraZ *= 1.4; 
 
-                camera.position.set(0, 0, cameraZ);
+                camera.position.set(0, 1, cameraZ); // Thoda upar se car dekhne ke liye
                 camera.lookAt(0, 0, 0);
 
                 controls.target.set(0, 0, 0);
                 controls.update();
 
+                // Animations (Agar car mein koi animation hai)
                 if (gltf.animations && gltf.animations.length > 0) {
                     const mixer = new THREE.AnimationMixer(model);
                     const action = mixer.clipAction(gltf.animations[0]);
                     action.play();
-
                     const clock = new THREE.Clock();
                     function animateMixer() {
                         requestAnimationFrame(animateMixer);
@@ -270,17 +295,18 @@
             (xhr) => {
                 if (xhr.total > 0) {
                     const percent = Math.round((xhr.loaded / xhr.total) * 100);
-                    loadingEl.textContent = `Loading... ${percent}%`;
+                    loadingEl.textContent = `Loading Car... ${percent}%`;
                 }
             },
             (error) => {
-                console.error('Error loading GLB model:', error);
+                console.error('Error:', error);
                 loadingEl.style.display = 'none';
                 errorEl.style.display = 'block';
-                errorEl.textContent = `Failed to load model.\n\nPlease check if "${modelPath}" exists.`;
+                errorEl.textContent = `Car load nahi hui. Check karo "${modelPath}" GitHub par upload hai ya nahi.`;
             }
         );
 
+        // 7. Animation Loop
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
@@ -288,6 +314,7 @@
         }
         animate();
 
+        // 8. Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
