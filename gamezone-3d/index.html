@@ -1,251 +1,251 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GameZone 3D Showcase</title>
-
-<style>
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  background: #e9e8df;
-}
-
-#stage {
-  position: fixed;
-  inset: 0;
-  touch-action: none;
-}
-
-header {
-  position: absolute;
-  top: 22px;
-  left: 6%;
-  z-index: 2;
-  pointer-events: none;
-  color: #25282d;
-}
-
-h1 {
-  margin: 0;
-  font-size: clamp(25px, 6vw, 42px);
-  letter-spacing: 4px;
-}
-
-header p {
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: #666;
-}
-
-#status {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  background: #ffffffd9;
-  color: #333;
-  padding: 10px 15px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-</style>
-
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-  }
-}
-</script>
-</head>
-
-<body>
-
-<header>
-  <h1>GAMEZONE</h1>
-  <p>3D CAR EXPERIENCE</p>
-</header>
-
-<div id="stage"></div>
-<div id="status">Loading 3D model...</div>
-
-<script type="module">
-const status = document.getElementById("status");
-
-try {
-  const THREE = await import("three");
-
-  const { GLTFLoader } = await import(
-    "three/addons/loaders/GLTFLoader.js"
-  );
-
-  const { OrbitControls } = await import(
-    "three/addons/controls/OrbitControls.js"
-  );
-
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xe9e8df);
-
-  const camera = new THREE.PerspectiveCamera(
-    40, innerWidth / innerHeight, 0.1, 1000
-  );
-
-  const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    powerPreference: "high-performance"
-  });
-
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
-
-  document.getElementById("stage").appendChild(renderer.domElement);
-
-  // Studio lighting — does not recolor the model materials
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xb4b2a8, 2));
-
-  const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
-  keyLight.position.set(5, 8, 6);
-  scene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0xffffff, 1.2);
-  fillLight.position.set(-5, 4, -3);
-  scene.add(fillLight);
-
-  // Neutral studio floor
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(200, 200),
-    new THREE.MeshStandardMaterial({
-      color: 0xe9e8df,
-      roughness: 0.9
-    })
-  );
-
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -0.03;
-  scene.add(floor);
-
-  const controls = new OrbitControls(
-    camera, renderer.domElement
-  );
-
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.06;
-  controls.enablePan = false;
-  controls.enableZoom = true;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.8;
-  controls.minDistance = 2;
-  controls.maxDistance = 15;
-  controls.minPolarAngle = 0.25;
-  controls.maxPolarAngle = Math.PI / 2.05;
-
-  const loader = new GLTFLoader();
-
-  /*
-    IMPORTANT:
-    Change MODEL_FILE to the exact name of your downloaded
-    model file after uploading it beside index.html.
-  */
-  const MODEL_FILE = "./cartoon_sports_car.glb";
-
-  loader.load(
-    MODEL_FILE,
-
-    (gltf) => {
-      const model = gltf.scene;
-
-      // Preserve original materials, textures and colors.
-      // No color-changing code is applied.
-
-      const box = new THREE.Box3().setFromObject(model);
-      const size = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
-
-      const largest = Math.max(size.x, size.y, size.z);
-
-      if (!largest || !Number.isFinite(largest)) {
-        status.textContent = "Model dimensions could not be read.";
-        return;
-      }
-
-      const scale = 3.5 / largest;
-      model.scale.setScalar(scale);
-
-      model.position.set(
-        -center.x * scale,
-        -box.min.y * scale,
-        -center.z * scale
-      );
-
-      scene.add(model);
-
-      const fittedBox = new THREE.Box3().setFromObject(model);
-      const fittedSize = fittedBox.getSize(new THREE.Vector3());
-      const fittedCenter = fittedBox.getCenter(new THREE.Vector3());
-
-      controls.target.set(
-        fittedCenter.x,
-        fittedBox.min.y + fittedSize.y * 0.4,
-        fittedCenter.z
-      );
-
-      camera.position.set(
-        fittedCenter.x + 5,
-        fittedCenter.y + 2.5,
-        fittedCenter.z + 6
-      );
-
-      controls.update();
-      controls.saveState();
-
-      status.textContent = "Drag to rotate · Pinch to zoom";
-    },
-
-    (event) => {
-      if (event.total > 0) {
-        status.textContent =
-          "Loading model... " +
-          Math.round(event.loaded / event.total * 100) + "%";
-      }
-    },
-
-    (error) => {
-      console.error("Model loading error:", error);
-      status.textContent =
-        "Model not found. Check the exact file name.";
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GameZone | 3D Experience</title>  <style>
+    * {
+      box-sizing: border-box;
     }
-  );
 
-  function animate() {
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
-  }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #e9e8e5;
+      font-family: Arial, sans-serif;
+    }
 
-  animate();
+    #scene {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+    }
 
-  window.addEventListener("resize", () => {
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-  });
+    .header {
+      position: fixed;
+      top: 24px;
+      left: 22px;
+      z-index: 2;
+      pointer-events: none;
+    }
 
-} catch (error) {
-  console.error(error);
-  status.textContent = "3D viewer error: " + error.message;
-}
-</script>
+    .logo {
+      font-size: 35px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 3px;
+      color: #252525;
+    }
 
-</body>
+    .subtitle {
+      margin-top: 8px;
+      font-size: 13px;
+      letter-spacing: 4px;
+      font-style: italic;
+      color: #555;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      white-space: nowrap;
+      padding: 15px 23px;
+      border-radius: 40px;
+      background: rgba(255,255,255,0.88);
+      color: #333;
+      font-size: 13px;
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    #message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+      text-align: center;
+      color: #333;
+      font-size: 15px;
+      line-height: 1.6;
+      z-index: 3;
+    }
+  </style></head><body>
+  <div class="header">
+    <div class="logo">GAMEZONE</div>
+    <div class="subtitle">3D EXPERIENCE</div>
+  </div><canvas id="scene"></canvas>
+
+  <div class="hint">Drag to rotate · Pinch to zoom</div>
+  <div id="message">Loading 3D model...</div>  <script type="module">
+    import * as THREE from
+      "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+
+    import { GLTFLoader } from
+      "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js";
+
+    import { OrbitControls } from
+      "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+    const MODEL_FILE = "./character_fight.glb";
+
+    const canvas = document.getElementById("scene");
+    const message = document.getElementById("message");
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#e9e8e5");
+
+    const camera = new THREE.PerspectiveCamera(
+      35,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+
+    camera.position.set(4, 3, 6);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: false
+    });
+
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio, 2)
+    );
+
+    renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
+
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xb8b4ae, 2));
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    keyLight.position.set(5, 8, 6);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    fillLight.position.set(-5, 3, -4);
+    scene.add(fillLight);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.enablePan = false;
+    controls.enableZoom = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.0;
+    controls.minDistance = 1;
+    controls.maxDistance = 30;
+    controls.target.set(0, 0.8, 0);
+
+    const ground = new THREE.Mesh(
+      new THREE.CircleGeometry(4, 96),
+      new THREE.MeshStandardMaterial({
+        color: "#d0cfcd",
+        roughness: 1
+      })
+    );
+
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.04;
+    scene.add(ground);
+
+    const loader = new GLTFLoader();
+
+    loader.load(
+      MODEL_FILE,
+
+      (gltf) => {
+        const model = gltf.scene;
+
+        // Original model materials and textures are retained.
+        scene.add(model);
+
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+
+        const maxDimension = Math.max(size.x, size.y, size.z);
+
+        if (maxDimension > 0) {
+          const scale = 2.5 / maxDimension;
+          model.scale.multiplyScalar(scale);
+        }
+
+        // Center the model in the viewing area.
+        const scaledBox = new THREE.Box3().setFromObject(model);
+        const scaledCenter = scaledBox.getCenter(new THREE.Vector3());
+
+        model.position.x -= scaledCenter.x;
+        model.position.z -= scaledCenter.z;
+        model.position.y -= scaledBox.min.y;
+
+        const finalBox = new THREE.Box3().setFromObject(model);
+        const finalSize = finalBox.getSize(new THREE.Vector3());
+        const height = Math.max(finalSize.y, 1);
+
+        ground.scale.setScalar(
+          Math.max(finalSize.x, finalSize.z, height) * 0.85
+        );
+
+        controls.target.set(
+          0,
+          height * 0.45,
+          0
+        );
+
+        camera.position.set(
+          height * 1.5,
+          height * 1.0,
+          height * 2.5
+        );
+
+        controls.minDistance = height * 0.7;
+        controls.maxDistance = height * 8;
+
+        controls.update();
+
+        message.style.display = "none";
+      },
+
+      undefined,
+
+      (error) => {
+        console.error("Model loading error:", error);
+        message.style.display = "block";
+        message.textContent =
+          "Model load nahi hua. File name aur upload check karo.";
+      }
+    );
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+      );
+    });
+  </script></body>
 </html>
