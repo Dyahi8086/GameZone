@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>GameZone - Premium Arcane Experience</title>
+    <title>GameZone - Premium Experience</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
@@ -19,7 +19,94 @@
             overflow: hidden;
         }
 
-        /* --- 1. HOME SCREEN (3D Model) --- */
+        /* ========================================= */
+        /* --- 1. STYLISH ANIME INTRO ANIMATION --- */
+        /* ========================================= */
+        #intro-loader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        
+        #intro-loader.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .anime-text {
+            font-size: clamp(2rem, 10vw, 4rem);
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 10px;
+            position: relative;
+            text-transform: uppercase;
+            /* Neon Glitch Effect */
+            animation: glitch 1.5s infinite alternate, pulse-glow 1s infinite alternate;
+        }
+
+        .anime-text::before, .anime-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
+        }
+
+        .anime-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff0055;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .anime-text::after {
+            left: -2px;
+            text-shadow: 2px 0 #00ffff;
+            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #ff0055, 0 0 30px #ff0055; }
+            to { text-shadow: 0 0 20px #fff, 0 0 40px #00ffff, 0 0 60px #00ffff; }
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 50% 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(40% 0 40% 0); }
+        }
+
+        /* ========================================= */
+        /* --- 2. HOME SCREEN (3D MODEL) --- */
+        /* ========================================= */
         #home-screen {
             position: absolute;
             top: 0; left: 0;
@@ -28,17 +115,20 @@
             z-index: 10;
             background-color: #f3f4f6;
         }
+
         #home-screen.hidden {
             opacity: 0;
             transform: scale(1.05); 
             pointer-events: none;
         }
+
         #canvas-container {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%; 
             z-index: 1;
         }
+
         .ui-container {
             position: absolute;
             top: 0; left: 0;
@@ -51,6 +141,7 @@
             padding: 40px 20px;
             z-index: 10;
         }
+
         .header h1 {
             font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 900;
@@ -59,12 +150,14 @@
             color: #000;
             text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
         }
+
         .bottom-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
         }
+
         .enter-btn {
             pointer-events: auto;
             font-family: 'Orbitron', sans-serif;
@@ -80,26 +173,16 @@
             text-transform: uppercase;
             transition: 0.3s;
         }
+
         .enter-btn:hover, .enter-btn:active { 
             background: #000; 
             color: #ff69b4; 
             box-shadow: 0 0 30px #ff69b4; 
             transform: scale(1.05);
         }
-        #loading {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1rem;
-            font-weight: 700;
-            z-index: 100;
-            color: #000;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
         /* ========================================= */
-        /* --- 2. PREMIUM ARCANE DASHBOARD --- */
+        /* --- 3. PREMIUM DASHBOARD SCREEN --- */
         /* ========================================= */
         #dashboard-screen {
             position: absolute;
@@ -114,15 +197,14 @@
             transition: opacity 0.5s ease;
             z-index: 5;
             overflow-y: auto;
-            overflow-x: hidden;
         }
+
         #dashboard-screen.active {
             opacity: 1;
             pointer-events: auto;
             z-index: 20;
         }
 
-        /* Top Nav */
         .top-nav {
             display: flex;
             justify-content: space-between;
@@ -135,7 +217,9 @@
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
+
         .nav-logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 3px; color: #fff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
+        
         .back-btn {
             background: transparent; color: #00ffff; border: 1px solid #00ffff;
             padding: 8px 20px; border-radius: 4px; font-family: 'Orbitron', sans-serif;
@@ -143,12 +227,12 @@
         }
         .back-btn:hover { background: #00ffff; color: #000; box-shadow: 0 0 20px #00ffff; }
 
-        /* Hero Banner (Arcane Style) */
+        /* Hero Banner */
         .hero-banner {
             position: relative;
             width: 90%;
             max-width: 1000px;
-            height: 300px;
+            height: 250px;
             margin: 30px auto;
             background: linear-gradient(135deg, #e2e8f0 0%, #ffffff 100%);
             border-radius: 20px;
@@ -159,11 +243,11 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .hero-banner h1 {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: 900;
             color: transparent;
             -webkit-text-stroke: 2px #3b82f6;
-            opacity: 0.3;
+            opacity: 0.2;
             position: absolute;
             letter-spacing: 10px;
             white-space: nowrap;
@@ -214,7 +298,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        /* THE 3D TILT EFFECT */
         .game-card:hover {
             transform: translateY(-10px) rotateX(8deg) rotateY(-8deg) scale(1.05);
             box-shadow: -15px 20px 50px rgba(255, 0, 85, 0.4);
@@ -286,7 +369,7 @@
         }
 
         @media (max-width: 768px) {
-            .hero-banner { height: 200px; }
+            .hero-banner { height: 180px; }
             .hero-banner h1 { font-size: 2.5rem; }
             .games-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 10px 15px 50px; }
             .game-card { height: 220px; border-radius: 10px; }
@@ -302,9 +385,14 @@
 </head>
 <body>
 
-    <!-- 1. HOME SCREEN (3D Model) -->
+    <!-- 1. ANIME INTRO LOADER -->
+    <div id="intro-loader">
+        <div class="anime-text" data-text="GAMEZONE">GAMEZONE</div>
+    </div>
+
+    <!-- 2. HOME SCREEN (3D Model) -->
     <div id="home-screen">
-        <div id="loading">Loading Experience...</div>
+        <div id="loading" style="display:none;">Loading...</div> <!-- Hidden, intro loader handles it -->
         <div id="canvas-container"></div>
         <div class="ui-container">
             <div class="header">
@@ -316,24 +404,21 @@
         </div>
     </div>
 
-    <!-- 2. DASHBOARD SCREEN (Arcane Style) -->
+    <!-- 3. DASHBOARD SCREEN -->
     <div id="dashboard-screen">
         <div class="top-nav">
             <div class="nav-logo">GAMEZONE</div>
             <button type="button" class="back-btn" id="backBtn">← RETURN TO 3D</button>
         </div>
 
-        <!-- Hero Banner -->
         <div class="hero-banner">
             <h1>JACK UI</h1>
-            <!-- Arcane Jinx Style Character Image -->
             <div class="hero-character" style="background-image: url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=600&auto=format&fit=crop'); width: 40%; right: 5%;"></div>
         </div>
 
         <h2 class="section-title">SELECT YOUR GAME</h2>
 
         <div class="games-grid">
-            <!-- Card 1 (Jinx Style - Cyan) -->
             <div class="game-card" style="border-color: rgba(0, 255, 255, 0.3);">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop');"></div>
                 <div class="play-action" style="background: #00ffff; color: #000; box-shadow: 0 0 20px #00ffff;">PLAY</div>
@@ -343,7 +428,6 @@
                 </div>
             </div>
 
-            <!-- Card 2 (Vi Style - Pink) -->
             <div class="game-card" style="border-color: rgba(255, 0, 85, 0.3);">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=600&auto=format&fit=crop');"></div>
                 <div class="play-action" style="background: #ff0055; box-shadow: 0 0 20px #ff0055;">PLAY</div>
@@ -353,7 +437,6 @@
                 </div>
             </div>
 
-            <!-- Card 3 (Mel Style - Yellow/Orange) -->
             <div class="game-card" style="border-color: rgba(255, 165, 0, 0.3);">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=600&auto=format&fit=crop');"></div>
                 <div class="play-action" style="background: orange; color: #000; box-shadow: 0 0 20px orange;">PLAY</div>
@@ -381,7 +464,15 @@
         import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
         import { RoomEnvironment } from 'https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
 
-        // --- UI LOGIC ---
+        // --- 1. INTRO ANIMATION LOGIC ---
+        window.addEventListener('load', () => {
+            // 2.5 second baad intro loader gayab ho jayega
+            setTimeout(() => {
+                document.getElementById('intro-loader').classList.add('hide');
+            }, 2500); 
+        });
+
+        // --- 2. UI LOGIC ---
         const enterBtn = document.getElementById('enterBtn');
         const backBtn = document.getElementById('backBtn');
         const homeScreen = document.getElementById('home-screen');
@@ -399,7 +490,7 @@
             setTimeout(() => { homeScreen.classList.remove('hidden'); }, 300);
         });
 
-        // --- 3D SETUP ---
+        // --- 3. 3D SETUP (STRICT ZOOM LOCK) ---
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xf3f4f6); 
 
@@ -410,6 +501,7 @@
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.3; 
+        
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -419,6 +511,7 @@
         scene.add(ambientLight);
         const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
         topLight.position.set(0, 20, 10);
+        topLight.castShadow = true;
         scene.add(topLight);
 
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -426,56 +519,36 @@
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
         controls.enablePan = false; 
+        
         controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
         controls.autoRotate = true;
         controls.autoRotateSpeed = 1.0;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
 
         const loader = new GLTFLoader();
-        const loadingEl = document.getElementById('loading');
         const modelPath = './smol_ame_in_an_upcycled_terrarium_hololiveen.glb'; 
 
         loader.load(
             modelPath,
             (gltf) => {
-                loadingEl.style.display = 'none';
                 const model = gltf.scene;
+
                 model.traverse((child) => {
                     if (child.isMesh) {
-                        if(child.material) { child.material.toneMapped = false; }
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        if(child.material) { 
+                            child.material.toneMapped = false; 
+                            child.material.envMapIntensity = 1.5; 
+                        }
                     }
                 });
+
                 scene.add(model);
 
+                // 🔥 3D MODEL PERFECT CENTER & ZOOM LOCK 🔥
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
-                model.position.set(-center.x, -center.y, -center.z);
 
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const fixedDistance = maxDim * 2.0; 
-                camera.position.set(fixedDistance * 0.4, fixedDistance * 0.3, fixedDistance * 0.9); 
-                controls.target.set(0, 0, 0);
-                controls.minDistance = fixedDistance * 1.0; 
-                controls.maxDistance = fixedDistance * 1.8;
-                controls.update();
-            },
-            undefined,
-            () => { loadingEl.style.display = 'none'; alert("Model Load Failed!"); }
-        );
-
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update(); 
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
-</body>
-</html>
+ 
