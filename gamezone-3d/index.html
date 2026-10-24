@@ -3,19 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- SEO & Meta Tags -->
-    <title>GameZone - Cyberpunk 3D Experience</title>
-    <meta name="description" content="Experience the ultimate Cyberpunk 3D Car showroom. Drag to rotate, pinch to zoom and explore the future of gaming.">
-    <meta property="og:title" content="GameZone - Cyberpunk 3D Experience">
-    <meta property="og:description" content="Explore our premium 3D interactive car.">
-    <meta property="og:type" content="website">
-
-    <!-- Google Fonts (Orbitron for Cyberpunk Vibe) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-
+    <title>GameZone - Cyberpunk Car</title>
     <style>
         * {
             margin: 0;
@@ -24,29 +12,25 @@
         }
 
         body {
-            background-color: #0d0d0d; 
-            font-family: 'Orbitron', sans-serif; /* Futuristic Font */
+            background-color: #1a1a1a; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #ffffff;
-            overflow: hidden;
         }
 
         #canvas-container {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
             width: 100vw;
             height: 100vh; 
-            z-index: 1;
+            overflow: hidden;
         }
 
-        /* UI Overlay */
         .ui-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* 3D canvas touch pass ho */
+            pointer-events: none; 
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -57,169 +41,89 @@
 
         .header {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .header h1 {
-            font-size: clamp(2rem, 8vw, 3.5rem); /* Mobile pe auto adjust */
+            font-size: 2.8rem;
             font-weight: 900;
-            letter-spacing: 8px;
+            letter-spacing: 5px;
             color: #ffffff;
             text-transform: uppercase;
-            margin-bottom: 10px;
-            /* Double Neon Glow */
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #ff00ff;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
         }
 
         .header p {
-            font-size: clamp(0.7rem, 3vw, 1rem);
-            font-weight: 700;
-            color: #00ffff;
-            letter-spacing: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #a0a0a0;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-
-        /* Bottom Section: Hint + CTA Button */
-        .bottom-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
         }
 
         .hint {
-            font-size: 0.8rem;
-            font-weight: 700;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: #e5e7eb;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px 25px;
+            background: rgba(20, 20, 20, 0.7);
+            padding: 10px 20px;
             border-radius: 30px;
             backdrop-filter: blur(8px);
-            border: 1px solid #ff00ff;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
-            letter-spacing: 2px;
-            pointer-events: auto;
-        }
-
-        /* ENTER GAMEZONE Button */
-        .enter-btn {
-            pointer-events: auto;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: #00ffff;
-            background: transparent;
-            padding: 15px 40px;
-            border: 2px solid #00ffff;
-            border-radius: 5px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-        }
-
-        .enter-btn:hover, .enter-btn:active {
-            background: #00ffff;
-            color: #000;
-            box-shadow: 0 0 30px #00ffff, inset 0 0 20px #ffffff;
-            text-shadow: none;
-            transform: scale(1.05);
-        }
-
-        /* Loading Screen (Progress Bar) */
-        #loading-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #0d0d0d;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            transition: opacity 0.8s ease;
-        }
-
-        .loader-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #00ffff;
-            letter-spacing: 3px;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px #00ffff;
-        }
-
-        .progress-bar-container {
-            width: 80%;
-            max-width: 400px;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
             border: 1px solid rgba(0, 255, 255, 0.3);
         }
 
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #00ffff, #ff00ff);
-            box-shadow: 0 0 15px #ff00ff;
-            transition: width 0.2s ease;
-        }
-
-        #error {
+        #loading, #error {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(50, 0, 0, 0.9);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 20;
+            text-align: center;
+        }
+
+        #loading {
+            background: rgba(10, 10, 10, 0.9);
+            color: #00ffff;
+            border: 1px solid #00ffff;
+        }
+
+        #error {
+            background: #2a0000;
             color: #ff5555;
             border: 2px solid #ff0000;
-            padding: 20px;
-            border-radius: 10px;
-            z-index: 110;
-            text-align: center;
             display: none;
-            font-family: monospace;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. LOADING SCREEN -->
-    <div id="loading-screen">
-        <div class="loader-text">INITIALIZING SYSTEM...</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-    </div>
-
-    <div id="error"></div>
-
-    <!-- 2. MAIN UI -->
-    <div class="ui-container">
-        <div class="header">
-            <h1>GameZone</h1>
-            <p>Cyberpunk Experience</p>
-        </div>
-        
-        <div class="bottom-section">
+    <div id="canvas-container">
+        <div class="ui-container">
+            <div class="header">
+                <h1>GameZone</h1>
+                <p>Cyberpunk Experience</p>
+            </div>
             <div class="hint">
                 Drag to rotate · Pinch to zoom
             </div>
-            <!-- CTA Button -->
-            <button class="enter-btn" id="enterBtn">Enter GameZone</button>
         </div>
-    </div>
 
-    <!-- 3. 3D CANVAS -->
-    <div id="canvas-container"></div>
+        <div id="loading">Car Loading...</div>
+        <div id="error"></div>
+    </div>
 
     <script type="importmap">
         {
@@ -236,89 +140,70 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-        // --- SETUP SCENE ---
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0d0d0d); 
-        // Fog se background thoda dark gradient jaisa lagega
-        scene.fog = new THREE.Fog(0x0d0d0d, 20, 50); 
+        scene.background = new THREE.Color(0x111111); 
 
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000); // Camera door tak dekh sake isliye 10000 kiya
         
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1.2; 
-        renderer.shadowMap.enabled = true; // Shadows enable
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // Environment Reflection
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // --- LIGHTS ---
         const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
         scene.add(ambientLight);
 
-        // Main Light (Shadow ke liye)
         const keyLight = new THREE.DirectionalLight(0xffffff, 3.0);
-        keyLight.position.set(10, 20, 10);
-        keyLight.castShadow = true;
-        keyLight.shadow.mapSize.width = 1024;
-        keyLight.shadow.mapSize.height = 1024;
+        keyLight.position.set(5, 10, 7);
         scene.add(keyLight);
 
-        // Neon Lights
-        const cyanLight = new THREE.PointLight(0x00ffff, 200, 50);
+        const cyanLight = new THREE.PointLight(0x00ffff, 150, 200);
         cyanLight.position.set(-10, 5, 5);
         scene.add(cyanLight);
 
-        const magentaLight = new THREE.PointLight(0xff00ff, 200, 50);
+        const magentaLight = new THREE.PointLight(0xff00ff, 150, 200);
         magentaLight.position.set(10, 5, -5);
         scene.add(magentaLight);
 
-        // --- CONTROLS ---
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
         controls.enableZoom = true; 
         controls.enablePan = false; 
         
+        // Zoom limits hata di hain taaki agar car bahut badi ho toh hum door ja sakein
+        // controls.minDistance = 3; 
+        // controls.maxDistance = 25;
+
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
             TWO: THREE.TOUCH.DOLLY_PAN
         };
         
         controls.autoRotate = true;
-        controls.autoRotateSpeed = 1.0;
-        
-        // User touch kare toh auto-rotate band
+        controls.autoRotateSpeed = 1.5;
         controls.addEventListener('start', () => { controls.autoRotate = false; });
 
-        // --- LOAD MODEL ---
         const loader = new GLTFLoader();
-        const progressBar = document.getElementById('progress-bar');
-        const loadingScreen = document.getElementById('loading-screen');
+        const loadingEl = document.getElementById('loading');
         const errorEl = document.getElementById('error');
         const modelPath = './cyberpunk_car.glb'; 
 
         loader.load(
             modelPath,
             (gltf) => {
-                // 1. Hide Loader
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => { loadingScreen.style.display = 'none'; }, 800);
-
+                loadingEl.style.display = 'none';
                 const model = gltf.scene;
 
-                // 2. Enable Shadows on car
                 model.traverse((child) => {
                     if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
                         if(child.material) { 
                             child.material.toneMapped = false; 
                             child.material.envMapIntensity = 1.5; 
@@ -328,59 +213,55 @@
 
                 scene.add(model);
 
-                // 3. Center the car & Fit Camera
+                // --- MAGIC FIT: AUTO CAMERA DISTANCE ---
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
 
+                // 1. Car ko exact center mein laao
                 model.position.x = -center.x;
                 model.position.y = -center.y;
                 model.position.z = -center.z;
 
+                // 2. Car ki sabse badi dimension (length ya width) nikaalo
                 const maxDim = Math.max(size.x, size.y, size.z);
+                
+                // 3. Camera ki Doori ka Formula (Math)
+                // FOV (45 degrees) ke hisaab se camera ko kitna door hona chahiye
                 const fov = camera.fov * (Math.PI / 180);
                 let distance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-                distance *= 1.6; 
+                
+                // 🔥 YAHAN ASLI FIX HAI: Distance ko 1.5x kar diya hai taaki car ke aas paas khali jagah bache
+                distance *= 1.5; 
 
-                camera.position.set(distance * 0.8, distance * 0.5, distance * 0.8);
+                // 4. Camera ko Perfect 3D Angle par set karo
+                // (Aage se, thoda upar se aur side se)
+                camera.position.set(distance * 0.8, distance * 0.6, distance * 0.8);
                 camera.lookAt(0, 0, 0);
-                controls.target.set(0, 0, 0);
-                controls.update();
 
-                // 4. ADD GROUND SHADOW (Floor)
-                // Ek invisible plane banaya jo shadow receive karega
-                const planeGeometry = new THREE.PlaneGeometry(100, 100);
-                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.4 }); // Sirf shadow dikhega
-                const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-                plane.rotation.x = -Math.PI / 2;
-                plane.position.y = -size.y / 2 - 0.05; // Car ke bilkul niche
-                plane.receiveShadow = true;
-                scene.add(plane);
+                // 5. Controls ko center par set karo
+                controls.target.set(0, 0, 0);
+                
+                // Camera ki min/max distance ko car ke size ke hisaab se set karo
+                controls.minDistance = maxDim * 0.5; 
+                controls.maxDistance = maxDim * 5.0;
+
+                controls.update();
             },
             (xhr) => {
-                // 5. Update Progress Bar
                 if (xhr.total > 0) {
-                    const percent = (xhr.loaded / xhr.total) * 100;
-                    progressBar.style.width = percent + '%';
-                } else {
-                    progressBar.style.width = '50%'; // Fake progress if total size unknown
+                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                    loadingEl.textContent = `Loading Car... ${percent}%`;
                 }
             },
             (error) => {
                 console.error('Error:', error);
-                loadingScreen.style.display = 'none';
+                loadingEl.style.display = 'none';
                 errorEl.style.display = 'block';
-                errorEl.textContent = `⚠️ Model Load Failed! Check if "${modelPath}" exists.`;
+                errorEl.textContent = `Model Load Failed!`;
             }
         );
 
-        // --- BUTTON CLICK LOGIC ---
-        document.getElementById('enterBtn').addEventListener('click', () => {
-            // Yahan tum aage ka page kholne ka code likhoge
-            alert("Welcome to GameZone! Games section coming soon...");
-        });
-
-        // --- ANIMATION LOOP ---
         function animate() {
             requestAnimationFrame(animate);
             controls.update(); 
@@ -388,7 +269,6 @@
         }
         animate();
 
-        // --- RESIZE ---
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
