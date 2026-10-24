@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>GameZone - Cyberpunk Car</title>
+    <title>GameZone - Hololive Experience</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: #e5e7eb; /* White/Grey */
+            background-color: #f3f4f6; /* Soft Pastel Grey Background */
             font-family: 'Orbitron', sans-serif;
             color: #000000;
             overflow: hidden;
         }
+
         #canvas-container {
             position: absolute;
             top: 0; left: 0;
             width: 100vw; height: 100vh; 
             z-index: 1;
         }
+
         .ui-container {
             position: absolute;
             top: 0; left: 0;
@@ -34,22 +37,28 @@
             padding: 40px 20px;
             z-index: 10;
         }
+
         .header { text-align: center; margin-top: 20px; }
+        
+        /* Text Color Pink/Cyan anime vibe ke liye */
         .header h1 {
             font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 900;
             letter-spacing: 8px;
             text-transform: uppercase;
             margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            color: #000;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.8); /* Pink Glow */
         }
+
         .header p {
             font-size: clamp(0.7rem, 3vw, 1rem);
             font-weight: 700;
-            color: #444;
+            color: #555;
             letter-spacing: 4px;
             text-transform: uppercase;
         }
+
         .bottom-section {
             display: flex;
             flex-direction: column;
@@ -57,6 +66,7 @@
             gap: 20px;
             margin-bottom: 20px;
         }
+
         .hint {
             font-size: 0.8rem;
             font-weight: 700;
@@ -65,7 +75,9 @@
             border-radius: 30px;
             border: 1px solid #000;
             pointer-events: auto;
+            backdrop-filter: blur(5px);
         }
+
         .enter-btn {
             pointer-events: auto;
             font-family: 'Orbitron', sans-serif;
@@ -81,7 +93,13 @@
             text-transform: uppercase;
             transition: 0.3s;
         }
-        .enter-btn:hover { background: #000; color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+
+        .enter-btn:hover, .enter-btn:active { 
+            background: #000; 
+            color: #ff69b4; /* Pink hover */
+            box-shadow: 0 0 20px #ff69b4; 
+        }
+
         #loading {
             position: absolute;
             top: 50%; left: 50%;
@@ -89,17 +107,18 @@
             font-size: 1.2rem;
             font-weight: 700;
             z-index: 100;
+            color: #000;
         }
     </style>
 </head>
 <body>
 
-    <div id="loading">Loading...</div>
+    <div id="loading">Loading Experience...</div>
 
     <div class="ui-container">
         <div class="header">
             <h1>GameZone</h1>
-            <p>Cyberpunk Experience</p>
+            <p>Hololive Experience</p>
         </div>
         <div class="bottom-section">
             <div class="hint">Drag to rotate · Pinch to zoom</div>
@@ -125,84 +144,122 @@
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xe5e7eb); 
+        // Background color exactly body se match kiya hai
+        scene.background = new THREE.Color(0xf3f4f6); 
 
-        // Standard Camera
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio); 
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
+        renderer.outputColorSpace = THREE.SRGBColorSpace; 
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2; 
+        renderer.toneMappingExposure = 1.3; // Thoda bright taaki colors pop karein
+        renderer.shadowMap.enabled = true; 
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // Lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
-        scene.add(ambientLight);
-        const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
-        topLight.position.set(0, 20, 0);
-        scene.add(topLight);
-        
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // Controls
+        // LIGHTS (Soft Studio Lighting for cute character)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
+        scene.add(ambientLight);
+
+        const topLight = new THREE.DirectionalLight(0xffffff, 3.0);
+        topLight.position.set(0, 20, 10);
+        topLight.castShadow = true;
+        scene.add(topLight);
+
+        const fillLight = new THREE.DirectionalLight(0xffffff, 2.0);
+        fillLight.position.set(10, 10, 10);
+        scene.add(fillLight);
+
+        // CONTROLS
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
+        controls.dampingFactor = 0.05;
+        controls.enableZoom = true; 
         controls.enablePan = false; 
+        
+        controls.touches = {
+            ONE: THREE.TOUCH.ROTATE,
+            TWO: THREE.TOUCH.DOLLY_PAN
+        };
+        
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.0;
+        controls.addEventListener('start', () => { controls.autoRotate = false; });
 
-        // Load Model
+        // LOAD MODEL (NAYA MODEL)
         const loader = new GLTFLoader();
         const loadingEl = document.getElementById('loading');
-        
-        loader.load('./cyberpunk_car.glb', (gltf) => {
-            loadingEl.style.display = 'none';
-            const model = gltf.scene;
-            
-            model.traverse((child) => {
-                if (child.isMesh && child.material) {
-                    child.material.toneMapped = false; 
-                }
-            });
+        // File ka naam exactly yahan hai
+        const modelPath = './smol_ame_in_an_upcycled_terrarium_hololiveen.glb'; 
 
-            // 1. MODEL KO SCENE MEIN DAALA
-            scene.add(model);
+        loader.load(
+            modelPath,
+            (gltf) => {
+                loadingEl.style.display = 'none';
+                const model = gltf.scene;
 
-            // 2. BOUNDING BOX SE CENTER NIKALA
-            const box = new THREE.Box3().setFromObject(model);
-            const center = box.getCenter(new THREE.Vector3());
-            const size = box.getSize(new THREE.Vector3());
+                // Original Colors preserve karne ke liye
+                model.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        if(child.material) { 
+                            child.material.toneMapped = false; 
+                            child.material.envMapIntensity = 1.5; 
+                        }
+                    }
+                });
 
-            // 3. MODEL KO EXACT CENTER PAR SHIFT KIYA
-            model.position.x = -center.x;
-            model.position.y = -center.y;
-            model.position.z = -center.z;
+                scene.add(model);
 
-            // 4. CAMERA KO FIXED DOORI PAR SET KIYA (Ye guarantee hai ki car dikhegi)
-            // Car ke size ka 3 guna door
-            const maxSize = Math.max(size.x, size.y, size.z);
-            const distance = maxSize * 3.0;
+                // --- 100% FIXED CENTER & ZOOM ---
+                const box = new THREE.Box3().setFromObject(model);
+                const size = box.getSize(new THREE.Vector3());
+                const center = box.getCenter(new THREE.Vector3());
 
-            camera.position.set(distance, distance * 0.5, distance);
-            camera.lookAt(0, 0, 0);
+                // Model ko exact center mein shift karo
+                model.position.x = -center.x;
+                model.position.y = -center.y;
+                model.position.z = -center.z;
 
-            // 5. ZOOM LOCK (Car na door jayegi na andar)
-            controls.target.set(0, 0, 0);
-            controls.minDistance = distance * 0.8; // Paas aane ki limit
-            controls.maxDistance = distance * 1.2; // Door jaane ki limit
-            
-            controls.update();
+                // Character ke liye perfect camera distance
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fixedDistance = maxDim * 2.0; // Character ke liye 2.0 best hai
 
-            // 6. CAR AUTO-ROTATE
-            controls.autoRotate = true;
-            controls.autoRotateSpeed = 1.5;
-            controls.addEventListener('start', () => { controls.autoRotate = false; });
+                camera.position.set(fixedDistance * 0.4, fixedDistance * 0.3, fixedDistance * 0.9); 
+                camera.lookAt(0, 0, 0);
+                
+                // Target hamesha center
+                controls.target.set(0, 0, 0);
+                
+                // Zoom limits (Character kabhi hide nahi hoga)
+                controls.minDistance = fixedDistance * 1.0; 
+                controls.maxDistance = fixedDistance * 1.8;
+                
+                controls.update();
 
-        }, undefined, (error) => {
-            loadingEl.style.display = 'none';
-            alert("Car model load nahi hui. Check karo file ka naam sahi hai.");
-        });
+                // Floor Shadow
+                const planeGeometry = new THREE.PlaneGeometry(100, 100);
+                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.15 }); // Light shadow
+                const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+                shadowPlane.rotation.x = -Math.PI / 2;
+                shadowPlane.position.y = -size.y / 2 - 0.05; 
+                shadowPlane.receiveShadow = true;
+                scene.add(shadowPlane);
+            },
+            undefined,
+            (error) => {
+                loadingEl.style.display = 'none';
+                alert("Model Load Failed! Check File Name in GitHub.");
+                console.error(error);
+            }
+        );
 
         document.getElementById('enterBtn').addEventListener('click', () => {
             alert("Welcome to GameZone!");
