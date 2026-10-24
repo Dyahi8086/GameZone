@@ -162,6 +162,7 @@
         import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
         const scene = new THREE.Scene();
+        // Ekdum Solid Light Grey Background
         scene.background = new THREE.Color(0xe5e7eb); 
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -180,27 +181,28 @@
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
 
-        // LIGHTS
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2.0); 
+        // --- BOHOT TEZ LIGHTS (Black car chamkane ke liye) ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.5); 
         scene.add(ambientLight);
 
-        const topLight = new THREE.DirectionalLight(0xffffff, 4.0);
+        const topLight = new THREE.DirectionalLight(0xffffff, 5.0);
         topLight.position.set(0, 20, 0);
         topLight.castShadow = true;
         scene.add(topLight);
 
-        const sideLight = new THREE.DirectionalLight(0xffffff, 3.0);
-        sideLight.position.set(10, 10, 10);
-        scene.add(sideLight);
+        const frontLight = new THREE.DirectionalLight(0xffffff, 4.0);
+        frontLight.position.set(0, 10, 20);
+        scene.add(frontLight);
 
-        // CONTROLS
+        // CONTROLS (Ekdum locked)
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; 
         controls.dampingFactor = 0.05;
-        
-        // 🔥 ZOOM FIX: Zoom ko limit kar diya hai
         controls.enableZoom = true; 
-        controls.enablePan = false; // Page move nahi hoga
+        
+        // 🔥 YAHAN PAN AUR ROTATE LOCK HAI
+        controls.enablePan = false; 
+        controls.rotateSpeed = 0.8; // Smooth rotate
         
         controls.touches = {
             ONE: THREE.TOUCH.ROTATE,
@@ -233,35 +235,36 @@
                     }
                 });
 
-                scene.add(model);
+                // 🔥 THE MAGIC FIX: CAR KO GROUP MEIN DAALA 🔥
+                // Isse car kabhi bhi screen se bahar nahi jayegi
+                const carGroup = new THREE.Group();
+                carGroup.add(model);
+                scene.add(carGroup);
 
-                // --- PERFECT FIT & ZOOM LOCK ---
+                // Car ko group ke andar exact center karo
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3());
                 const center = box.getCenter(new THREE.Vector3());
+                
+                model.position.set(-center.x, -center.y, -center.z);
 
-                // Car center
-                model.position.x = -center.x;
-                model.position.y = -center.y;
-                model.position.z = -center.z;
-
+                // Ab camera ko set karo
                 const maxDim = Math.max(size.x, size.y, size.z);
                 
-                // Initial camera position
-                const camDistance = maxDim * 4.0; 
-                camera.position.set(camDistance * 0.7, maxDim * 0.8, camDistance); 
+                // Fixed camera distance (Perfect fit)
+                const cameraDistance = maxDim * 3.0;
+                camera.position.set(cameraDistance * 0.6, cameraDistance * 0.3, cameraDistance * 0.8); 
                 camera.lookAt(0, 0, 0);
                 
+                // Controls ka target hamesha center (0,0,0) rahega
                 controls.target.set(0, 0, 0);
                 
-                // 🔥 ZOOM LIMITS (Sirf thoda sa zoom in/out hoga)
-                // Isse car kabhi background mein nahi jayegi
-                controls.minDistance = maxDim * 3.0; // Paas aane ki limit
-                controls.maxDistance = maxDim * 5.0; // Door jaane ki limit
-                
+                // Zoom limits (Bilkul tight)
+                controls.minDistance = maxDim * 2.0; 
+                controls.maxDistance = maxDim * 4.5;
                 controls.update();
 
-                // Floor Shadow
+                // Floor Shadow (Car ke niche)
                 const planeGeometry = new THREE.PlaneGeometry(100, 100);
                 const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.3 }); 
                 const shadowPlane = new THREE.Mesh(planeGeometry, planeMaterial);
