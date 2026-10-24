@@ -1,28 +1,64 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#09090b">
-<title>GameZone – Play Free Online Games</title><link rel="stylesheet" href="style.css"></head><body>
-<div class="stage"><div class="screen">
-<header class="top"><a class="logo" href="#hub">GAMEZONE<i>GAMING</i></a>
-<div class="qu"><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="3 4"/></svg><div><b id="qa">READY TO PLAY</b><small id="qb">PICK A GAME</small></div><em id="tm">0:00</em></div>
-<div class="sp"></div>
-<button class="ic" data-pres title="Presentation / full view"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 5h18v11H3zm2 2v7h14V7zm4 11h6v2H9z" fill-rule="evenodd"/></svg></button>
-<button class="ic" data-go="profile" title="Achievements"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22zm7-6v-5a7 7 0 0 0-5-6.7V3a2 2 0 0 0-4 0v1.3A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg></button>
-<button class="ic mail" data-go="hub" title="Library"><svg viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M3 5h18v14H3zm2 2v.5l7 5 7-5V7zm14 3l-7 5-7-5v7h14z"/></svg></button>
-<button class="wallet" data-go="profile"><span>⚡ My XP</span></button>
-<button class="user" id="rename" title="Change nickname"><span class="hx"><b id="av"></b></span><span class="who"><b id="nm">PLAYER ▾</b><i class="seg" id="seg"></i><small id="lvltxt"></small></span></button></header>
-<nav class="side"><a href="#hub" data-r="hub" title="Home"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg></a><hr>
-<a href="#" data-p="snake" class="gi g1" title="Play Snake"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/></svg></a>
-<a href="#tournament" data-r="tournament" class="gi g2" title="Challenge"><svg viewBox="0 0 24 24"><path d="M6 7h12L6 17h12" stroke="#e8212b" stroke-width="3.6" fill="none"/></svg></a>
-<a href="#profile" data-r="profile" class="gi g3" title="Profile"><svg viewBox="0 0 24 24"><path d="M8 19L14 5M13 20l6-14" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg></a>
-<span class="fill"></span>
-<a href="#" data-p="tetris" class="ci c1" title="Tetris"><svg viewBox="0 0 24 24"><path d="M12 4l7 4v8l-7 4-7-4V8z" fill="none" stroke="#fff" stroke-width="2.4"/></svg></a>
-<a href="#" data-p="2048" class="ci c2" title="2048"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="12" cy="12" r="2" fill="#fff"/></svg></a>
-<a href="#" data-p="pac" class="ci c3" title="Pac-Man"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="#111" stroke-width="2.6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="#111" stroke-width="2.6"/></svg></a>
-<a href="#hub" class="plus" title="Library">⊕</a></nav>
-<main id="view"></main>
-<aside class="rail"><small>MY RECENT</small><em id="today">0 today</em><div id="recent"></div></aside>
-</div></div>
-<div id="modal" hidden><div class="box"><div class="bar"><b>Snake</b><span id="sc">0</span><button id="pause">Pause</button><button id="close">✕</button></div>
-<canvas id="cv" width="300" height="300"></canvas>
-<div class="pad"><button data-d="U">▲</button><div><button data-d="L">◀</button><button data-d="D">▼</button><button data-d="R">▶</button></div></div></div></div>
-<script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050713">
+  <title>GAMEZONE — Enter Another World</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="boot"><div class="boot-logo">GAME<span>ZONE</span></div><div class="boot-line"><i></i></div><p>BUILDING YOUR WORLD</p></div>
+  <canvas id="world" aria-label="Interactive 3D GameZone world"></canvas>
+  <div class="grain"></div>
+  <header class="topbar">
+    <a class="brand" href="#" id="brand"><span class="brand-mark">G</span><span>GAMEZONE<small>PLAY BEYOND LIMITS</small></span></a>
+    <div class="top-right"><span class="live-dot"></span><span>WORLD ONLINE</span><button id="soundBtn" class="icon-btn" aria-label="Toggle sound effects">SFX <b>OFF</b></button></div>
+  </header>
+
+  <main>
+    <section id="entry" class="screen active">
+      <div class="eyebrow"><span></span> NEXT-GEN ARCADE EXPERIENCE</div>
+      <h1>YOUR WORLD.<br><em>YOUR RULES.</em></h1>
+      <p class="intro">Start your engine. Enter a universe built for players.</p>
+      <div class="entry-bottom">
+        <button id="enterBtn" class="enter-btn"><span>ENTER GAMEZONE</span><b>↗</b></button>
+        <div class="hint"><span class="hint-icon">↔</span> DRAG TO LOOK AROUND <span class="hint-sep">/</span> SCROLL TO EXPLORE</div>
+      </div>
+      <div class="scene-label"><span>01</span> THE GARAGE <i></i> CONCEPT CAR // 001</div>
+      <div class="side-note">DESIGNED FOR<br>THE FEARLESS</div>
+    </section>
+
+    <section id="universe" class="screen">
+      <div class="universe-heading">
+        <div class="eyebrow"><span></span> SELECT YOUR DIMENSION</div>
+        <h2>WELCOME TO<br><em>THE PLAYVERSE.</em></h2>
+        <p>Every portal leads to a new challenge.<br>Pick your zone and make it yours.</p>
+      </div>
+      <div class="zone-controls"><button id="prevZone" aria-label="Previous zone">←</button><span id="zoneCount">01 / 05</span><button id="nextZone" aria-label="Next zone">→</button></div>
+      <div class="zone-card" id="zoneCard">
+        <div class="zone-index" id="zoneIndex">ZONE 01</div>
+        <div class="zone-icon" id="zoneIcon">🏁</div>
+        <h3 id="zoneTitle">RACING ZONE</h3>
+        <p id="zoneDesc">Push past the limit.</p>
+        <button id="openZone" class="zone-btn">EXPLORE ZONE <span>↗</span></button>
+      </div>
+      <div class="world-tip"><span class="tip-dot"></span> DRAG TO ROTATE THE WORLD</div>
+      <div class="world-footer"><span>GAMEZONE / PLAYVERSE</span><span>5 DIMENSIONS <b>•</b> INFINITE PLAY</span></div>
+    </section>
+  </main>
+
+  <div id="gameModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <button id="closeModal" class="close-btn" aria-label="Close game list">×</button>
+      <div class="eyebrow"><span></span> PORTAL OPENED</div>
+      <h2 id="modalTitle">RACING ZONE</h2>
+      <p id="modalDesc">Choose a game to begin.</p>
+      <div id="gameList" class="game-list"></div>
+      <small class="modal-note">These are game launch slots. Add real HTML5 games to connect playable titles.</small>
+    </div>
+  </div>
+  <div class="crosshair" aria-hidden="true"><i></i><b></b></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

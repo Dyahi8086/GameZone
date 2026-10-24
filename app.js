@@ -1,96 +1,167 @@
-'use strict';
-const P={snake:"M4 18c0-4 4-4 6-6s0-5-4-5V3c6 0 10 4 7 9-2 3-5 3-5 5h8v3H4z",grid:"M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z",cube:"M12 2l9 5v10l-9 5-9-5V7zm0 5l-5 3v4l5 3 5-3v-4z",brush:"M18 2l4 4-9 9-4-4zM8 12l4 4c0 4-3 6-8 6 2-2 1-4 4-10z",bolt:"M13 2L5 14h5l-1 8 9-13h-5z",flask:"M9 2h6v2h-1v5l6 10a2 2 0 0 1-2 3H6a2 2 0 0 1-2-3l6-10V4H9z",bomb:"M10 8a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM15 7l2-3 1 1-1 2zM19 3l1 1-1 1-1-1z",cards:"M6 3h9a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm12 2l3 1v13l-3 1z",ball:"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1 2v7H4.2A8 8 0 0 1 11 4zm2 0a8 8 0 0 1 6.8 7H13zM4.2 13H11v7a8 8 0 0 1-6.8-7zm8.8 0h6.8A8 8 0 0 1 13 20z",blocks:"M3 3h6v6H3zm6 6h6v6H9zm6 6h6v6h-6zM15 3h6v6h-6z",target:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 4a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4z",pac:"M20 6A10 10 0 1 0 20 18L12 12z",gamepad:"M7 7h10a5 5 0 0 1 5 5l-1 5a2.5 2.5 0 0 1-4.5 1L15 16H9l-1.5 2A2.5 2.5 0 0 1 3 17l-1-5a5 5 0 0 1 5-5zm0 3v1H6v2h1v1h2v-1h1v-2H9v-1z",flame:"M12 2c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z",star:"M12 2l3 7 7 .6-5.3 4.7 1.7 7.2L12 17.6 5.6 21.5l1.7-7.2L2 9.6 9 9z",crown:"M3 8l4 4 5-7 5 7 4-4-2 11H5z",shield:"M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z",diamond:"M12 2l9 8-9 12L3 10z",rocket:"M12 2c4 3 5 8 4 12l-2 2h-4l-2-2c-1-4 0-9 4-12zM7 16l-3 4 4-1zm10 0l3 4-4-1z",compass:"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4 6l-2 6-6 2 2-6z",globe:"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2c2 2 3 5 3 8s-1 6-3 8c-2-2-3-5-3-8s1-6 3-8z",calendar:"M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2zm0 6v8h14v-8z",trophy:"M7 3h10v5a5 5 0 0 1-10 0zM4 4h3v3a2 2 0 0 1-3-2zm16 0h-3v3a2 2 0 0 0 3-2zM11 13h2v4h3v3H8v-3h3z",repeat:"M4 12a8 8 0 0 1 14-5l2-2v7h-7l3-3a5 5 0 0 0-9 3zm16 0a8 8 0 0 1-14 5l-2 2v-7h7l-3 3a5 5 0 0 0 9-3z",lock:"M7 10V8a5 5 0 0 1 10 0v2h1v11H6V10zm2 0h6V8a3 3 0 0 0-6 0z",pin:"M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7zm0 4a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",clock:"M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 4v6l4 2-1 2-5-3V6z",phone:"M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm1 3v12h8V5z",monitor:"M3 4h18v12H3zm5 14h8v2H8z"};
-const ic=n=>n==="snake"?`<svg viewBox="0 0 24 24" class="gl"><path d="M5 19h9a4.5 4.5 0 0 0 0-9H9.5a3.2 3.2 0 0 1 0-6.4H19" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><circle cx="19" cy="3.6" r="1.6" fill="currentColor"/></svg>`:`<svg viewBox="0 0 24 24" class="gl"><path fill="currentColor" fill-rule="evenodd" d="${P[n]||P.gamepad}"/></svg>`;
-const av=()=>`<svg viewBox="0 0 64 64" class="av"><rect width="64" height="64" fill="#dfe1ff"/><path d="M14 36c-3-18 7-27 18-27s21 9 18 27c-2-6-6-10-10-11-6 3-16 3-22 0-4 1-2 5-4 11z" fill="#ff5fb0"/><circle cx="32" cy="37" r="14" fill="#f6c9a8"/><path d="M17 31c8-3 22-3 30 0-1-8-8-12-15-12s-14 4-15 12z" fill="#ff5fb0"/><rect x="20" y="34" width="10" height="6" rx="2.5" fill="#111"/><rect x="34" y="34" width="10" height="6" rx="2.5" fill="#111"/><path d="M27 46q5 3 10 0" stroke="#b33" stroke-width="2" fill="none"/><path d="M10 64c2-10 10-14 22-14s20 4 22 14z" fill="#3b2a6a"/></svg>`;
-const GL={snake:'snake',g_snake:'snake','2048':'grid',hextris:'cube',qd:'brush',dino:'bolt',la2:'flask',mine:'bomb',sol:'cards',bb:'ball',tetris:'blocks',ctr:'target',pac:'pac'};
-const G=[["snake","🐍","Snake (built-in)","Arcade","local"],["g_snake","🐍","Google Snake","Arcade","https://www.google.com/fbx?fbx=snake_arcade"],["2048","🔢","2048","Puzzle","https://play2048.co/"],["hextris","🔷","Hextris","Puzzle","https://hextris.io/"],["qd","🎨","Quick Draw","Casual","https://quickdraw.withgoogle.com/"],["dino","🦖","Chrome Dino","Arcade","https://chromedino.com/"],["la2","🧪","Little Alchemy 2","Puzzle","https://littlealchemy2.com/"],["mine","💣","Minesweeper","Puzzle","https://minesweeper.online/"],["sol","🃏","Solitaire","Casual","https://solitaired.com/"],["bb","🏀","Basketball Stars","Action","https://www.basketballstars.com/"],["tetris","🧱","Tetris","Puzzle","https://tetris.com/play-tetris"],["ctr","🍬","Cut the Rope","Puzzle","https://www.cuttherope.net/"],["pac","👾","Pac-Man","Arcade","https://www.google.com/logos/2010/pacman10-i.html"]].map(a=>({id:a[0],e:GL[a[0]],n:a[2],c:a[3],u:a[4]}));
-const K='gamezone_v2',today=()=>new Date().toISOString().slice(0,10),T0=Date.now();
-let S={xp:0,plays:{},last:null,scores:[],best:0,saved:null,log:[],name:'PLAYER',since:today(),day:{d:today(),n:0,u:[],b:0}};
-try{Object.assign(S,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){}
-if(S.day.d!==today())S.day={d:today(),n:0,u:[],b:0};
-const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
-const $=s=>document.querySelector(s),gm=id=>G.find(g=>g.id===id)||G[0],pad=n=>String(n).padStart(2,'0');
-const lvl=()=>Math.floor(S.xp/100)+1,tot=()=>Object.values(S.plays).reduce((a,b)=>a+b,0),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const A=[["gamepad","First play",()=>tot()>=1,"1"],["flame","5 plays",()=>tot()>=5,"5"],["globe","3 games",()=>Object.keys(S.plays).length>=3,"3"],["compass","8 games",()=>Object.keys(S.plays).length>=8,"8"],["target","Snake 10",()=>S.best>=10,"10"],["snake","Snake 50",()=>S.best>=50,"50"],["rocket","Snake 100",()=>S.best>=100,"100"],["crown","Snake 200",()=>S.best>=200,"200"],["trophy","Snake 300",()=>S.best>=300,"300"],["bolt","Level 3",()=>lvl()>=3,"L3"],["diamond","Level 5",()=>lvl()>=5,"L5"],["shield","Level 10",()=>lvl()>=10,"L10"],["repeat","10 plays",()=>tot()>=10,"10"],["star","500 XP",()=>S.xp>=500,"500"],["cube","13 games",()=>Object.keys(S.plays).length>=13,"13"],["calendar","Today",()=>S.day.n>=1,""],["flame","25 plays",()=>tot()>=25,"25"],["diamond","1000 XP",()=>S.xp>=1000,"1K"]];
-const COL=['#6b21ff','#c6ff1f','#ff1493','#19c5d8','#c6ff1f','#ff1493'];
-const left=()=>{const d=new Date(),e=new Date(d);e.setHours(24,0,0,0);const s=(e-d)/1e3|0;return pad(s/3600|0)+':'+pad(s/60%60|0)+':'+pad(s%60)};
-const segs=(v,n)=>'<div class="s">'+Array.from({length:n},(_,i)=>`<i class="${i<v?'f':''}"></i>`).join('')+'</div>';
-function head(){const r=S.xp%100;$('#nm').textContent=S.name+' ▾';$('#av').innerHTML=av();$('#lvltxt').textContent=(100-r)+'xp left for level '+(lvl()+1);
- $('#seg').innerHTML=Array.from({length:10},(_,i)=>`<u class="${i<r/10?'f':''}"></u>`).join('');
- const l=S.last&&gm(S.last);$('#qa').textContent=l?'LAST: '+l.n.toUpperCase():'READY TO PLAY';$('#qb').textContent=l?'CONTINUE FROM HUB':'PICK A GAME';
- $('#today').textContent=S.day.n+' today';$('#recent').innerHTML=Object.keys(S.plays).slice(-6).reverse().map(i=>`<a href="#" data-p="${i}" title="${gm(i).n}">${ic(gm(i).e)}</a>`).join('')}
-setInterval(()=>{const s=(Date.now()-T0)/1e3|0;$('#tm').textContent=(s/60|0)+':'+pad(s%60)},1000);
-function play(id){const g=gm(id);S.plays[id]=(S.plays[id]||0)+1;S.last=id;S.xp+=10;S.day.n++;if(!S.day.u.includes(id))S.day.u.push(id);
- if(g.u!=='local'){S.log.unshift({id,t:Date.now(),s:null});S.log=S.log.slice(0,20)}save();
- if(g.u==='local')openSnake(false);else window.open(g.u,'_blank','noopener');route()}
-function curve(){const v=S.scores.slice(-8);if(v.length<2)return '<svg class="curve" viewBox="0 0 300 110"><path d="M0 70 C40 30 70 100 110 70 S180 20 220 60 S270 70 300 40" style="stroke:#444;filter:none;stroke-dasharray:4 6;animation:none"/></svg><p class="sub">Play Snake twice to draw your own score curve.</p>';
- const mx=Math.max(...v,1),P=v.map((s,i)=>[i*300/(v.length-1),95-s/mx*80]);let d='M'+P[0];for(let i=1;i<P.length;i++){const a=P[i-1],b=P[i],m=(a[0]+b[0])/2;d+=` C${m} ${a[1]} ${m} ${b[1]} ${b[0]} ${b[1]}`}
- const bi=v.indexOf(mx),bp=P[bi];return `<svg class="curve" viewBox="0 0 300 110"><path d="${d}"/><circle cx="${bp[0]}" cy="${bp[1]}" r="4" fill="#fff"/><rect x="${Math.min(bp[0]-22,250)}" y="${Math.max(bp[1]-30,0)}" width="46" height="18" rx="5" fill="#fff"/><text class="tip" x="${Math.min(bp[0]+1,273)}" y="${Math.max(bp[1]-18,12)}" text-anchor="middle" fill="#000">${mx} pts</text></svg>`}
-function badgesRow(){const u=A.filter(a=>a[2]());const sh=(u.length?u:A).slice(0,4);return sh.map((a,i)=>`<span class="bg ${u.length?'':'lock'}" style="--k:${COL[i]}">${ic(u.length?a[0]:'lock')}</span>`).join('')+`<span class="sub">+${Math.max(0,A.length-4)}</span>`}
-function quest(t,v,n,sub){const dn=v>=n;return `<div class="cardx"><div class="qr"><div><b>${t}</b><em>${sub}</em></div><div class="tl">TIME LEFT<b>${dn?'—':left()}</b></div></div>${segs(Math.min(v,n)*8/n|0?Math.round(Math.min(v,n)*8/n):0,8)}<div class="qs ${dn?'ok':''}">${dn?'✔ Completed!':Math.min(v,n)+' out of '+n}</div></div>`}
-function mcard(l,i){const k=['#a233ff','#f1331f','#a8e41a','#19c5d8'][i%4];if(!l)return `<div class="mc empty"><div class="mt"><span class="mi" style="--k:${k}">＋</span><div><b>Your next run</b><small>Waiting for a game</small></div></div><div class="vs"><div class="tm"><small>PLAYER A</small><b>YOU</b></div><span class="vsx">VS</span><div class="tm r"><small>PLAYER B</small><b>BEST</b></div></div><div class="cc"><span class="ch">OPEN</span></div></div>`;
- const g=gm(l.id),t=new Date(l.t),dn=l.s!=null;return `<div class="mc"><div class="mt"><span class="mi" style="--k:${k}">${ic(g.e)}</span><div><b>${esc(g.n)}</b><small>${dn?'Run finished':'Launched'} at ${pad(t.getHours())}:${pad(t.getMinutes())}</small></div><div class="tl">${dn?'SCORE':'OPENED'}<b>${dn?l.s:'1×'}</b></div></div>
- <div class="vs"><div class="tm"><small>PLAYER A</small><div class="lg"><span class="o">${S.name[0]||'P'}</span><b>${esc(S.name)}</b></div></div>${dn?`<span class="sc2">${l.s} : ${S.best}</span>`:'<span class="vsx">VS</span>'}<div class="tm r"><small>PLAYER B</small><div class="lg"><span class="o d">${ic("trophy")}</span><b>BEST</b></div></div></div><div class="cc"><span class="ch ${dn?'f':''}">${dn?'FINISHED':'LAUNCHED'}</span></div>${dn?`<div class="mb">${S.scores.slice(-10).map(v=>`<i style="height:${6+v/Math.max(S.best,1)*20}px"></i>`).join('')}</div>`:''}</div>`}
-let flt={t:'All',f:'All'};
-const V={
-hub(){const l=S.last&&gm(S.last),sh=S.scores.length&&S.scores[S.scores.length-1]===S.best&&S.best>0;
- const lib=G.filter(g=>(flt.t==='All'||g.c===flt.t)&&(flt.f==='All'||(flt.f==='Built-in')===(g.u==='local')));
- return `<div class="page"><div class="col"><div class="pts">${S.xp} <small>pts</small></div><div class="top2">${sh?'<span class="pill">★ New personal record</span>':`<span class="pill">Level ${lvl()}</span>`}</div><p class="sub" style="margin-top:6px">Your personal best ${S.best}pts</p>${curve()}
- <div class="bgs">${badgesRow()}</div>
- <div class="sel"><select data-f="t"><option>All</option><option>Arcade</option><option>Puzzle</option><option>Casual</option><option>Action</option></select><select data-f="f"><option>All</option><option>Built-in</option><option>External</option></select></div>
- <h2>Daily quests</h2><p class="sub">To keep you engaged</p><div class="qd">${quest('Play 3 games',S.day.n,3,'launch any game')}${quest('Try 2 different games',S.day.u.length,2,'variety')}${quest('Score 50 in Snake',S.day.b>=50?1:0,1,'built-in Snake')}</div>
- <div class="banner cardx" style="clip-path:none;border-radius:10px"><div><span class="bn">${ic("snake")}${ic("blocks")}${ic("pac")}</span><br><b>${l?'Continue '+esc(l.n):'Pick your first game'}</b></div></div></div>
- <div class="col"><div class="hero"><div class="cover">${ic("gamepad")}</div><div><span class="share">Share ↗</span><h1>GameZone</h1><div class="act">${G.length} games in the library</div><div class="plat">${ic("monitor")}${ic("phone")}${ic("globe")}</div><div class="tabs"><button class="on">Overview</button><button data-go="tournament">Tournaments</button><button data-go="profile" data-t="hist">Matches</button><button data-go="profile">Profile</button></div></div></div>
- <div class="feat"><div class="fimg">${ic("snake")}</div><div><div class="sub">● Open now · built-in game</div><h3>Snake Challenge</h3><div class="fb"><u style="width:${Math.min(100,S.best/2)}%"></u></div><div class="sub" style="margin-top:4px">${S.best} best · target 200</div><div class="tags"><i>GAME</i><i>SOLO</i><i>FREE</i><i>ARCADE</i></div><div class="host"><span class="hx"><b>${ic("gamepad")}</b></span>Hosted by <b>GameZone</b></div></div></div>
- <div class="mh"><div><h2>Personal Matches Hub</h2><p class="sub">Your recent runs and launches</p></div></div><div class="mg">${[0,1,2,3].map(i=>mcard(S.log[i],i)).join('')}</div>
- <div class="mh"><div><h2>Game Library</h2><p class="sub">${lib.length} shown · tap to open</p></div></div><div class="mg" id="lib">${lib.map(g=>`<a href="#" data-p="${g.id}" class="mc"><div class="mt"><span class="mi" style="--k:#a233ff">${ic(g.e)}</span><div><b>${esc(g.n)}</b><small>${g.c} · ${g.u==='local'?'Built-in':'Opens externally'}</small></div><div class="tl">PLAYED<b>${S.plays[g.id]||0}×</b></div></div></a>`).join('')}</div>${l?`<p style="margin-top:20px"><a class="join" href="#" data-p="${l.id}" data-cont="1">▶ Continue: ${esc(l.n)}</a></p>`:''}</div></div>`},
-tournament(){const b=S.best,st=[[1,'Play','first run'],[50,'Score 50','Registration'],[100,'Score 100','Check-in'],[200,'Score 200','Finals']],nx=st.findIndex(s=>s[0]===1?tot()<1:b<s[0]);
- const R=[['General rules','2 MIN READ','Snake is a classic: steer, eat, avoid walls and yourself.'],['Scoring','1 MIN READ','Each food = 1 point and 1 XP. A finished run adds its score to your total XP.'],['Saved progress','2 MIN READ','Pause or leave and Continue resumes your run. Everything is stored in this browser only.'],['Levels & XP','2 MIN READ','Every game launch gives 10 XP. 100 XP is one level.'],['Controls','1 MIN READ','Arrow keys, swipe on the board, or the on-screen pad on phones.']];
- return `<div class="tour"><div class="col"><svg class="shield" viewBox="0 0 190 150"><path d="M10 12 L95 2 L180 12 L172 90 L95 146 L18 90Z" fill="#241046" stroke="#c9b6ff" stroke-width="5"/><text x="95" y="62" text-anchor="middle" font-family="Arial Black" font-size="34" fill="#fff" stroke="#6b21ff" stroke-width="2">SNAKE</text><path d="M30 84 H160 L152 106 H38Z" fill="#ff1493"/><text x="95" y="101" text-anchor="middle" font-size="12" font-weight="800" fill="#fff" letter-spacing="3">GAMING</text></svg>
- <h1>Snake Marathon<br>GameZone members</h1><div class="pb"><u style="width:${Math.min(100,b/2)}%"></u></div><p class="sub">Best score ${b} / 200</p><a class="join" href="#" data-p="snake">+ Join now</a>
- <h4>About the challenge</h4><p class="g">A personal challenge: reach 200 in Snake. Your progress is private to this device, there is no ranking against other players.</p><div class="tags"><i>GAME</i><i>SOLO</i><i>FREE</i><i>WEB</i></div><a class="dis" href="#hub">More games<br>in the library →</a></div>
- <div class="col"><div class="stg">${st.map((s,i)=>`<div class="st ${i===nx?'on':''}"><span class="ring" style="--v:${i<nx||nx<0?100:i===nx?Math.min(99,b/s[0]*100|0):0}"></span><div><b>${s[1]}</b>${s[2]}</div></div>`).join('')}</div>
- <div class="tiles"><div class="tile pk"><small>Format of game</small><b>SOLO</b></div><div class="tile"><small>Platform</small><b>BROWSER</b></div><div class="tile"><small>Runs played</small><b>${S.scores.length}</b></div><div class="tile"><small>Best score</small><b>${b}</b></div></div>
- <div class="rl" id="rl">${R.map((r,i)=>`<button class="${i===3?'on':''}" data-rule="${i}">${r[0]}<small>${r[1]}</small></button>`).join('')}</div></div>
- <div class="info"><h5>Information</h5><p id="ri">${R[3][2]}</p><h5>Quick rules</h5><ul><li>Walls and your own tail end the run.</li><li>Pause any time; Continue resumes.</li><li>Scores are saved locally only.</li></ul><h5>Other rules</h5><p class="g">GameZone shows no fake players or rankings. Cross-device saving would need a secure backend with sign-in.</p><p style="margin-top:12px">For more games visit the <a href="#hub">library</a>.</p></div></div><script type="application/json" id="rd">${esc(JSON.stringify(R.map(r=>r[2])))}</script>`},
-profile(){const tabs=[['ov','Overview'],['hist','Match history'],['tr','Tournaments'],['ach','Achievements']],t=S.tab||'ach',un=A.filter(a=>a[2]()).length,d=new Date(S.since).toLocaleDateString();
- let body='';if(t==='ach'){const arr=A.map((a,i)=>({a,i,o:a[2]()}));if(S.sort==='r')arr.sort((x,y)=>y.o-x.o);
- body=`<div class="rad"><button data-sort="r" class="${S.sort==='r'?'on':''}"><i></i>Recent</button><button data-sort="l" class="${S.sort!=='r'?'on':''}"><i></i>Latest</button></div><div class="ag">${arr.map(x=>`<div><div class="ab s${x.i%4} ${x.o?'':'lock'}" style="--k:${COL[x.i%6]}">${x.o?ic(x.a[0])+(x.a[3]?'<small>'+x.a[3]+'</small>':''):ic('lock')}</div><div class="al">${x.a[1]}</div></div>`).join('')}</div>`}
- else if(t==='hist')body=`<div class="list">${S.log.length?S.log.map(l=>`<div><span>${ic(gm(l.id).e)} ${esc(gm(l.id).n)}</span><span>${l.s!=null?'Score '+l.s:'Launched'} · ${new Date(l.t).toLocaleString()}</span></div>`).join(''):'<p class="sub">No runs yet.</p>'}</div>`;
- else if(t==='tr')body=`<div class="list"><div><span>${ic("snake")} Snake Challenge</span><span>${S.best} / 200</span></div></div>`;
- else body=`<div class="list"><div><span>Total XP</span><span>${S.xp}</span></div><div><span>Level</span><span>${lvl()}</span></div><div><span>Plays</span><span>${tot()}</span></div><div><span>Best Snake score</span><span>${S.best}</span></div><div><span>Achievements</span><span>${un}/${A.length}</span></div></div>`;
- return `<div class="prof"><div class="col"><div class="ph"><span class="big">${av()}</span><h1>${esc(S.name)}</h1></div><a class="add" href="#" id="ren">✎ Change nickname</a>
- <div class="pf">Learn more about me</div><p class="sub">Level ${lvl()} player with ${S.xp} XP. All stats here are measured on this device.</p>
- <div class="pm"><span>${ic("pin")} This device</span><span>${ic("gamepad")} ${Object.keys(S.plays).length} games</span><span>${ic("clock")} ${d}</span></div><div class="bgs">${badgesRow()}</div>
- <div class="pf" style="margin-top:28px">My saved data</div><div class="pid">Best Snake score <b>${S.best}</b></div><div class="pid l">Last: ${S.last?esc(gm(S.last).n):'none yet'} <b>▣</b></div><a class="reset" href="#" id="reset">Reset my local progress</a></div>
- <div class="col"><div class="pt">${tabs.map(x=>`<button data-tab="${x[0]}" class="${x[0]===t?'on':''}">${x[1]}</button>`).join('')}</div>${body}</div></div>`}};
-const presOn=()=>S.pres===undefined?innerWidth>=1000:S.pres;
-function route(){const r=(location.hash||'#hub').slice(1),k=V[r]?r:'hub';document.body.className=presOn()?'pres':'';document.body.dataset.r=k;$('#view').innerHTML=V[k]();document.querySelectorAll('.side a[data-r]').forEach(a=>a.classList.toggle('on',a.dataset.r===k));
- document.querySelectorAll('select[data-f]').forEach(s=>s.value=flt[s.dataset.f]);head()}
-function rename(){const n=prompt('Nickname (max 14 characters)',S.name);if(n&&n.trim()){S.name=n.trim().slice(0,14).toUpperCase();save();route()}}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-pres],[data-p],[data-go],[data-tab],[data-sort],[data-rule],#reset,#ren,#rename');if(!t)return;e.preventDefault();
- if(t.dataset.pres!==undefined){S.pres=!presOn();save();route()}else if(t.dataset.p){if(t.dataset.cont&&gm(t.dataset.p).u==='local'&&S.saved)openSnake(true);else play(t.dataset.p)}
- else if(t.dataset.go){if(t.dataset.t)S.tab=t.dataset.t;location.hash='#'+t.dataset.go;route()}
- else if(t.dataset.tab){S.tab=t.dataset.tab;route()}else if(t.dataset.sort){S.sort=t.dataset.sort;route()}
- else if(t.dataset.rule){const R=JSON.parse($('#rd').textContent.replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>'));document.querySelectorAll('#rl button').forEach(b=>b.classList.toggle('on',b===t));$('#ri').textContent=R[t.dataset.rule]}
- else if(t.id==='reset'){if(confirm('Delete all local GameZone progress?')){localStorage.removeItem(K);location.reload()}}else rename()});
-document.addEventListener('change',e=>{const s=e.target.closest('select[data-f]');if(s){flt[s.dataset.f]=s.value;route()}});
-addEventListener('hashchange',route);
-/* Snake */
-let sn,dir,food,sc,tm,run=false;const cv=$('#cv'),x=cv.getContext('2d'),N=15,Z=20;
-function spawn(){do food={x:Math.random()*N|0,y:Math.random()*N|0};while(sn.some(p=>p.x===food.x&&p.y===food.y))}
-function openSnake(cont){$('#modal').hidden=false;if(cont&&S.saved){({sn,dir,food,sc}=S.saved)}else{sn=[{x:7,y:7},{x:6,y:7}];dir='R';sc=0;spawn()}S.saved=null;run=true;draw();clearInterval(tm);tm=setInterval(step,130);$('#pause').textContent='Pause'}
-function step(){if(!run)return;const h={...sn[0]};if(dir==='U')h.y--;if(dir==='D')h.y++;if(dir==='L')h.x--;if(dir==='R')h.x++;
- if(h.x<0||h.y<0||h.x>=N||h.y>=N||sn.some(p=>p.x===h.x&&p.y===h.y))return over();
- sn.unshift(h);if(h.x===food.x&&h.y===food.y){sc++;spawn()}else sn.pop();draw()}
-function draw(){x.fillStyle='#0b0b0d';x.fillRect(0,0,300,300);x.fillStyle='#ff1f8e';x.fillRect(food.x*Z+2,food.y*Z+2,16,16);x.fillStyle='#c6ff1f';sn.forEach(p=>x.fillRect(p.x*Z+1,p.y*Z+1,18,18));$('#sc').textContent=sc}
-function over(){clearInterval(tm);run=false;S.scores.push(sc);S.log.unshift({id:'snake',t:Date.now(),s:sc});S.log=S.log.slice(0,20);S.xp+=sc;S.best=Math.max(S.best,sc);S.day.b=Math.max(S.day.b,sc);S.saved=null;save();$('#modal').hidden=true;alert('Game over! Score: '+sc);route()}
-function leave(){if(!$('#modal').hidden&&run){S.saved={sn,dir,food,sc};save()}clearInterval(tm);run=false;$('#modal').hidden=true;route()}
-$('#close').onclick=leave;$('#pause').onclick=()=>{run=!run;$('#pause').textContent=run?'Pause':'Resume'};
-const opp={U:'D',D:'U',L:'R',R:'L'},turn=d=>{if(d!==opp[dir])dir=d};
-document.querySelectorAll('.pad [data-d]').forEach(b=>b.onclick=()=>turn(b.dataset.d));
-addEventListener('keydown',e=>{const m={ArrowUp:'U',ArrowDown:'D',ArrowLeft:'L',ArrowRight:'R'}[e.key];if(m&&!$('#modal').hidden){e.preventDefault();turn(m)}});
-let tx,ty;cv.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY});
-cv.addEventListener('touchend',e=>{const a=e.changedTouches[0].clientX-tx,b=e.changedTouches[0].clientY-ty;if(Math.max(Math.abs(a),Math.abs(b))>20)turn(Math.abs(a)>Math.abs(b)?(a>0?'R':'L'):(b>0?'D':'U'))});
-addEventListener('pagehide',()=>{if(run)S.saved={sn,dir,food,sc};save()});
-route();
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+const canvas = document.querySelector('#world');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.65));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x050713);
+scene.fog = new THREE.FogExp2(0x050713, 0.025);
+const camera = new THREE.PerspectiveCamera(48, window.innerWidth/window.innerHeight, .1, 220);
+camera.position.set(0, 4.2, 13);
+const clock = new THREE.Clock();
+
+scene.add(new THREE.HemisphereLight(0x9abfff, 0x11101f, 1.35));
+const keyLight = new THREE.DirectionalLight(0xb7f7ff, 3.1); keyLight.position.set(4,9,6); keyLight.castShadow=true; scene.add(keyLight);
+const pinkLight = new THREE.PointLight(0xff218f, 42, 24); pinkLight.position.set(-5,2,0); scene.add(pinkLight);
+const cyanLight = new THREE.PointLight(0x20eaff, 55, 28); cyanLight.position.set(5,3,1); scene.add(cyanLight);
+
+const mat=(color,metalness=0,roughness=.5,emissive=0x000000,intensity=0)=>new THREE.MeshStandardMaterial({color,metalness,roughness,emissive,emissiveIntensity:intensity});
+const cyan=mat(0x41f5ff,.45,.28,0x12dcea,2.2), pink=mat(0xff238e,.35,.3,0x7a063a,1.6), dark=mat(0x101827,.72,.25), glass= new THREE.MeshPhysicalMaterial({color:0x102b42,metalness:.65,roughness:.12,transparent:true,opacity:.9,clearcoat:1}), rubber=mat(0x05070b,.05,.86), white=mat(0xc7faff,.4,.24,0x52f6ff,.5);
+
+function box(parent,w,h,d,material,x,y,z,rx=0,ry=0,rz=0){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);m.position.set(x,y,z);m.rotation.set(rx,ry,rz);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
+function cyl(parent,r1,r2,h,material,x,y,z,segments=16,rx=0,ry=0,rz=0){const m=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,segments),material);m.position.set(x,y,z);m.rotation.set(rx,ry,rz);m.castShadow=true;parent.add(m);return m}
+function line(parent,points,material,r=.025){const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,Math.max(24,points.length*5),r,6,false),material);parent.add(mesh);return mesh}
+
+// Procedural concept car: all geometry is built locally, no external model download required.
+const car=new THREE.Group();scene.add(car);car.position.set(1.5,-.2,0);car.rotation.y=-.18;
+box(car,3.35,.42,1.52,dark,0,.45,0);
+const hood=box(car,1.18,.22,1.42,mat(0x12273a,.8,.2),.98,.62,0,0,0,-.04);
+box(car,1.18,.16,1.4,mat(0x1d3448,.7,.22),-.8,.64,0,0,0,.03);
+const cabin=new THREE.Mesh(new THREE.CapsuleGeometry(.55,.75,4,8),glass);cabin.scale.set(1.05,.48,.83);cabin.position.set(-.12,.92,0);cabin.rotation.z=-.05;car.add(cabin);
+box(car,2.5,.08,1.65,cyan,0,.32,0);
+box(car,.32,.11,1.7,pink,-1.42,.5,0);
+box(car,.42,.09,1.68,cyan,1.4,.55,0);
+for(const side of [-1,1]){
+  box(car,.72,.07,.07,white,1.22,.59,side*.68);
+  box(car,.65,.06,.06,pink,-1.28,.53,side*.69);
+  for(const x of [-1.08,1.03]){
+    const wheel=new THREE.Group();wheel.position.set(x,.25,side*.78);car.add(wheel);
+    cyl(wheel,.38,.38,.22,rubber,0,0,0,24,Math.PI/2);
+    cyl(wheel,.22,.22,.235,mat(0x26394b,.8,.2),0,0,0,12,Math.PI/2);
+    cyl(wheel,.105,.105,.25,cyan,0,0,0,12,Math.PI/2);
+    for(let j=0;j<6;j++){const a=j*Math.PI/3;box(wheel,.035,.31,.04,mat(0x6f8497,.75,.3),Math.cos(a)*.15,Math.sin(a)*.15,0,0,0,a)}
+    wheel.userData.spin=true;
+  }
+}
+box(car,.12,.18,1.3,cyan,-1.7,.42,0);
+for(let s of [-1,1]){box(car,.32,.07,.28,pink,-1.65,.48,s*.45);box(car,.27,.06,.22,white,1.63,.52,s*.45)}
+box(car,1.0,.1,.12,mat(0x05080f,.7,.2),-1.45,.83,0,0,0,.05);
+line(car,[[-1.8,.4,-.7],[-1.3,.35,-.9],[0,.3,-.9],[1.4,.48,-.75]],cyan,.025);
+line(car,[[-1.8,.4,.7],[-1.3,.35,.9],[0,.3,.9],[1.4,.48,.75]],cyan,.025);
+
+// Floor / runway
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(200,200),mat(0x080d1a,.35,.65));floor.rotation.x=-Math.PI/2;floor.position.y=-.08;floor.receiveShadow=true;scene.add(floor);
+const grid=new THREE.GridHelper(180,90,0x1a7c91,0x14223b);grid.position.y=-.055;scene.add(grid);
+for(let i=0;i<22;i++){
+  const z=-28+i*2.8;
+  box(scene, .035,.025,1.1, i%2?cyan:pink,-2.8,-.035,z);
+  box(scene, .035,.025,1.1, i%2?pink:cyan,2.8,-.035,z);
+}
+// Futuristic skyline
+const buildings=new THREE.Group();scene.add(buildings);
+for(let i=0;i<48;i++){
+  const side=i%2?1:-1, z=-30+Math.random()*42, x=side*(6+Math.random()*13), h=1.8+Math.random()*9, w=.7+Math.random()*2.2, d=.8+Math.random()*2;
+  const b=box(buildings,w,h,d,mat(i%3===0?0x10283c:0x0a1426,.55,.4),x,h/2-.05,z);
+  for(let k=0;k<3;k++){box(buildings,w*.72,.025,.025,k%2?cyan:pink,x,h*(.2+k*.23),z+d/2+.02)}
+  if(i%4===0){const antenna=cyl(buildings,.025,.025,1.2,cyan,x,h+.55,z,6);antenna.material=cyan}
+}
+const ringGroup=new THREE.Group();scene.add(ringGroup);
+for(let i=0;i<4;i++){const ring=new THREE.Mesh(new THREE.TorusGeometry(5.8+i*.85,.025,8,100),i%2?pink:cyan);ring.rotation.x=Math.PI/2;ring.position.set(0,.04+i*.01,-12-i*5);ringGroup.add(ring)}
+
+// Portal islands for the second world
+const zones=[
+ {name:'RACING ZONE',icon:'🏁',desc:'Push past the limit.',color:0x25eaff,detail:'Speed, precision, and pure adrenaline.',games:[['NEON SPRINT','Arcade racing'],['DRIFT CITY','Drift challenge'],['HIGHWAY RUSH','Endless driving'],['TURBO TRIAL','Time attack']]},
+ {name:'ROBOT ZONE',icon:'🤖',desc:'Power up. Stand tall.',color:0xff398e,detail:'Enter a world of machines and mighty battles.',games:[['MECH ARENA','Robot battle'],['STEEL TITAN','Action adventure'],['ROBO DEFENCE','Defend the core'],['CYBER DUEL','One-on-one combat']]},
+ {name:'ACTION ZONE',icon:'⚡',desc:'Make every move count.',color:0xffb74a,detail:'Quick reflexes. Big moments.',games:[['SHADOW RUN','Action runner'],['NIGHT OPS','Tactical challenge'],['SKY BREAKER','Arcade action'],['LASER RAID','Survival']]},
+ {name:'PUZZLE ZONE',icon:'🧩',desc:'Outsmart the impossible.',color:0x8d7bff,detail:'Find the pattern. Crack the code.',games:[['MIND GRID','Logic puzzle'],['BLOCK SHIFT','Block puzzle'],['PORTAL 9','Spatial challenge'],['CODE BREAKER','Brain teaser']]},
+ {name:'ARCADE ZONE',icon:'🕹️',desc:'Classic fun. New energy.',color:0x7cff80,detail:'Small games. Huge high scores.',games:[['SNAKE REBOOT','Classic arcade'],['PIXEL BLAST','Retro shooter'],['JUMP QUEST','Platformer'],['ORBIT BALL','Skill game']]}
+];
+const islands=new THREE.Group();scene.add(islands);
+const zoneObjects=[];
+zones.forEach((z,i)=>{
+  const g=new THREE.Group();g.position.set((i-2)*5.1,0,-8-Math.abs(i-2)*1.2);g.rotation.y=(i-2)*-.12;islands.add(g);
+  const platform=new THREE.Mesh(new THREE.CylinderGeometry(1.75,2.15,.3,8),mat(0x111d30,.6,.3));platform.position.y=.05;g.add(platform);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(1.9,.045,8,60),new THREE.MeshStandardMaterial({color:z.color,emissive:z.color,emissiveIntensity:2}));ring.rotation.x=Math.PI/2;ring.position.y=.23;g.add(ring);
+  const pillar=box(g,.75,1.8,.75,mat(0x162a3e,.7,.22),0,1.08,0);
+  const orb=new THREE.Mesh(new THREE.IcosahedronGeometry(.62,1),new THREE.MeshStandardMaterial({color:z.color,metalness:.55,roughness:.18,emissive:z.color,emissiveIntensity:1.8,wireframe:i%2===1}));orb.position.y=2.55;g.add(orb);
+  const halo=new THREE.Mesh(new THREE.TorusGeometry(1.05,.025,8,60),new THREE.MeshStandardMaterial({color:z.color,emissive:z.color,emissiveIntensity:2}));halo.position.y=2.55;halo.rotation.x=Math.PI/2.7;g.add(halo);
+  for(let j=0;j<4;j++){const shard=new THREE.Mesh(new THREE.OctahedronGeometry(.16),new THREE.MeshStandardMaterial({color:z.color,emissive:z.color,emissiveIntensity:1.5}));shard.position.set(Math.cos(j*Math.PI/2)*1.2,1.4+Math.sin(j*2)*.25,Math.sin(j*Math.PI/2)*1.2);g.add(shard)}
+  zoneObjects.push({group:g,orb,halo,platform,zone:z,index:i});
+});
+
+// Distant stars
+const starGeo=new THREE.BufferGeometry(), starPos=[];
+for(let i=0;i<850;i++)starPos.push((Math.random()-.5)*100,Math.random()*32-2,-Math.random()*100);
+starGeo.setAttribute('position',new THREE.Float32BufferAttribute(starPos,3));
+scene.add(new THREE.Points(starGeo,new THREE.PointsMaterial({color:0x93cfff,size:.055,transparent:true,opacity:.8})));
+
+let mode='entry',selected=0,targetYaw=0,currentYaw=0,targetPitch=0,currentPitch=0,scrollOffset=0,dragging=false,lastX=0,lastY=0,startX=0,startY=0,moved=false;
+const entry=document.querySelector('#entry'),universe=document.querySelector('#universe');
+const enterBtn=document.querySelector('#enterBtn'), zoneCard=document.querySelector('#zoneCard');
+function setMode(next){
+ mode=next;entry.classList.toggle('active',next==='entry');universe.classList.toggle('active',next==='universe');
+ if(next==='universe'){camera.position.set(0,5.3,16);targetYaw=0;targetPitch=0;scrollOffset=0;updateZone(0)}
+}
+function updateZone(i){
+ selected=(i+zones.length)%zones.length;const z=zones[selected];
+ document.querySelector('#zoneIndex').textContent=`ZONE ${String(selected+1).padStart(2,'0')}`;
+ document.querySelector('#zoneIcon').textContent=z.icon;document.querySelector('#zoneTitle').textContent=z.name;document.querySelector('#zoneDesc').textContent=z.desc;
+ document.querySelector('#zoneCount').textContent=`${String(selected+1).padStart(2,'0')} / ${String(zones.length).padStart(2,'0')}`;
+ zoneObjects.forEach((o,j)=>{o.group.visible=true;o.group.scale.setScalar(j===selected?1.12:.82);o.group.position.x=(j-selected)*5.2;});
+}
+enterBtn.addEventListener('click',()=>{setMode('universe');camera.position.set(0,5.3,16)});
+document.querySelector('#brand').addEventListener('click',e=>{e.preventDefault();setMode('entry')});
+document.querySelector('#prevZone').addEventListener('click',()=>updateZone(selected-1));
+document.querySelector('#nextZone').addEventListener('click',()=>updateZone(selected+1));
+document.querySelector('#openZone').addEventListener('click',()=>{
+ const z=zones[selected];document.querySelector('#modalTitle').textContent=z.name;document.querySelector('#modalDesc').textContent=z.detail;
+ const list=document.querySelector('#gameList');list.innerHTML='';
+ z.games.forEach(([name,desc])=>{const b=document.createElement('button');b.className='game-tile';b.innerHTML=`<b>${name}</b><span>${desc}</span>`;b.addEventListener('click',()=>{b.querySelector('span').textContent='Game slot ready — add a playable HTML5 game';b.style.borderColor='#52f6ff'});list.appendChild(b)});
+ document.querySelector('#gameModal').classList.add('open');document.querySelector('#gameModal').setAttribute('aria-hidden','false');
+});
+function closeModal(){document.querySelector('#gameModal').classList.remove('open');document.querySelector('#gameModal').setAttribute('aria-hidden','true')}
+document.querySelector('#closeModal').addEventListener('click',closeModal);
+document.querySelector('#gameModal').addEventListener('click',e=>{if(e.target.id==='gameModal')closeModal()});
+document.querySelector('#soundBtn').addEventListener('click',()=>{const b=document.querySelector('#soundBtn b');b.textContent=b.textContent==='OFF'?'ON':'OFF'});
+
+// Pointer controls: mouse drag and touch drag both rotate the camera/world.
+canvas.addEventListener('pointerdown',e=>{dragging=true;moved=false;lastX=startX=e.clientX;lastY=startY=e.clientY;canvas.setPointerCapture?.(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-lastX,dy=e.clientY-lastY;if(Math.abs(e.clientX-startX)+Math.abs(e.clientY-startY)>5)moved=true;targetYaw+=dx*.004;targetPitch=Math.max(-.16,Math.min(.24,targetPitch+dy*.0015));lastX=e.clientX;lastY=e.clientY});
+canvas.addEventListener('pointerup',()=>{dragging=false});
+canvas.addEventListener('pointercancel',()=>{dragging=false});
+window.addEventListener('wheel',e=>{if(mode==='universe'){scrollOffset+=Math.sign(e.deltaY)*.65;updateZone(Math.round(selected+Math.sign(e.deltaY)));}else{targetYaw+=e.deltaY*.0006}}, {passive:true});
+let touchStart=0;
+window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(mode==='universe'&&e.key==='ArrowRight')updateZone(selected+1);if(mode==='universe'&&e.key==='ArrowLeft')updateZone(selected-1);if(e.key==='Enter'&&mode==='entry')setMode('universe')});
+
+const boot=document.querySelector('#boot');
+window.setTimeout(()=>boot.classList.add('done'),1350);
+function animate(){
+ requestAnimationFrame(animate);const t=clock.getElapsedTime();
+ currentYaw+=(targetYaw-currentYaw)*.045;currentPitch+=(targetPitch-currentPitch)*.045;
+ car.position.y=-.18+Math.sin(t*1.2)*.045;car.rotation.y=-.18+Math.sin(t*.24)*.05+currentYaw*.16;
+ car.rotation.x=Math.sin(t*.5)*.012;
+ car.children.forEach(c=>{if(c.userData.spin)c.rotation.x=t*2.8});
+ pinkLight.intensity=36+Math.sin(t*2.2)*10;cyanLight.intensity=48+Math.sin(t*1.7+1)*12;
+ ringGroup.rotation.z=Math.sin(t*.12)*.04;
+ zoneObjects.forEach((o,i)=>{o.orb.rotation.y=t*(.25+i*.035);o.orb.rotation.x=Math.sin(t*.6+i)*.15;o.orb.position.y=2.55+Math.sin(t*1.3+i)*.12;o.halo.rotation.z=t*.25+i;o.group.position.y=Math.sin(t*.7+i)*.08});
+ if(mode==='entry'){
+   const desiredX=1.0+currentYaw*2.0, desiredY=4.0+currentPitch*4;
+   camera.position.x+=(desiredX-camera.position.x)*.035;camera.position.y+=(desiredY-camera.position.y)*.035;
+   camera.lookAt(.2,.65,-2.3);
+ }else{
+   const desiredX=currentYaw*3.2,desiredY=5.1+currentPitch*5;
+   camera.position.x+=(desiredX-camera.position.x)*.035;camera.position.y+=(desiredY-camera.position.y)*.035;
+   camera.position.z+= (15.5-camera.position.z)*.035;
+   camera.lookAt(currentYaw*.45,1.1,-7.5);
+ }
+ renderer.render(scene,camera);
+}
+animate();
+window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.65))});
